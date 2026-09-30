@@ -9,7 +9,12 @@ on:
 permissions:
   contents: write
 jobs:
+  # Same checks as every push (validator + smoke test). A failing check stops the release,
+  # so a broken build never reaches installed copies through auto-update.
+  check:
+    uses: ./.github/workflows/check.yml
   build:
+    needs: check
     strategy:
       fail-fast: false
       matrix:

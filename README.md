@@ -11,6 +11,9 @@ Codex is a knowledge console that maps subjects as skill trees. v1 holds the Mat
 | `web/src/` | App code: `style.css`, `data.js` (tree + fields), `labkit.js`, `labs1-3.js` (interactive models), `app.js` (menus, sidebar, tree, topic pages) |
 | `web/content/` | Topic content, `ARITH["id"] = {…}` objects. Format in `web/CONTENT-BRIEF.md` |
 | `tools/build-web.js` | Builds `app/index.html` (desktop) and `dist-web/codex.html` (claude.ai artifact) |
+| `tools/validate.js`, `tools/smoke.js` | Content/structure validator and headless smoke test (`npm run check` runs both after a build) |
+| `.github/workflows/check.yml` | Runs the checks on every push; the release workflow runs them first |
+| `CLAUDE.md` | Working brief for Claude sessions |
 | `app/` | What the desktop app loads, including bundled fonts (works offline) |
 | `main.js`, `preload.js` | Electron shell, `codex://` scheme, menus, update wiring |
 | `updater-mac.js` | Mac self-updater for builds without an Apple Developer ID |

@@ -9,6 +9,9 @@
   "main": "main.js",
   "scripts": {
     "build:web": "node tools/build-web.js",
+    "validate": "node tools/validate.js",
+    "smoke": "node tools/smoke.js",
+    "check": "node tools/build-web.js && node tools/validate.js && node tools/smoke.js",
     "start": "node tools/build-web.js && electron .",
     "dist": "node tools/build-web.js && electron-builder --publish never",
     "release": "node tools/build-web.js && electron-builder --publish always"

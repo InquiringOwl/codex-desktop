@@ -1,0 +1,62 @@
+// Smoke test: opens the built page in headless Chromium and visits every screen:
+// menu, dictionary, field map, each charted field's tree, and every topic page.
+// On each topic page it checks the dossier and lab rendered, clicks the first two
+// lab buttons, and fails on any JavaScript error or console error/warning.
+// Run: node tools/smoke.js          (needs playwright; exit code 1 on any failure)
+//      ONLY=a1-slope,field-algebra-1 node tools/smoke.js   checks just those screens
+const { chromium } = require('playwright');
+const path = require('path'), fs = require('fs'), os = require('os');
+const { desktop, R } = require('./build-web.js');
+
+(async () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'codex-smoke-'));
+  const page = path.join(dir, 'index.html');
+  fs.writeFileSync(page, desktop
+    .replace('href="fonts/fonts.css"', `href="file://${path.join(R, 'app/fonts/fonts.css')}"`)
+    .replace(/<meta http-equiv="Content-Security-Policy"[^>]*>/, ''));
+
+  const vm = require('vm'), ctx = vm.createContext({}); ctx.window = ctx;
+  vm.runInContext(fs.readFileSync(path.join(R, 'web/src/data.js'), 'utf8'), ctx);
+  const DB = ctx.DB;
+  const fields = Object.keys(DB.trees);
+  const topics = fields.flatMap(f => DB.trees[f].nodes.map(n => n.id));
+  let routes = ['menu', 'dict', 'field-map', ...fields.map(f => 'field-' + f), ...topics];
+  if (process.env.ONLY) routes = process.env.ONLY.split(',').map(s => s.trim()).filter(Boolean);
+
+  const browser = await chromium.launch();
+  const failures = [];
+  for (const [label, viewport] of [['desktop', { width: 1440, height: 900 }], ['phone', { width: 400, height: 860 }]]) {
+    const p = await browser.newPage({ viewport });
+    let errs = [];
+    p.on('pageerror', e => errs.push('page error: ' + e.message));
+    p.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') errs.push(`console ${m.type()}: ${m.text()}`); });
+    await p.goto('file://' + page + '#menu');
+    await p.waitForTimeout(500);
+    for (const e of [...new Set(errs)]) failures.push(`${label} page load: ${e}`);
+    for (const r of routes) {
+      errs = [];
+      await p.evaluate(h => { location.hash = h; }, r);
+      await p.waitForTimeout(250);
+      const info = await p.evaluate(() => ({
+        view: (document.getElementById('view') || {}).innerHTML?.length || 0,
+        title: document.querySelector('.topic h1')?.textContent || '',
+        stub: /coming soon/i.test(document.getElementById('view')?.textContent || ''),
+        lab: !!document.querySelector('#controls, canvas, svg'),
+      }));
+      if (!info.view) errs.push('view is empty');
+      if (topics.includes(r)) {
+        if (info.stub) errs.push('shows the "coming soon" stub');
+        if (!info.lab) errs.push('no lab rendered');
+        for (const b of (await p.$$('#controls button')).slice(0, 2)) { try { await b.click({ timeout: 1000 }); } catch (e) {} await p.waitForTimeout(150); }
+        await p.waitForTimeout(150);
+      }
+      for (const e of [...new Set(errs)]) failures.push(`${label} #${r}: ${e}`);
+    }
+    await p.close();
+  }
+  await browser.close();
+  fs.rmSync(dir, { recursive: true, force: true });
+  failures.forEach(f => console.log('FAIL ' + f));
+  console.log(`${routes.length} screens × 2 widths checked: ${failures.length} failure(s)`);
+  process.exit(failures.length ? 1 : 0);
+})().catch(e => { console.error(e); process.exit(1); });
