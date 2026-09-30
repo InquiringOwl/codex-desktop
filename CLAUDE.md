@@ -28,7 +28,7 @@ Content rules that bite: `legend.desc`, `prereqWhy`, `unlocksWhy`, `eyebrow` and
 - `node tools/smoke.js` (`ONLY=id,id` for a subset): headless Chromium visits every screen at desktop and phone width and fails on any JS error. ~2 min for all.
 - `node tools/snap.js <hash…>` (`CLICK=1`, `W=400 H=860`): screenshots for visual review.
 - `npm run check`: build + validate + smoke. **Run before every commit that touches `web/`.**
-- Smoke/snap need playwright: `NODE_PATH=$(npm root -g)`.
+- Smoke/snap need Playwright, a dev dependency (not bundled into the app). One-time on a new machine: `npm install && npx playwright install chromium`.
 
 ## Release (auto-update reaches every installed copy)
 1. Bump `version` in `package.json`.

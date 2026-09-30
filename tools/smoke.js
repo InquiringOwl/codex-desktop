@@ -4,7 +4,12 @@
 // lab buttons, and fails on any JavaScript error or console error/warning.
 // Run: node tools/smoke.js          (needs playwright; exit code 1 on any failure)
 //      ONLY=a1-slope,field-algebra-1 node tools/smoke.js   checks just those screens
-const { chromium } = require('playwright');
+let chromium;
+try { ({ chromium } = require('playwright')); }
+catch (e) {
+  console.error('Smoke test needs Playwright. One-time setup, in this folder:\n  npm install --save-dev playwright@1.56.0 && npx playwright install chromium');
+  process.exit(1);
+}
 const path = require('path'), fs = require('fs'), os = require('os');
 const { desktop, R } = require('./build-web.js');
 
@@ -27,6 +32,7 @@ const { desktop, R } = require('./build-web.js');
   const failures = [];
   for (const [label, viewport] of [['desktop', { width: 1440, height: 900 }], ['phone', { width: 400, height: 860 }]]) {
     const p = await browser.newPage({ viewport });
+    process.stdout.write(`Smoke test, ${label} width: ${routes.length} screens `);
     let errs = [];
     p.on('pageerror', e => errs.push('page error: ' + e.message));
     p.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') errs.push(`console ${m.type()}: ${m.text()}`); });
@@ -51,7 +57,9 @@ const { desktop, R } = require('./build-web.js');
         await p.waitForTimeout(150);
       }
       for (const e of [...new Set(errs)]) failures.push(`${label} #${r}: ${e}`);
+      process.stdout.write(errs.length ? 'x' : '.');
     }
+    process.stdout.write(' done\n');
     await p.close();
   }
   await browser.close();
