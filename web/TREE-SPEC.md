@@ -1,0 +1,243 @@
+# Pre-Algebra and Algebra I tree spec
+
+Ids are unique across all fields. Arithmetic ids (e.g. order-ops, fraction-ops) are topics that already exist in the Arithmetic tree.
+
+### PRE-ALGEBRA tree (22 topics)
+- **pa-variables** — Variables & Algebraic Expressions
+  - prerequisites: order-ops (Order of Operations, arithmetic), properties (Laws of Arithmetic, arithmetic)
+  - unlocks: pa-translate, pa-like-terms, pa-evaluate, pa-exponent-laws
+  - lab + colours: cups-and-counters model of an expression like 3x + 2: slider x, 3 cups each holding x counters plus loose counters; variable x cyan c2, coefficient pink c3, constant violet c4, value amber c1.
+- **pa-coordinate** — The Coordinate Plane
+  - prerequisites: integers (Integers & Negative Numbers, arithmetic), number-line (Comparing & the Number Line, arithmetic)
+  - unlocks: pa-relations
+  - lab + colours: draggable point on a grid with four shaded quadrants; x-coordinate cyan c2, y-coordinate pink c3, point amber c1, quadrant label violet c4.
+- **pa-translate** — Translating Words into Algebra
+  - prerequisites: pa-variables (Variables & Algebraic Expressions)
+  - unlocks: pa-word-problems
+  - lab + colours: phrase builder: pick a verbal phrase, the matching expression assembles token by token; key phrase amber c1, variable cyan c2, numbers pink c3.
+- **pa-like-terms** — Like Terms & the Distributive Property
+  - prerequisites: pa-variables (Variables & Algebraic Expressions), properties (Laws of Arithmetic, arithmetic)
+  - unlocks: pa-both-sides
+  - lab + colours: algebra tiles: x-tiles cyan c2, unit tiles amber c1, negative tiles pink c3; modes combine like terms and distribute a(bx + c).
+- **pa-evaluate** — Evaluating Expressions
+  - prerequisites: pa-variables (Variables & Algebraic Expressions), integers (Integers & Negative Numbers, arithmetic)
+  - unlocks: pa-equations, pa-relations
+  - lab + colours: substitution stepper for an expression in x (and y); variable cyan c2, substituted value pink c3, current operation amber c1, result green c5.
+- **pa-exponent-laws** — Exponent Laws with Variables
+  - prerequisites: pa-variables (Variables & Algebraic Expressions), exponents (Exponents & Powers, arithmetic)
+  - unlocks: a1-exponents
+  - lab + colours: product, quotient, power, zero and negative exponent rules shown as expanded factors that combine or cancel; base cyan c2, exponents pink c3 / violet c4, result amber c1.
+- **pa-equations** — Equations & Their Solutions
+  - prerequisites: pa-evaluate (Evaluating Expressions)
+  - unlocks: pa-one-step, pa-inequalities
+  - lab + colours: balance scale: left side 2x + 3, right side a number; slider x; the beam levels only at the solution; x cyan c2, left side pink c3, right side violet c4, balanced state amber c1.
+- **pa-relations** — Relations: Tables, Mappings & Graphs
+  - prerequisites: pa-coordinate (The Coordinate Plane), pa-evaluate (Evaluating Expressions)
+  - unlocks: pa-functions
+  - lab + colours: mapping diagram + table + plotted points for preset relations; inputs cyan c2, outputs pink c3, ordered pairs amber c1; flags when an input has two outputs.
+- **pa-one-step** — One-Step Equations
+  - prerequisites: pa-equations (Equations & Their Solutions), fraction-ops (Operations with Fractions, arithmetic), decimal-ops (Operations with Decimals, arithmetic)
+  - unlocks: pa-two-step, pa-similar
+  - lab + colours: balance-scale stepper: apply the inverse operation to both sides; x cyan c2, constant pink c3, inverse operation amber c1, solution green c5.
+- **pa-inequalities** — Inequalities & Their Graphs
+  - prerequisites: pa-equations (Equations & Their Solutions), number-line (Comparing & the Number Line, arithmetic)
+  - unlocks: pa-solve-ineq
+  - lab + colours: number line with boundary point (open/closed circle) and shading; select < ≤ > ≥ and slider a; boundary amber c1, solution set cyan c2, draggable test point pink c3 (shows true/false).
+- **pa-functions** — Introduction to Functions
+  - prerequisites: pa-relations (Relations: Tables, Mappings & Graphs)
+  - unlocks: pa-proportional, pa-sequences, a1-functions
+  - lab + colours: function machine (input → rule → output) plus graph with vertical-line test; input cyan c2, rule amber c1, output pink c3.
+- **pa-two-step** — Two-Step Equations
+  - prerequisites: pa-one-step (One-Step Equations)
+  - unlocks: pa-both-sides, pa-formulas, pa-solve-ineq, pa-linear-graphs
+  - lab + colours: stepper for ax + b = c: undo b, then undo a, on a balance; a pink c3, b violet c4, c cyan c2, x green c5, current operation amber c1.
+- **pa-similar** — Similar Figures & Scale Drawings
+  - prerequisites: pa-one-step (One-Step Equations), proportions (Proportions, arithmetic)
+  - unlocks: (none in charted trees)
+  - lab + colours: two similar triangles with a scale factor slider; original sides cyan c2, image sides pink c3, scale factor k violet c4, unknown side amber c1.
+- **pa-proportional** — Proportional Relationships (y = kx)
+  - prerequisites: pa-functions (Introduction to Functions), proportions (Proportions, arithmetic)
+  - unlocks: pa-slope
+  - lab + colours: graph of y = kx through the origin with a table; k violet c4, x cyan c2, y pink c3, highlighted point amber c1.
+- **pa-sequences** — Arithmetic Sequences
+  - prerequisites: pa-functions (Introduction to Functions)
+  - unlocks: a1-sequences
+  - lab + colours: growing dot pattern stage n with table and plotted points on a line; first term cyan c2, common difference pink c3, nth term amber c1.
+- **pa-both-sides** — Equations with Variables on Both Sides
+  - prerequisites: pa-two-step (Two-Step Equations), pa-like-terms (Like Terms & the Distributive Property)
+  - unlocks: pa-word-problems, a1-multi-step
+  - lab + colours: balance stepper for ax + b = cx + d: collect x terms, then constants; x terms cyan c2, constants pink c3, current operation amber c1, solution green c5.
+- **pa-formulas** — Formulas & Geometry Applications
+  - prerequisites: pa-two-step (Two-Step Equations)
+  - unlocks: pa-pythagorean, a1-literal
+  - lab + colours: shape formula explorer (rectangle, triangle, circle, rectangular box, cylinder) with dimension sliders; dimensions cyan c2, computed result amber c1, units pink c3.
+- **pa-solve-ineq** — Solving Linear Inequalities
+  - prerequisites: pa-inequalities (Inequalities & Their Graphs), pa-two-step (Two-Step Equations)
+  - unlocks: a1-compound
+  - lab + colours: stepper solving ax + b < c including the sign flip when dividing by a negative; result on a number line; boundary amber c1, solution set cyan c2, flip warning pink c3.
+- **pa-slope** — Slope as Rate of Change
+  - prerequisites: pa-proportional (Proportional Relationships (y = kx))
+  - unlocks: pa-linear-graphs, a1-slope-forms
+  - lab + colours: two draggable points with rise/run staircase; rise pink c3, run cyan c2, slope amber c1.
+- **pa-word-problems** — Linear Equation Word Problems
+  - prerequisites: pa-both-sides (Equations with Variables on Both Sides), pa-translate (Translating Words into Algebra)
+  - unlocks: (none in charted trees)
+  - lab + colours: problem-solving stepper (read, define x, write equation, solve, check) with a bar model for preset problems; unknown cyan c2, known quantities pink c3, equation amber c1.
+- **pa-pythagorean** — The Pythagorean Theorem
+  - prerequisites: pa-formulas (Formulas & Geometry Applications), roots (Square Roots & Perfect Squares, arithmetic)
+  - unlocks: (none in charted trees)
+  - lab + colours: right triangle with squares drawn on each side (area tiles), sliders a, b; a cyan c2, b pink c3, c amber c1.
+- **pa-linear-graphs** — Graphing Linear Equations
+  - prerequisites: pa-slope (Slope as Rate of Change), pa-two-step (Two-Step Equations)
+  - unlocks: a1-functions
+  - lab + colours: y = mx + b with sliders, intercepts marked, table of values; m pink c3, b cyan c2, line amber c1, x-intercept violet c4.
+
+### ALGEBRA I tree (37 topics)
+- **a1-multi-step** — Multi-Step Linear Equations
+  - prerequisites: pa-both-sides (Equations with Variables on Both Sides, pre-algebra)
+  - unlocks: a1-literal, a1-compound, a1-abs-eq, a1-radical-eq
+  - lab + colours: equation stepper: clear fractions with the LCD, distribute, collect, solve; also shows identity (all reals) and contradiction (no solution) presets; x cyan c2, LCD violet c4, current operation amber c1, solution green c5.
+- **a1-functions** — Function Notation, Domain & Range
+  - prerequisites: pa-functions (Introduction to Functions, pre-algebra), pa-linear-graphs (Graphing Linear Equations, pre-algebra)
+  - unlocks: a1-slope-forms, a1-piecewise, a1-exp-functions, a1-quad-graphs
+  - lab + colours: graph of preset functions with restricted domains; domain projected on the x-axis cyan c2, range on the y-axis pink c3, f(a) evaluation point amber c1.
+- **a1-exponents** — Integer Exponents & Scientific Notation
+  - prerequisites: pa-exponent-laws (Exponent Laws with Variables, pre-algebra), sci-notation (Scientific Notation, arithmetic)
+  - unlocks: a1-poly-add, a1-radicals
+  - lab + colours: zero and negative exponent ladder plus simplify-expression stepper and scientific-notation arithmetic; base cyan c2, exponent pink c3, result amber c1.
+- **a1-literal** — Literal Equations & Formulas
+  - prerequisites: a1-multi-step (Multi-Step Linear Equations), pa-formulas (Formulas & Geometry Applications, pre-algebra)
+  - unlocks: a1-sys-sub
+  - lab + colours: formula rearranger: pick a formula (d = rt, A = ½bh, C = 5/9(F − 32), P = 2l + 2w, I = Prt, y = mx + b) and a target variable, show each inverse step; target variable amber c1, other variables cyan c2, operation pink c3.
+- **a1-compound** — Compound Inequalities & Interval Notation
+  - prerequisites: a1-multi-step (Multi-Step Linear Equations), pa-solve-ineq (Solving Linear Inequalities, pre-algebra)
+  - unlocks: a1-abs-ineq, a1-sys-ineq
+  - lab + colours: two inequalities on stacked number lines combined by AND (intersection) or OR (union), with interval notation; first cyan c2, second pink c3, result amber c1.
+- **a1-abs-eq** — Absolute Value Equations
+  - prerequisites: a1-multi-step (Multi-Step Linear Equations)
+  - unlocks: a1-abs-ineq, a1-piecewise
+  - lab + colours: |ax + b| = c as distance on a number line, giving two solutions (or none / one); centre violet c4, distance c pink c3, solutions amber c1.
+- **a1-slope-forms** — Slope & Slope-Intercept Form
+  - prerequisites: a1-functions (Function Notation, Domain & Range), pa-slope (Slope as Rate of Change, pre-algebra)
+  - unlocks: a1-line-forms
+  - lab + colours: sliders m and b; line with slope triangle and y-intercept; m pink c3, b cyan c2, line amber c1.
+- **a1-poly-add** — Polynomials: Adding & Subtracting
+  - prerequisites: a1-exponents (Integer Exponents & Scientific Notation)
+  - unlocks: a1-poly-mult
+  - lab + colours: polynomial tiles (x² violet c4, x cyan c2, 1 amber c1, negatives pink c3) grouped by degree while adding or subtracting two polynomials.
+- **a1-radicals** — Simplifying Square Roots & Radicals
+  - prerequisites: a1-exponents (Integer Exponents & Scientific Notation), roots (Square Roots & Perfect Squares, arithmetic)
+  - unlocks: a1-rational-exp, a1-radical-ops, a1-quad-sqrt
+  - lab + colours: simplify √n: find the largest perfect-square factor (factor tree / list); perfect-square factor amber c1, leftover radicand pink c3, simplified result cyan c2.
+- **a1-abs-ineq** — Absolute Value Inequalities
+  - prerequisites: a1-abs-eq (Absolute Value Equations), a1-compound (Compound Inequalities & Interval Notation)
+  - unlocks: (none in charted trees)
+  - lab + colours: |x − h| < k and |x − h| > k on a number line (between vs outside); centre violet c4, radius k pink c3, solution set amber c1.
+- **a1-piecewise** — Piecewise & Absolute Value Functions
+  - prerequisites: a1-functions (Function Notation, Domain & Range), a1-abs-eq (Absolute Value Equations)
+  - unlocks: (none in charted trees)
+  - lab + colours: piecewise function presets (|x|, tax bracket, shipping cost, step function) with open/closed endpoints; pieces cyan c2 / pink c3 / violet c4, evaluation at x amber c1.
+- **a1-line-forms** — Point-Slope & Standard Form
+  - prerequisites: a1-slope-forms (Slope & Slope-Intercept Form)
+  - unlocks: a1-par-perp, a1-sys-graph, a1-linear-models
+  - lab + colours: two draggable points; show the same line in slope-intercept, point-slope and standard form at once; point 1 cyan c2, point 2 pink c3, line amber c1.
+- **a1-poly-mult** — Multiplying Polynomials & Special Products
+  - prerequisites: a1-poly-add (Polynomials: Adding & Subtracting)
+  - unlocks: a1-poly-div, a1-factor-gcf, a1-radical-ops
+  - lab + colours: generic-rectangle (area) model for (ax + b)(cx + d) and binomial × trinomial; factor terms cyan c2 / pink c3, partial products amber c1, combined like terms green c5.
+- **a1-rational-exp** — Rational Exponents
+  - prerequisites: a1-radicals (Simplifying Square Roots & Radicals)
+  - unlocks: a1-exp-functions
+  - lab + colours: x^(m/n) as (ⁿ√x)^m with sliders for base, m, n; root violet c4, power pink c3, result amber c1; graph of y = x^(1/n).
+- **a1-par-perp** — Parallel & Perpendicular Lines
+  - prerequisites: a1-line-forms (Point-Slope & Standard Form)
+  - unlocks: (none in charted trees)
+  - lab + colours: base line with adjustable slope and a draggable point; parallel and perpendicular lines through the point with right-angle marker; base cyan c2, parallel pink c3, perpendicular amber c1.
+- **a1-sys-graph** — Systems of Equations by Graphing
+  - prerequisites: a1-line-forms (Point-Slope & Standard Form)
+  - unlocks: a1-sys-ineq, a1-sys-sub
+  - lab + colours: two lines from sliders (m₁, b₁, m₂, b₂); intersection amber c1; classify one / none / infinitely many solutions; line 1 cyan c2, line 2 pink c3.
+- **a1-linear-models** — Linear Models & Line of Best Fit
+  - prerequisites: a1-line-forms (Point-Slope & Standard Form)
+  - unlocks: (none in charted trees)
+  - lab + colours: scatter-plot presets with a least-squares line, draggable trial line and residuals; data cyan c2, best-fit line amber c1, residuals violet c4, correlation r shown.
+- **a1-poly-div** — Dividing Polynomials
+  - prerequisites: a1-poly-mult (Multiplying Polynomials & Special Products)
+  - unlocks: (none in charted trees)
+  - lab + colours: polynomial long-division stepper (and synthetic-division view for divisor x − a); quotient amber c1, remainder violet c4, dividend cyan c2, divisor pink c3.
+- **a1-factor-gcf** — Factoring: GCF & Grouping
+  - prerequisites: a1-poly-mult (Multiplying Polynomials & Special Products)
+  - unlocks: a1-factor-tri
+  - lab + colours: GCF extraction from a polynomial and factoring a four-term polynomial by grouping, as a stepper; GCF amber c1, remaining factor cyan c2, groups pink c3.
+- **a1-radical-ops** — Operations with Radicals
+  - prerequisites: a1-radicals (Simplifying Square Roots & Radicals), a1-poly-mult (Multiplying Polynomials & Special Products)
+  - unlocks: a1-radical-eq
+  - lab + colours: add/subtract like radicals, multiply radicals, and rationalize denominators with conjugates; radicand violet c4, coefficient cyan c2, result amber c1.
+- **a1-sys-ineq** — Systems of Linear Inequalities
+  - prerequisites: a1-sys-graph (Systems of Equations by Graphing), a1-compound (Compound Inequalities & Interval Notation)
+  - unlocks: (none in charted trees)
+  - lab + colours: two half-planes shaded with solid/dashed boundaries; overlap region amber c1; draggable test point; inequality 1 cyan c2, inequality 2 pink c3.
+- **a1-sys-sub** — Solving Systems by Substitution
+  - prerequisites: a1-sys-graph (Systems of Equations by Graphing), a1-literal (Literal Equations & Formulas)
+  - unlocks: a1-sys-elim
+  - lab + colours: substitution stepper with a small graph: isolate a variable, substitute, solve, back-substitute; equation 1 cyan c2, equation 2 pink c3, substituted expression amber c1, solution green c5.
+- **a1-factor-tri** — Factoring Trinomials
+  - prerequisites: a1-factor-gcf (Factoring: GCF & Grouping)
+  - unlocks: a1-factor-special, a1-quad-factor
+  - lab + colours: ac-method factor-pair search for ax² + bx + c with an area-model; b pink c3, ac / c cyan c2, winning pair amber c1.
+- **a1-radical-eq** — Radical Equations
+  - prerequisites: a1-radical-ops (Operations with Radicals), a1-multi-step (Multi-Step Linear Equations)
+  - unlocks: (none in charted trees)
+  - lab + colours: solve √(x + a) = x + b by squaring; graph both sides to reveal an extraneous root; left side cyan c2, right side pink c3, valid solution green c5, extraneous solution red (var --red).
+- **a1-exp-functions** — Exponential Growth & Decay
+  - prerequisites: a1-functions (Function Notation, Domain & Range), a1-rational-exp (Rational Exponents), percent-apps (Percent Change, Tax & Interest, arithmetic)
+  - unlocks: a1-sequences
+  - lab + colours: y = a·bˣ with sliders; growth vs decay; compared with a linear function; doubling-time / half-life markers; a cyan c2, b pink c3, curve amber c1.
+- **a1-sys-elim** — Solving Systems by Elimination
+  - prerequisites: a1-sys-sub (Solving Systems by Substitution)
+  - unlocks: a1-sys-apps
+  - lab + colours: elimination stepper: scale one or both equations, add, solve, back-substitute; equation 1 cyan c2, equation 2 pink c3, eliminated variable amber c1, solution green c5.
+- **a1-factor-special** — Special Factoring Patterns
+  - prerequisites: a1-factor-tri (Factoring Trinomials)
+  - unlocks: a1-rational-simplify
+  - lab + colours: geometric pictures of a² − b² (square minus square rearranged into a rectangle) and (a ± b)² plus sum/difference of cubes formulas; a cyan c2, b pink c3, result amber c1.
+- **a1-quad-factor** — Solving Quadratics by Factoring
+  - prerequisites: a1-factor-tri (Factoring Trinomials)
+  - unlocks: a1-quad-sqrt
+  - lab + colours: graph of y = a(x − r)(x − s) with root sliders; zero-product property; roots amber c1, factors cyan c2 / pink c3.
+- **a1-sequences** — Arithmetic & Geometric Sequences
+  - prerequisites: a1-exp-functions (Exponential Growth & Decay), pa-sequences (Arithmetic Sequences, pre-algebra)
+  - unlocks: (none in charted trees)
+  - lab + colours: arithmetic vs geometric sequences as bars for n = 1…10 with a₁, d, r sliders and partial sums; a₁ cyan c2, d or r pink c3, nth term amber c1.
+- **a1-sys-apps** — Applications of Systems
+  - prerequisites: a1-sys-elim (Solving Systems by Elimination)
+  - unlocks: (none in charted trees)
+  - lab + colours: preset word problems (mixture, tickets, boat with current, break-even) turned into a 2×2 system and graph; unknowns cyan c2 / pink c3, solution amber c1.
+- **a1-rational-simplify** — Rational Expressions: Simplify, Multiply & Divide
+  - prerequisites: a1-factor-special (Special Factoring Patterns), fraction-ops (Operations with Fractions, arithmetic)
+  - unlocks: a1-rational-add
+  - lab + colours: factor-and-cancel stepper for a rational expression with excluded values; graph showing the hole; common factor amber c1, numerator cyan c2, excluded values pink c3.
+- **a1-quad-sqrt** — Square Root Property & Completing the Square
+  - prerequisites: a1-quad-factor (Solving Quadratics by Factoring), a1-radicals (Simplifying Square Roots & Radicals)
+  - unlocks: a1-quad-formula
+  - lab + colours: completing the square geometrically: x² + bx as a square plus two b/2 rectangles and the missing corner (b/2)²; x cyan c2, b pink c3, corner amber c1.
+- **a1-rational-add** — Adding & Subtracting Rational Expressions
+  - prerequisites: a1-rational-simplify (Rational Expressions: Simplify, Multiply & Divide)
+  - unlocks: a1-rational-eq
+  - lab + colours: LCD construction for two rational expressions (factored denominators) then add/subtract; denominators cyan c2 / pink c3, LCD violet c4, result amber c1.
+- **a1-quad-formula** — The Quadratic Formula & Discriminant
+  - prerequisites: a1-quad-sqrt (Square Root Property & Completing the Square)
+  - unlocks: a1-quad-graphs
+  - lab + colours: sliders a, b, c; parabola with roots; discriminant sign shown; live quadratic-formula substitution; roots amber c1, discriminant violet c4, a/b/c cyan c2.
+- **a1-rational-eq** — Rational Equations & Applications
+  - prerequisites: a1-rational-add (Adding & Subtracting Rational Expressions)
+  - unlocks: (none in charted trees)
+  - lab + colours: rational-equation stepper (multiply by LCD, solve, check for extraneous roots) with graph; valid solution green c5, extraneous pink c3, LCD violet c4.
+- **a1-quad-graphs** — Graphing Quadratic Functions
+  - prerequisites: a1-quad-formula (The Quadratic Formula & Discriminant), a1-functions (Function Notation, Domain & Range)
+  - unlocks: a1-quad-apps
+  - lab + colours: vertex form y = a(x − h)² + k with sliders; axis of symmetry violet c4, vertex amber c1, intercepts cyan c2; converts to standard form.
+- **a1-quad-apps** — Applications of Quadratics
+  - prerequisites: a1-quad-graphs (Graphing Quadratic Functions)
+  - unlocks: (none in charted trees)
+  - lab + colours: projectile h(t) = −16t² + v₀t + h₀ (feet) or −4.9t² (metres) with animated ball, max height and time aloft; second mode: maximise area of a fenced rectangle; maximum amber c1, curve cyan c2, ground hits pink c3.

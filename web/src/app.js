@@ -4,13 +4,21 @@ const $ = (s, r=document) => r.querySelector(s);
 const h = (tag, attrs={}, html) => { const e = document.createElement(tag); for (const k in attrs) { if (k === "class") e.className = attrs[k]; else if (k.startsWith("on")) e.addEventListener(k.slice(2), attrs[k]); else e.setAttribute(k, attrs[k]); } if (html != null) e.innerHTML = html; return e; };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const T = window.ARITH || {};
-const NODES = DB.arith.nodes;
+// Every charted field has its own tree in DB.trees. Topic ids are unique across fields,
+// and a node's prerequisites may come from another field (e.g. Pre-Algebra ← Arithmetic).
+const TREES = DB.trees;
+const NODES = [];
+Object.entries(TREES).forEach(([f, tr]) => tr.nodes.forEach(n => { n.field = f; NODES.push(n); }));
 const NODE = Object.fromEntries(NODES.map(n => [n.id, n]));
+const fieldNodes = f => (TREES[f] ? TREES[f].nodes : []);
+const charted = f => !!TREES[f];
+const fieldOf = id => (NODE[id] ? NODE[id].field : "arithmetic");
 // unlocks
 NODES.forEach(n => n.post = []);
-NODES.forEach(n => n.pre.forEach(p => NODE[p].post.push(n.id)));
+NODES.forEach(n => { n.pre = n.pre.filter(p => { if (NODE[p]) return true; console.warn("Unknown prerequisite", p, "for", n.id); return false; }); n.pre.forEach(p => NODE[p].post.push(n.id)); });
 // reading order: by column then row
-const ORDER = NODES.slice().sort((a,b) => a.col - b.col || a.row - b.row).map(n => n.id);
+const ORDERS = Object.fromEntries(Object.keys(TREES).map(f => [f, fieldNodes(f).slice().sort((a,b) => a.col - b.col || a.row - b.row).map(n => n.id)]));
+const doneIn = f => fieldNodes(f).filter(n => mastered.has(n.id)).length;
 
 /* ---------- persistence (per-viewer convenience) ---------- */
 const store = {
@@ -43,7 +51,7 @@ window.addEventListener("hashchange", () => { const s = fromHash(); if (s) go(s,
 function fromHash(){
   const t = (location.hash || "").slice(1);
   if (!t) return null;
-  if (NODE[t]) return { view: "math", field: "arithmetic", topic: t };
+  if (NODE[t]) return { view: "math", field: fieldOf(t), topic: t };
   if (t.startsWith("field-")) { const f = t.slice(6); if (f === "map" || DB.fields[f]) return { view: "math", field: f, topic: null }; }
   if (t === "menu" || t === "dict") return { view: t, topic: null };
   return null;
@@ -64,9 +72,10 @@ function crumbs(){
     if (fn && i < parts.length - 1) c.appendChild(h("button", { type: "button", class: i < parts.length - 2 ? "hide-s" : "", onclick: fn }, esc(label)));
     else c.appendChild(h("span", { class: "here" }, esc(label)));
   });
-  const done = NODES.filter(n => mastered.has(n.id)).length;
-  $("#stat-t").textContent = `Arithmetic ${done}/${NODES.length} mastered`;
-  $("#stat-m").style.width = (done / NODES.length * 100) + "%";
+  const sf = S.topic ? fieldOf(S.topic) : (S.view === "math" && charted(S.field) ? S.field : null);
+  const done = sf ? doneIn(sf) : NODES.filter(n => mastered.has(n.id)).length, tot = sf ? fieldNodes(sf).length : NODES.length;
+  $("#stat-t").textContent = `${sf ? DB.fields[sf].name : "Mathematics"} ${done}/${tot} mastered`;
+  $("#stat-m").style.width = (tot ? done / tot * 100 : 0) + "%";
 }
 
 function render(){
@@ -109,7 +118,7 @@ function renderDict(){
   viewEl.appendChild(s);
   DB.subjects.forEach(sub => {
     const open = sub.status === "open";
-    const el = h(open ? "button" : "div", open ? { type: "button", class: "slot", onclick: () => go({ view: "math", field: "arithmetic", topic: null }) } : { class: "slot locked", "aria-disabled": "true" },
+    const el = h(open ? "button" : "div", open ? { type: "button", class: "slot", onclick: () => go({ view: "math", field: "map", topic: null }) } : { class: "slot locked", "aria-disabled": "true" },
       `<span class="glyph">${sub.glyph}</span><span><h3>${esc(sub.name)}</h3><p>${esc(sub.note)}</p></span><span class="tag">${open ? "Open" : "Locked"}</span>`);
     $("#subj", s).appendChild(el);
   });
@@ -124,13 +133,13 @@ function renderWork(){
   buildNav(nav, w);
   if (S.topic) renderTopic(main);
   else if (S.field === "map") renderFieldMap(main);
-  else if (DB.fields[S.field].status === "charted") renderArithTree(main);
+  else if (charted(S.field)) renderFieldTree(main, S.field);
   else renderDossier(main);
 }
 
 function buildNav(nav, w){
   nav.innerHTML = `<div class="nav-top">
-      <div class="nav-title"><span class="glyph">∑</span><div><h2>Mathematics</h2><small>20 fields · 1 charted</small></div></div>
+      <div class="nav-title"><span class="glyph">∑</span><div><h2>Mathematics</h2><small>${Object.keys(DB.fields).length} fields · ${Object.keys(TREES).length} charted</small></div></div>
       <label class="search"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="none" stroke="#8B97AE" stroke-width="1.4"/><path d="M9.5 9.5 13 13" stroke="#8B97AE" stroke-width="1.4"/></svg>
       <input id="navq" type="text" placeholder="Search fields and topics" aria-label="Search fields and topics"></label>
     </div><div class="nav-list" id="navlist"></div>
@@ -148,7 +157,7 @@ function buildNav(nav, w){
         if (!term) return true;
         const f = DB.fields[id];
         if (f.name.toLowerCase().includes(term)) return true;
-        if (id === "arithmetic") return NODES.some(n => (T[n.id]?.title || "").toLowerCase().includes(term));
+        if (charted(id)) return fieldNodes(id).some(n => (T[n.id]?.title || "").toLowerCase().includes(term));
         return f.topics.some(t => t.toLowerCase().includes(term));
       });
       if (!ids.length) return;
@@ -162,16 +171,16 @@ function buildNav(nav, w){
       const body = h("div", { class: "grp-b" });
       ids.forEach(id => {
         const f = DB.fields[id];
-        const charted = f.status === "charted";
-        const it = h("button", { type: "button", class: "item" + (charted ? " charted" : "") + (S.field === id && !S.topic ? " sel" : ""), onclick: () => { w.classList.remove("navopen"); go({ view: "math", field: id, topic: null }); } },
-          `<span class="ic">${f.icon}</span><span style="min-width:0"><span class="nm">${esc(f.name)}</span><span class="lv">${esc(f.level)}</span></span><span class="st">${charted ? NODES.filter(n => mastered.has(n.id)).length + "/" + NODES.length : "Planned"}</span>`);
+        const isCh = charted(id);
+        const it = h("button", { type: "button", class: "item" + (isCh ? " charted" : "") + (S.field === id && !S.topic ? " sel" : ""), onclick: () => { w.classList.remove("navopen"); go({ view: "math", field: id, topic: null }); } },
+          `<span class="ic">${f.icon}</span><span style="min-width:0"><span class="nm">${esc(f.name)}</span><span class="lv">${esc(f.level)}</span></span><span class="st">${isCh ? doneIn(id) + "/" + fieldNodes(id).length : "Planned"}</span>`);
         body.appendChild(it);
-        if (id === "arithmetic" && (S.field === "arithmetic" || term)) {
-          NODES.slice().sort((a,b) => ORDER.indexOf(a.id) - ORDER.indexOf(b.id)).forEach(n => {
+        if (isCh && (S.field === id || term)) {
+          ORDERS[id].map(x => NODE[x]).forEach(n => {
             const t = T[n.id]; if (!t) return;
             if (term && !t.title.toLowerCase().includes(term)) return;
             const st = stateOf(n.id);
-            const sub = h("button", { type: "button", class: "item sub" + (st === "mastered" ? " mastered" : "") + (S.topic === n.id ? " sel" : ""), onclick: () => { w.classList.remove("navopen"); go({ view: "math", field: "arithmetic", topic: n.id }); } },
+            const sub = h("button", { type: "button", class: "item sub" + (st === "mastered" ? " mastered" : "") + (S.topic === n.id ? " sel" : ""), onclick: () => { w.classList.remove("navopen"); go({ view: "math", field: id, topic: n.id }); } },
               `<span class="ic">${n.icon}</span><span class="nm">${esc(t.title)}</span><span class="st">${st === "mastered" ? "✓" : ""}</span>`);
             body.appendChild(sub);
           });
@@ -294,29 +303,32 @@ function buildTree(main, cfg){
   return { els, focus(id){ const p = pos(id); px = -(p.x - vw / 2 + NW / 2); py = -(p.y - vh / 2 + NH / 2); apply(); els[id].classList.add("sel"); } };
 }
 
-function renderArithTree(main){
+function renderFieldTree(main, f){
+  const F = DB.fields[f], TR = TREES[f], FN = fieldNodes(f);
   const head = h("div", { class: "tree-head" });
-  const done = NODES.filter(n => mastered.has(n.id)).length;
-  const hrs = NODES.reduce((s, n) => s + (T[n.id]?.hours || 0), 0);
-  head.innerHTML = `<button type="button" class="btn-s navtoggle" id="navtoggle2">☰ Fields</button><div><h2>Arithmetic</h2><div class="sub">${NODES.length} topics · about ${hrs} study hours · ${done} mastered</div></div>
+  const done = doneIn(f);
+  const hrs = FN.reduce((s, n) => s + (T[n.id]?.hours || 0), 0);
+  head.innerHTML = `<button type="button" class="btn-s navtoggle" id="navtoggle2">☰ Fields</button><div><h2>${esc(F.name)}</h2><div class="sub">${FN.length} topics · about ${hrs} study hours · ${done} mastered</div></div>
    <div class="legend-chips"><span><i class="lg-m"></i>Mastered</span><span><i class="lg-a"></i>Ready</span><span><i class="lg-l"></i>Locked</span><span><i class="lg-s"></i>Last opened</span></div>`;
   main.appendChild(head);
   $("#navtoggle2", head).onclick = () => main.parentElement.classList.toggle("navopen");
-  const nodes = NODES.map(n => ({ ...n, label: T[n.id]?.title || n.id, right: T[n.id] ? T[n.id].hours + " h" : "" }));
+  const inTree = new Set(FN.map(n => n.id));
+  const nodes = FN.map(n => ({ ...n, pre: n.pre.filter(p => inTree.has(p)), ext: n.pre.filter(p => !inTree.has(p)), label: T[n.id]?.title || n.id, right: T[n.id] ? T[n.id].hours + " h" : "" }));
   const tree = buildTree(main, {
-    nodes, eras: DB.arith.eras, key: "arith", title: "Arithmetic", stateFn: stateOf,
-    onOpen: id => go({ view: "math", field: "arithmetic", topic: id }),
+    nodes, eras: TR.eras, key: "tree-" + f, title: F.name, stateFn: stateOf,
+    onOpen: id => go({ view: "math", field: f, topic: id }),
     infoFn: (id, anc) => {
-      const t = T[id], st = stateOf(id);
+      const t = T[id], st = stateOf(id), nd = NODE[id];
       const pill = st === "mastered" ? `<span class="pill m">Mastered</span>` : st === "avail" ? `<span class="pill a">Ready to study</span>` : `<span class="pill l">Locked</span>`;
-      const need = NODE[id].pre.filter(p => !mastered.has(p)).map(p => T[p]?.title || p);
+      const nm = p => esc(T[p]?.title || p) + (NODE[p].field !== f ? ` <span style="color:var(--faint)">(${esc(DB.fields[NODE[p].field].name)})</span>` : "");
+      const need = nd.pre.filter(p => !mastered.has(p)).map(nm);
       return `<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">${pill}<span class="pill l">${esc(t?.grade || "")}</span></div><h4>${esc(t?.title || id)}</h4><p>${esc(t?.short || "")}</p>
-        <div class="req">${NODE[id].pre.length ? "Requires: " + NODE[id].pre.map(p => esc(T[p]?.title || p)).join(", ") : "Starting point, no prerequisites"}${need.length && st !== "mastered" ? "<br>Still to master: " + need.map(esc).join(", ") : ""}<br>Path length: ${anc.size} topic${anc.size === 1 ? "" : "s"} before this one</div>`;
+        <div class="req">${nd.pre.length ? "Requires: " + nd.pre.map(nm).join(", ") : "Starting point, no prerequisites"}${need.length && st !== "mastered" ? "<br>Still to master: " + need.join(", ") : ""}<br>Path length: ${anc.size} topic${anc.size === 1 ? "" : "s"} before this one in this tree</div>`;
     }
   });
-  const last = store.get("lastTopic", null);
-  if (last && NODE[last] && !S.pan.arith) requestAnimationFrame(() => tree.focus(last));
-  else if (last && NODE[last]) tree.els[last].classList.add("sel");
+  const last = store.get("lastTopic." + f, f === "arithmetic" ? store.get("lastTopic", null) : null);
+  if (last && inTree.has(last) && !S.pan["tree-" + f]) requestAnimationFrame(() => tree.focus(last));
+  else if (last && inTree.has(last)) tree.els[last].classList.add("sel");
 }
 
 function renderFieldMap(main){
@@ -328,9 +340,9 @@ function renderFieldMap(main){
   const nodes = Object.entries(DB.fields).map(([id, f]) => ({ id, col: f.col, row: f.row, pre: f.pre, icon: f.icon, label: f.name, right: "", chips: [f.level.split("·")[0].trim()] }));
   buildTree(main, {
     nodes, eras: DB.fieldEras, key: "map", title: "Mathematics field map",
-    stateFn: id => DB.fields[id].status === "charted" ? "avail" : "planned",
+    stateFn: id => charted(id) ? "avail" : "planned",
     onOpen: id => go({ view: "math", field: id, topic: null }),
-    infoFn: id => { const f = DB.fields[id]; return `<div>${f.status === "charted" ? '<span class="pill a">Charted</span>' : '<span class="pill l">Planned</span>'}</div><h4>${esc(f.name)}</h4><p>${esc(f.blurb)}</p><div class="req">${esc(f.level)}${f.pre.length ? "<br>Requires: " + f.pre.map(p => esc(DB.fields[p].name)).join(", ") : ""}</div>`; }
+    infoFn: id => { const f = DB.fields[id]; return `<div>${charted(id) ? '<span class="pill a">Charted</span>' : '<span class="pill l">Planned</span>'}</div><h4>${esc(f.name)}</h4><p>${esc(f.blurb)}</p><div class="req">${esc(f.level)}${f.pre.length ? "<br>Requires: " + f.pre.map(p => esc(DB.fields[p].name)).join(", ") : ""}</div>`; }
   });
 }
 
@@ -341,13 +353,13 @@ function renderDossier(main){
   const d = h("div", { class: "dossier" });
   d.innerHTML = `<div class="dossier-in">
     <div><button type="button" class="btn-s navtoggle" id="navtoggle2" style="margin-bottom:12px">☰ Fields</button><p class="eyebrow">${esc(f.level)}</p><h1>${esc(f.name)}</h1><p class="lede">${esc(f.blurb)}</p>
-      <div class="meta"><span class="pill l">Skill tree not yet charted</span><span class="pill a">Arithmetic is charted</span></div></div>
+      <div class="meta"><span class="pill l">Skill tree not yet charted</span><span class="pill a">${Object.keys(TREES).map(k => esc(DB.fields[k].name)).join(", ")} charted</span></div></div>
     <div class="dgrid">
       <div class="win"><div class="win-h"><span class="dot"></span>Core topics</div><div class="in"><ol>${f.topics.map(t => `<li>${esc(t)}</li>`).join("")}</ol></div></div>
       <div style="display:grid;gap:16px;align-content:start">
-        <div class="win"><div class="win-h"><span class="dot"></span>Study first</div><div class="in"><div class="linkrow">${f.pre.length ? f.pre.map(p => `<button type="button" class="lnk ${DB.fields[p].status}" data-f="${p}">${esc(DB.fields[p].name)}</button>`).join("") : '<span class="empty">None</span>'}</div></div></div>
-        <div class="win"><div class="win-h"><span class="dot"></span>Leads to</div><div class="in"><div class="linkrow">${next.length ? next.map(p => `<button type="button" class="lnk ${DB.fields[p].status}" data-f="${p}">${esc(DB.fields[p].name)}</button>`).join("") : '<span class="empty">Capstone field in this map</span>'}</div></div></div>
-        <div class="win"><div class="win-h"><span class="dot"></span>Status</div><div class="in"><p style="margin:0;color:var(--muted);font-size:14px">The topic tree for ${esc(f.name)} will be built with the same dossier format as Arithmetic. The list on the left is the planned node set.</p></div></div>
+        <div class="win"><div class="win-h"><span class="dot"></span>Study first</div><div class="in"><div class="linkrow">${f.pre.length ? f.pre.map(p => `<button type="button" class="lnk ${charted(p) ? "charted" : ""}" data-f="${p}">${esc(DB.fields[p].name)}</button>`).join("") : '<span class="empty">None</span>'}</div></div></div>
+        <div class="win"><div class="win-h"><span class="dot"></span>Leads to</div><div class="in"><div class="linkrow">${next.length ? next.map(p => `<button type="button" class="lnk ${charted(p) ? "charted" : ""}" data-f="${p}">${esc(DB.fields[p].name)}</button>`).join("") : '<span class="empty">Capstone field in this map</span>'}</div></div></div>
+        <div class="win"><div class="win-h"><span class="dot"></span>Status</div><div class="in"><p style="margin:0;color:var(--muted);font-size:14px">The topic tree for ${esc(f.name)} will be built with the same dossier format as the charted fields. The list on the left is the planned node set.</p></div></div>
       </div>
     </div></div>`;
   main.appendChild(d);
@@ -356,18 +368,25 @@ function renderDossier(main){
 }
 
 /* ---------- topic page ---------- */
+// Placeholder used only if a node has no content yet (keeps the app usable while a tree is being written).
+function stubTopic(id){
+  return { title: id, short: "", grade: "", hours: 0, voice: "plain", eyebrow: "Content coming soon", hero: esc(id), lede: "This topic's dossier has not been written yet.",
+    plain: "", formal: "", legend: [], steps: { title: "Steps", items: [] }, example: { prompt: "", lines: [], answer: "" }, why: "", careers: [], life: [], fields: [],
+    prereqWhy: {}, unlocksWhy: {}, beyond: [], mistakes: [], practice: [], origin: "" };
+}
 function renderTopic(main){
-  const id = S.topic, t = T[id], n = NODE[id];
-  store.set("lastTopic", id);
+  const id = S.topic, n = NODE[id], f = n.field, FNAME = DB.fields[f].name;
+  const t = T[id] || stubTopic(id);
+  store.set("lastTopic." + f, id);
   const st = stateOf(id);
-  const idx = ORDER.indexOf(id), prev = ORDER[idx - 1], next = ORDER[idx + 1];
+  const ORDER = ORDERS[f], idx = ORDER.indexOf(id), prev = ORDER[idx - 1], next = ORDER[idx + 1];
   const pg = h("div", { class: "topic" });
   const voiceTxt = { young: "Written for young learners, with the formal version alongside", mixed: "Plain explanation with the formal version alongside", plain: "Stated plainly, adult level" }[t.voice] || "";
-  const link = pid => { const s = stateOf(pid); return `<button type="button" class="plink" data-t="${pid}" data-st="${s}"><span class="o">${NODE[pid].icon}</span><span><b>${esc(T[pid].title)}</b><span>${t.prereqWhy?.[pid] || t.unlocksWhy?.[pid] || esc(T[pid].short)}</span></span></button>`; };
+  const link = pid => { const s = stateOf(pid), tp = T[pid] || { title: pid, short: "" }, other = NODE[pid].field !== f ? ` <span style="font-weight:400;color:var(--faint)">· ${esc(DB.fields[NODE[pid].field].name)}</span>` : ""; return `<button type="button" class="plink" data-t="${pid}" data-st="${s}"><span class="o">${NODE[pid].icon}</span><span><b>${esc(tp.title)}${other}</b><span>${t.prereqWhy?.[pid] || t.unlocksWhy?.[pid] || esc(tp.short)}</span></span></button>`; };
   pg.innerHTML = `
   <div class="topic-bar">
     <button type="button" class="btn-s navtoggle" id="navtoggle2">☰</button>
-    <button type="button" class="btn-s" id="back">◀ Arithmetic tree</button>
+    <button type="button" class="btn-s" id="back">◀ ${esc(FNAME)} tree</button>
     <span class="sp"></span>
     ${st === "mastered" ? '<span class="pill m">Mastered</span>' : st === "avail" ? '<span class="pill a">Ready to study</span>' : '<span class="pill l">Prerequisites open</span>'}
     <button type="button" class="btn ${st === "mastered" ? "ghost" : "good"}" id="mast">${st === "mastered" ? "Unmark mastered" : "Mark as mastered"}</button>
@@ -400,21 +419,21 @@ function renderTopic(main){
       </div>
       <div><h2>Learning path</h2><div class="path">
         <div class="win"><div class="win-h"><span class="dot"></span>Master these first</div><div class="in">${n.pre.length ? n.pre.map(link).join("") : '<span class="empty">This is the starting point of the tree. Nothing is required first.</span>'}</div></div>
-        <div class="win"><div class="win-h"><span class="dot"></span>This unlocks</div><div class="in">${n.post.length ? n.post.map(link).join("") : '<span class="empty">No later Arithmetic topic depends on this directly. It feeds the fields below.</span>'}</div></div>
-        <div class="win"><div class="win-h"><span class="dot"></span>Vital beyond arithmetic</div><div class="in">${t.beyond.map(b => `<div class="plink" style="cursor:default"><span class="o">→</span><span><b>${esc(b.field)}</b><span>${esc(b.why)}</span></span></div>`).join("")}</div></div>
+        <div class="win"><div class="win-h"><span class="dot"></span>This unlocks</div><div class="in">${n.post.length ? n.post.map(link).join("") : '<span class="empty">No later charted topic depends on this directly. It feeds the fields below.</span>'}</div></div>
+        <div class="win"><div class="win-h"><span class="dot"></span>Vital in later fields</div><div class="in">${t.beyond.map(b => `<div class="plink" style="cursor:default"><span class="o">→</span><span><b>${esc(b.field)}</b><span>${esc(b.why)}</span></span></div>`).join("")}</div></div>
       </div></div>
       <div><h2>Common mistakes</h2><div class="mist">${t.mistakes.map(m => `<div><div class="w">${m.wrong}</div><div class="f">${m.fix}</div></div>`).join("")}</div></div>
       <div><h2>Practice</h2><div class="prac">${t.practice.map((p, i) => `<div class="pq"><div class="q"><span class="n">${String(i+1).padStart(2,"0")}</span>${p.q}</div><button type="button" class="btn-s" data-ans="${i}">Show answer</button><div class="a" hidden>${p.a}</div></div>`).join("")}</div></div>
       ${t.origin ? `<div><h2>Origin</h2><p class="origin">${t.origin}</p></div>` : ""}
-      <div class="pager">${prev ? `<button type="button" class="btn ghost" data-t="${prev}">◀ ${esc(T[prev].title)}</button>` : "<span></span>"}${next ? `<button type="button" class="btn ghost" data-t="${next}">${esc(T[next].title)} ▶</button>` : ""}</div>
+      <div class="pager">${prev ? `<button type="button" class="btn ghost" data-t="${prev}">◀ ${esc((T[prev] || { title: prev }).title)}</button>` : "<span></span>"}${next ? `<button type="button" class="btn ghost" data-t="${next}">${esc((T[next] || { title: next }).title)} ▶</button>` : ""}</div>
     </section>
   </div>`;
   main.appendChild(pg);
   pg.scrollTop = 0;
-  $("#back", pg).onclick = () => go({ view: "math", field: "arithmetic", topic: null });
+  $("#back", pg).onclick = () => go({ view: "math", field: f, topic: null });
   $("#navtoggle2", pg).onclick = () => main.parentElement.classList.toggle("navopen");
   $("#mast", pg).onclick = () => { if (mastered.has(id)) mastered.delete(id); else mastered.add(id); saveMastered(); const y = pg.scrollTop; render(); const np = $(".topic"); if (np) np.scrollTop = y; };
-  pg.querySelectorAll("[data-t]").forEach(b => b.onclick = () => go({ view: "math", field: "arithmetic", topic: b.dataset.t }));
+  pg.querySelectorAll("[data-t]").forEach(b => b.onclick = () => go({ view: "math", field: fieldOf(b.dataset.t), topic: b.dataset.t }));
   pg.querySelectorAll("[data-ans]").forEach(b => b.onclick = () => { const a = b.nextElementSibling; a.hidden = !a.hidden; b.textContent = a.hidden ? "Show answer" : "Hide answer"; });
   // lab
   const lab = window.LABS && window.LABS[id];
@@ -452,10 +471,11 @@ if (window.codexDesktop) {
 
 /* ---------- boot ---------- */
 $("#brand").onclick = () => go({ view: "menu", topic: null });
-const initial = fromHash() || store.get("last", null) || { view: "menu" };
+// Codex always opens on the main menu (a link with #topic still opens that page directly).
+const initial = fromHash() || { view: "menu" };
 Object.assign(S, initial);
 if (S.view === "math" && S.field !== "map" && !DB.fields[S.field]) S.field = "arithmetic";
-if (S.topic && !T[S.topic]) S.topic = null;
+if (S.topic && !NODE[S.topic]) S.topic = null;
 try { history.replaceState({ view: S.view, field: S.field, topic: S.topic }, ""); } catch(e){}
 render();
 })();

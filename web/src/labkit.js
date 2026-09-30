@@ -115,6 +115,39 @@ function make(stage, ro, ctl){
     function pause(){ playing = false; btnP.textContent = "Play"; if (stop) stop(); stop = null; }
     return { play, pause, step, get k(){ return k; }, set k(v){ k = v; }, reset(){ pause(); k = 0; onStep(k); }, finish(){ pause(); k = count(); onStep(k); } };
   };
+  // Coordinate-plane helper for graphs. Call inside a loop after c.begin().
+  //   const P = kit.plot(c, { xmin:-10, xmax:10, ymin:-10, ymax:10, pad:{l:40,r:16,t:16,b:30}, equal:false });
+  //   P.grid(); P.axes(); P.fn(x => 2*x+1, C.amber, 2.5); P.point(1, 3, C.cyan); P.X(x) P.Y(y) P.inv(px, py)
+  kit.plot = (c, o = {}) => {
+    const d = c.d, g = c.g, pad = Object.assign({ l: 40, r: 16, t: 16, b: 30 }, o.pad || {});
+    let { xmin = -10, xmax = 10, ymin = -10, ymax = 10 } = o;
+    let W = c.w - pad.l - pad.r, H = c.h - pad.t - pad.b;
+    if (o.equal) { const sx = W / (xmax - xmin), sy = H / (ymax - ymin), s = Math.min(sx, sy); const cx = (xmin + xmax) / 2, cy = (ymin + ymax) / 2; xmin = cx - W / s / 2; xmax = cx + W / s / 2; ymin = cy - H / s / 2; ymax = cy + H / s / 2; }
+    const X = x => pad.l + (x - xmin) / (xmax - xmin) * W, Y = y => pad.t + (ymax - y) / (ymax - ymin) * H;
+    const nice = span => { const raw = span / 8, p = Math.pow(10, Math.floor(Math.log10(raw))), m = raw / p; return (m < 1.5 ? 1 : m < 3.5 ? 2 : m < 7.5 ? 5 : 10) * p; };
+    const P = { X, Y, xmin, xmax, ymin, ymax, left: pad.l, top: pad.t, width: W, height: H,
+      inv: (px, py) => ({ x: xmin + (px - pad.l) / W * (xmax - xmin), y: ymax - (py - pad.t) / H * (ymax - ymin) }),
+      grid(step){ const sx = step || o.xstep || nice(xmax - xmin), sy = step || o.ystep || nice(ymax - ymin); g.save(); g.strokeStyle = alpha(C.line2, .45); g.lineWidth = 1; g.beginPath();
+        for (let x = Math.ceil(xmin / sx) * sx; x <= xmax + 1e-9; x += sx) { g.moveTo(Math.round(X(x)) + .5, pad.t); g.lineTo(Math.round(X(x)) + .5, pad.t + H); }
+        for (let y = Math.ceil(ymin / sy) * sy; y <= ymax + 1e-9; y += sy) { g.moveTo(pad.l, Math.round(Y(y)) + .5); g.lineTo(pad.l + W, Math.round(Y(y)) + .5); } g.stroke(); g.restore(); },
+      axes(labels = true){ const sx = o.xstep || nice(xmax - xmin), sy = o.ystep || nice(ymax - ymin);
+        const ax = Math.min(Math.max(0, ymin), ymax), ay = Math.min(Math.max(0, xmin), xmax);
+        d.line(pad.l, Y(ax), pad.l + W, Y(ax), C.muted, 1.5); d.line(X(ay), pad.t, X(ay), pad.t + H, C.muted, 1.5);
+        if (!labels) return;
+        const f = v => (Math.abs(v) < 1e-9 ? "0" : String(+v.toFixed(6))).replace("-", "−");
+        for (let x = Math.ceil(xmin / sx) * sx; x <= xmax + 1e-9; x += sx) { if (Math.abs(x) < 1e-9) continue; d.line(X(x), Y(ax) - 4, X(x), Y(ax) + 4, C.muted); d.text(f(x), X(x), Math.min(pad.t + H + 16, Y(ax) + 16), { font: `11px ${F.mono}`, color: C.faint, align: "center" }); }
+        for (let y = Math.ceil(ymin / sy) * sy; y <= ymax + 1e-9; y += sy) { if (Math.abs(y) < 1e-9) continue; d.line(X(ay) - 4, Y(y), X(ay) + 4, Y(y), C.muted); d.text(f(y), Math.max(pad.l - 6, X(ay) - 7), Y(y), { font: `11px ${F.mono}`, color: C.faint, align: "right", base: "middle" }); }
+        if (o.xlabel) d.text(o.xlabel, pad.l + W, Y(ax) - 8, { font: `italic 14px ${F.math}`, color: C.muted, align: "right" });
+        if (o.ylabel) d.text(o.ylabel, X(ay) + 8, pad.t + 12, { font: `italic 14px ${F.math}`, color: C.muted }); },
+      clip(fn){ g.save(); g.beginPath(); g.rect(pad.l, pad.t, W, H); g.clip(); fn(); g.restore(); },
+      fn(f, color = C.amber, w = 2.5, from = xmin, to = xmax, dash){ g.save(); g.beginPath(); g.rect(pad.l, pad.t, W, H); g.clip(); g.strokeStyle = color; g.lineWidth = w; if (dash) g.setLineDash(dash); g.beginPath(); let pen = false, prev = null;
+        const N = Math.max(200, Math.round(W)); for (let i = 0; i <= N; i++) { const x = from + (to - from) * i / N, y = f(x); if (!isFinite(y) || (prev !== null && Math.abs(Y(y) - Y(prev)) > H * 2)) { pen = false; prev = isFinite(y) ? y : null; continue; } const px = X(x), py = Y(y); pen ? g.lineTo(px, py) : g.moveTo(px, py); pen = true; prev = y; } g.stroke(); g.restore(); },
+      line(x1, y1, x2, y2, color, w = 2, dash){ P.clip(() => d.line(X(x1), Y(y1), X(x2), Y(y2), color, w, dash)); },
+      point(x, y, color = C.amber, r = 6, open = false){ if (open) d.circle(X(x), Y(y), r, C.ink, color, 2); else d.circle(X(x), Y(y), r, color); },
+      label(s, x, y, color = C.text, opt = {}){ d.text(s, X(x) + (opt.dx || 8), Y(y) + (opt.dy || -8), { font: opt.font || `14px ${F.math}`, color, align: opt.align || "left", base: opt.base }); }
+    };
+    return P;
+  };
   kit.fontsReady = cb => { if (document.fonts && document.fonts.ready) document.fonts.ready.then(cb); };
   return kit;
 }

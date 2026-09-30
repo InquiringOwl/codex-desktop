@@ -1,8 +1,10 @@
 /* ============ Tree + field data ============ */
 window.DB = window.DB || {};
 
-/* Arithmetic skill tree. col = tier column, row = lane. */
-DB.arith = {
+/* Skill trees, one per charted field. col = tier column, row = lane.
+   pre may name topics in another field (drawn in that field; listed on the topic page). */
+DB.trees = {};
+DB.trees["arithmetic"] = {
   eras: [
     { name: "Number Sense", from: 0, to: 2 },
     { name: "The Four Operations", from: 3, to: 4 },
@@ -44,6 +46,85 @@ DB.arith = {
   ]
 };
 
+DB.trees["pre-algebra"] = {
+  eras: [
+    { name: "The Language of Algebra", from: 0, to: 1 },
+    { name: "Solving Equations", from: 2, to: 4 },
+    { name: "Models, Formulas & Graphs", from: 5, to: 6 }
+  ],
+  nodes: [
+    { id: "pa-variables",     col: 0, row: 2, icon: "x",     chips: ["x","3n","a+b"], pre: ["order-ops","properties"] },
+    { id: "pa-coordinate",    col: 0, row: 6, icon: "(x,y)", chips: ["I","II","III","IV"], pre: ["integers","number-line"] },
+    { id: "pa-translate",     col: 1, row: 0, icon: "“x”", chips: ["sum","less than"], pre: ["pa-variables"] },
+    { id: "pa-like-terms",    col: 1, row: 1, icon: "3x+2x", chips: ["5x","a(b+c)"], pre: ["pa-variables","properties"] },
+    { id: "pa-evaluate",      col: 1, row: 2, icon: "x=4", chips: ["x→4","f"], pre: ["pa-variables","integers"] },
+    { id: "pa-exponent-laws", col: 1, row: 4, icon: "xⁿ", chips: ["x²x³","x⁻¹"], pre: ["pa-variables","exponents"] },
+    { id: "pa-equations",     col: 2, row: 2, icon: "=",   chips: ["=","✓"], pre: ["pa-evaluate"] },
+    { id: "pa-relations",     col: 2, row: 6, icon: "↦", chips: ["x","y","table"], pre: ["pa-coordinate","pa-evaluate"] },
+    { id: "pa-one-step",      col: 3, row: 2, icon: "x+a", chips: ["−a","÷a"], pre: ["pa-equations","fraction-ops","decimal-ops"] },
+    { id: "pa-inequalities",  col: 3, row: 4, icon: "<",   chips: ["<","≤","○●"], pre: ["pa-equations","number-line"] },
+    { id: "pa-functions",     col: 3, row: 6, icon: "f(x)", chips: ["f(x)","1 out"], pre: ["pa-relations"] },
+    { id: "pa-two-step",      col: 4, row: 2, icon: "ax+b", chips: ["−b","÷a"], pre: ["pa-one-step"] },
+    { id: "pa-similar",       col: 4, row: 3, icon: "△∼", chips: ["∼","k"], pre: ["pa-one-step","proportions"] },
+    { id: "pa-proportional",  col: 4, row: 6, icon: "y=kx", chips: ["k","(0,0)"], pre: ["pa-functions","proportions"] },
+    { id: "pa-sequences",     col: 4, row: 7, icon: "+d",  chips: ["a₁","d"], pre: ["pa-functions"] },
+    { id: "pa-both-sides",    col: 5, row: 1, icon: "x=x", chips: ["ax+b=cx+d"], pre: ["pa-two-step","pa-like-terms"] },
+    { id: "pa-formulas",      col: 5, row: 3, icon: "A=lw", chips: ["P","A","V"], pre: ["pa-two-step"] },
+    { id: "pa-solve-ineq",    col: 5, row: 4, icon: "≤", chips: ["flip","−x"], pre: ["pa-inequalities","pa-two-step"] },
+    { id: "pa-slope",         col: 5, row: 6, icon: "m",   chips: ["rise","run"], pre: ["pa-proportional"] },
+    { id: "pa-word-problems", col: 6, row: 0, icon: "?",   chips: ["let x","check"], pre: ["pa-both-sides","pa-translate"] },
+    { id: "pa-pythagorean",   col: 6, row: 3, icon: "a²+b²", chips: ["c²","√"], pre: ["pa-formulas","roots"] },
+    { id: "pa-linear-graphs", col: 6, row: 6, icon: "y=mx+b", chips: ["m","b"], pre: ["pa-slope","pa-two-step"] }
+  ]
+};
+
+DB.trees["algebra-1"] = {
+  eras: [
+    { name: "Equations, Inequalities & Functions", from: 0, to: 2 },
+    { name: "Lines, Systems & Polynomials", from: 3, to: 5 },
+    { name: "Quadratics & Rational Expressions", from: 6, to: 9 }
+  ],
+  nodes: [
+    { id: "a1-multi-step",       col: 0, row: 1, icon: "⋯x", chips: ["LCD","∅","ℝ"], pre: ["pa-both-sides"] },
+    { id: "a1-functions",        col: 0, row: 3, icon: "f(x)", chips: ["dom","ran"], pre: ["pa-functions","pa-linear-graphs"] },
+    { id: "a1-exponents",        col: 0, row: 6, icon: "x⁻ⁿ", chips: ["x⁰","x⁻¹"], pre: ["pa-exponent-laws","sci-notation"] },
+    { id: "a1-literal",          col: 1, row: 0, icon: "d=rt", chips: ["solve for"], pre: ["a1-multi-step","pa-formulas"] },
+    { id: "a1-compound",         col: 1, row: 1, icon: "[a,b)", chips: ["and","or","∪"], pre: ["a1-multi-step","pa-solve-ineq"] },
+    { id: "a1-abs-eq",           col: 1, row: 2, icon: "|x|", chips: ["±"], pre: ["a1-multi-step"] },
+    { id: "a1-slope-forms",      col: 1, row: 3, icon: "mx+b", chips: ["m","b"], pre: ["a1-functions","pa-slope"] },
+    { id: "a1-poly-add",         col: 1, row: 6, icon: "P+Q", chips: ["deg","like"], pre: ["a1-exponents"] },
+    { id: "a1-radicals",         col: 1, row: 8, icon: "√", chips: ["√12","2√3"], pre: ["a1-exponents","roots"] },
+    { id: "a1-abs-ineq",         col: 2, row: 1, icon: "|x|<a", chips: ["and","or"], pre: ["a1-abs-eq","a1-compound"] },
+    { id: "a1-piecewise",        col: 2, row: 2, icon: "{",    chips: ["pieces","|x|"], pre: ["a1-functions","a1-abs-eq"] },
+    { id: "a1-line-forms",       col: 2, row: 3, icon: "Ax+By", chips: ["y−y₁","std"], pre: ["a1-slope-forms"] },
+    { id: "a1-poly-mult",        col: 2, row: 6, icon: "PQ",   chips: ["FOIL","(a+b)²"], pre: ["a1-poly-add"] },
+    { id: "a1-rational-exp",     col: 2, row: 9, icon: "x^½", chips: ["ⁿ√","m/n"], pre: ["a1-radicals"] },
+    { id: "a1-par-perp",         col: 3, row: 2, icon: "∥⊥", chips: ["m₁=m₂","−1/m"], pre: ["a1-line-forms"] },
+    { id: "a1-sys-graph",        col: 3, row: 3, icon: "╳", chips: ["1","0","∞"], pre: ["a1-line-forms"] },
+    { id: "a1-linear-models",    col: 3, row: 4, icon: "∴", chips: ["fit","r"], pre: ["a1-line-forms"] },
+    { id: "a1-poly-div",         col: 3, row: 5, icon: "P÷Q", chips: ["long ÷","R"], pre: ["a1-poly-mult"] },
+    { id: "a1-factor-gcf",       col: 3, row: 6, icon: "GCF", chips: ["gcf","group"], pre: ["a1-poly-mult"] },
+    { id: "a1-radical-ops",      col: 3, row: 8, icon: "√±√", chips: ["conj","rat."], pre: ["a1-radicals","a1-poly-mult"] },
+    { id: "a1-sys-ineq",         col: 4, row: 1, icon: "◩", chips: ["shade","∩"], pre: ["a1-sys-graph","a1-compound"] },
+    { id: "a1-sys-sub",          col: 4, row: 3, icon: "y=…", chips: ["sub"], pre: ["a1-sys-graph","a1-literal"] },
+    { id: "a1-factor-tri",       col: 4, row: 6, icon: "x²+bx", chips: ["ac","(x+p)(x+q)"], pre: ["a1-factor-gcf"] },
+    { id: "a1-radical-eq",       col: 4, row: 8, icon: "√x=a", chips: ["square","check"], pre: ["a1-radical-ops","a1-multi-step"] },
+    { id: "a1-exp-functions",    col: 4, row: 9, icon: "bˣ", chips: ["growth","decay"], pre: ["a1-functions","a1-rational-exp","percent-apps"] },
+    { id: "a1-sys-elim",         col: 5, row: 3, icon: "±eq", chips: ["elim"], pre: ["a1-sys-sub"] },
+    { id: "a1-factor-special",   col: 5, row: 6, icon: "a²−b²", chips: ["(a±b)²","a³±b³"], pre: ["a1-factor-tri"] },
+    { id: "a1-quad-factor",      col: 5, row: 7, icon: "ab=0", chips: ["zero prod."], pre: ["a1-factor-tri"] },
+    { id: "a1-sequences",        col: 5, row: 9, icon: "×r", chips: ["aₙ","r"], pre: ["a1-exp-functions","pa-sequences"] },
+    { id: "a1-sys-apps",         col: 6, row: 3, icon: "2×2", chips: ["mix","rate"], pre: ["a1-sys-elim"] },
+    { id: "a1-rational-simplify",col: 6, row: 5, icon: "P/Q", chips: ["×","÷","x≠"], pre: ["a1-factor-special","fraction-ops"] },
+    { id: "a1-quad-sqrt",        col: 6, row: 7, icon: "(x+h)²", chips: ["±√","CTS"], pre: ["a1-quad-factor","a1-radicals"] },
+    { id: "a1-rational-add",     col: 7, row: 5, icon: "P/Q+R/S", chips: ["LCD"], pre: ["a1-rational-simplify"] },
+    { id: "a1-quad-formula",     col: 7, row: 7, icon: "±√Δ", chips: ["b²−4ac"], pre: ["a1-quad-sqrt"] },
+    { id: "a1-rational-eq",      col: 8, row: 5, icon: "=P/Q", chips: ["work","extraneous"], pre: ["a1-rational-add"] },
+    { id: "a1-quad-graphs",      col: 8, row: 7, icon: "∪", chips: ["vertex","axis"], pre: ["a1-quad-formula","a1-functions"] },
+    { id: "a1-quad-apps",        col: 9, row: 7, icon: "h(t)", chips: ["max","area"], pre: ["a1-quad-graphs"] }
+  ]
+};
+
 /* Fields of mathematics (sidebar + field map).
    status: "charted" (tree built) or "planned". */
 DB.fieldGroups = [
@@ -58,10 +139,10 @@ DB.fields = {
   "arithmetic": { name: "Arithmetic", icon: "+", level: "Grades K–6 · college developmental math", col: 0, row: 3, pre: [], status: "charted",
     blurb: "The numbers themselves and the four operations on them: whole numbers, integers, fractions, decimals, percents, ratios and powers. Every later field assumes these are automatic.",
     topics: [] },
-  "pre-algebra": { name: "Pre-Algebra", icon: "x", level: "Grades 6–8 · college MATH 0xx", col: 1, row: 3, pre: ["arithmetic"], status: "planned",
+  "pre-algebra": { name: "Pre-Algebra", icon: "x", level: "Grades 6–8 · college MATH 0xx", col: 1, row: 3, pre: ["arithmetic"], status: "charted",
     blurb: "The bridge from numbers to symbols. Variables stand in for unknown numbers, and the laws of arithmetic become rules for rewriting expressions.",
     topics: ["Variables and algebraic expressions","Evaluating and simplifying expressions","Combining like terms","One- and two-step linear equations","Linear inequalities on a number line","Integer exponents and exponent laws","Coordinate plane and plotting points","Introduction to functions and tables","Perimeter, area and volume formulas","The Pythagorean theorem"] },
-  "algebra-1": { name: "Algebra I", icon: "y=mx+b", level: "Grade 9 · college elementary algebra", col: 2, row: 3, pre: ["pre-algebra"], status: "planned",
+  "algebra-1": { name: "Algebra I", icon: "y=mx+b", level: "Grade 9 · college elementary algebra", col: 2, row: 3, pre: ["pre-algebra"], status: "charted",
     blurb: "Linear relationships, systems of equations, polynomials and a first look at quadratics. This is where modelling a situation with an equation becomes routine.",
     topics: ["Multi-step linear equations and literal equations","Slope, intercepts and forms of a line","Graphing linear functions","Systems of linear equations (substitution, elimination)","Linear inequalities and systems of inequalities","Polynomial operations","Factoring (GCF, trinomials, difference of squares)","Quadratic equations: factoring, square roots, quadratic formula","Radicals and rational exponents","Function notation, domain and range"] },
   "geometry": { name: "Geometry", icon: "△", level: "Grade 10 · Euclidean geometry", col: 3, row: 2, pre: ["algebra-1"], status: "planned",
@@ -129,7 +210,7 @@ DB.fieldEras = [
 
 /* Other Dictionary subjects (future) */
 DB.subjects = [
-  { id: "mathematics", name: "Mathematics", glyph: "∑", status: "open", note: "20 fields · Arithmetic tree charted" },
+  { id: "mathematics", name: "Mathematics", glyph: "∑", status: "open", note: "21 fields · Arithmetic, Pre-Algebra and Algebra I charted" },
   { id: "physics", name: "Physics", glyph: "⚛", status: "locked", note: "Not yet charted" },
   { id: "chemistry", name: "Chemistry", glyph: "⌬", status: "locked", note: "Not yet charted" },
   { id: "biology", name: "Biology", glyph: "❦", status: "locked", note: "Not yet charted" },

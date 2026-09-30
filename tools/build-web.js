@@ -8,9 +8,24 @@ const R = path.join(__dirname, '..');
 const read = p => fs.readFileSync(path.join(R, p), 'utf8');
 
 const css = read('web/src/style.css');
-const js = ['web/src/data.js', 'web/content/part1.js', 'web/content/part2.js', 'web/content/part3.js',
-  'web/src/labkit.js', 'web/src/labs1.js', 'web/src/labs2.js', 'web/src/labs3.js', 'web/src/app.js'].map(read).join('\n');
-if (/<\/script/i.test(js)) throw new Error('A script contains </script>, which would break the page.');
+const dir = d => fs.existsSync(path.join(R, d)) ? fs.readdirSync(path.join(R, d)).filter(f => f.endsWith('.js')).sort().map(f => d + '/' + f) : [];
+// Order matters: data, then every content file, then the lab toolkit and every lab file, then the app.
+const files = ['web/src/data.js', ...dir('web/content'), 'web/src/labkit.js',
+  ...dir('web/src').filter(f => /\/labs\d*\.js$/.test(f)), ...dir('web/labs'), 'web/src/app.js'];
+const vm = require('vm');
+function scripts({ lenient = false } = {}) {
+  // One <script> per source file, so a problem in one file is easy to find.
+  const out = [];
+  for (const f of files) {
+    const src = read(f);
+    if (/<\/script/i.test(src)) throw new Error(f + ' contains </script>, which would break the page.');
+    try { new vm.Script(src, { filename: f }); }
+    catch (e) { if (lenient) { console.warn('SKIPPED (syntax error) ' + f + ': ' + e.message); continue; } throw new Error(f + ': ' + e.message); }
+    out.push(`<script>/* ${f} */\n${src}\n</script>`);
+  }
+  return out.join('\n');
+}
+const js = scripts({ lenient: require.main !== module });
 
 const body = `<div id="app">
   <header class="topbar">
@@ -21,9 +36,7 @@ const body = `<div id="app">
   <main class="view" id="view" tabindex="-1"></main>
   <div class="upd" id="upd" role="status" hidden></div>
 </div>
-<script>
 ${js}
-</script>
 `;
 
 const desktop = `<!doctype html>
@@ -50,6 +63,8 @@ ${css}
 </style>
 ${body}`;
 
+module.exports = { files, desktop, R };
+if (require.main !== module) return;
 fs.writeFileSync(path.join(R, 'app/index.html'), desktop);
 fs.mkdirSync(path.join(R, 'dist-web'), { recursive: true });
 fs.writeFileSync(path.join(R, 'dist-web/codex.html'), web);
