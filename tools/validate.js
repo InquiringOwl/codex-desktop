@@ -22,6 +22,15 @@ for (const f of dataFiles) {
 const DB = ctx.DB, T = ctx.ARITH || {};
 if (!DB || !DB.trees) { console.error('DB.trees missing, cannot continue'); process.exit(1); }
 
+// ---- content files: web/content/<field>/<id>.js holding exactly ARITH["<id>"] ----
+for (const f of dataFiles.filter(f => f.startsWith('web/content/'))) {
+  const m = f.match(/^web\/content\/([a-z0-9-]+)\/([a-z0-9-]+)\.js$/);
+  if (!m) { err(f, 'content files belong at web/content/<field>/<topic-id>.js'); continue; }
+  const ids = [...fs.readFileSync(path.join(R, f), 'utf8').matchAll(/^ARITH\["([a-z0-9-]+)"\]\s*=/gm)].map(x => x[1]);
+  if (ids.length !== 1 || ids[0] !== m[2]) err(f, `should define only ARITH["${m[2]}"] (found ${ids.join(', ') || 'none'})`);
+  if (DB.trees && !(DB.trees[m[1]] || { nodes: [] }).nodes.some(n => n.id === m[2])) err(f, `"${m[2]}" is not a node of the ${m[1]} tree`);
+}
+
 // ---- labs: find every L["id"] = registration ----
 const labFiles = files.filter(f => /\/labs\d*\.js$/.test(f) || f.startsWith('web/labs/'));
 const labs = {};

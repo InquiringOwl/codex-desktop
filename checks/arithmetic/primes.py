@@ -1,0 +1,15 @@
+# content: 594e10a30246
+# primes: Prime Numbers & Prime Factorization
+same("example", 2*2*2*45, 360); same("example", 3*3*5, 45)
+check("example", factorint(360) == {2: 3, 3: 2, 5: 1}, "360 = 2^3 3^2 5")
+same("example", 8*9*5, 360)
+same("example", len(divisors(360)), 24)
+same("example", (3 + 1)*(2 + 1)*(1 + 1), 24)
+check("practice[0]", not isprime(51) and 3*17 == 51 and 5 + 1 == 6, "51 = 3*17")
+check("practice[1]", factorint(84) == {2: 2, 3: 1, 7: 1}, "84 = 2^2*3*7")
+check("practice[1]", 84 // 2 == 42 and 42 // 2 == 21 and 21 // 3 == 7, "chain")
+check("practice[2]", isprime(211), "211 should be prime")
+check("practice[2]", abs(sqrt(211).evalf() - 14.5) < 0.05, "sqrt 211 ≈ 14.5")
+check("practice[2]", all(211 % p for p in [2, 3, 5, 7, 11, 13]) and list(primerange(2, 15)) == [2, 3, 5, 7, 11, 13], "no prime ≤ 14 divides")
+check("practice[3]", factorint(1001) == {7: 1, 11: 1, 13: 1}, "1001 = 7*11*13")
+same("practice[3]", Rational(1001, 7), 143); same("practice[3]", 11*13, 143)

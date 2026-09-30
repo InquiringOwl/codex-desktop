@@ -11,10 +11,12 @@
     "build:web": "node tools/build-web.js",
     "validate": "node tools/validate.js",
     "smoke": "node tools/smoke.js",
-    "check": "node tools/build-web.js && node tools/validate.js && node tools/smoke.js",
+    "mathcheck": "python3 tools/mathcheck.py",
+    "check": "node tools/build-web.js && node tools/validate.js && python3 tools/mathcheck.py && node tools/smoke.js",
     "start": "node tools/build-web.js && electron .",
     "dist": "node tools/build-web.js && electron-builder --publish never",
-    "release": "node tools/build-web.js && electron-builder --publish always"
+    "release": "node tools/release.js",
+    "publish:local": "node tools/build-web.js && electron-builder --publish always"
   },
   "dependencies": {
     "electron-log": "^5.4.4",

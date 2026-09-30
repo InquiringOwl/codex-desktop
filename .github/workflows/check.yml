@@ -1,7 +1,8 @@
 # Runs on every push to main and every pull request (and before each release, see release.yml).
 # 1. build-web.js  - every source file must parse
 # 2. validate.js   - trees, field map, topic dossiers, HTML markup, lab coverage
-# 3. smoke.js      - headless Chromium opens every screen at desktop and phone width; any JS error fails
+# 3. mathcheck.py - re-computes every number on every topic page with sympy (checks/<field>/<id>.py)
+# 4. smoke.js      - headless Chromium opens every screen at desktop and phone width; any JS error fails
 name: Check
 on:
   push:
@@ -18,7 +19,11 @@ jobs:
         with: { node-version: 22 }
       - run: node tools/build-web.js
       - run: node tools/validate.js
-      - name: Install Playwright (kept out of package.json so the app build stays lean)
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install sympy==1.14.0
+      - run: python3 tools/mathcheck.py
+      - name: Install Playwright only (skips downloading Electron)
         run: |
           npm install --prefix "$RUNNER_TEMP/pw" --no-save playwright@1.56.0
           "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium
