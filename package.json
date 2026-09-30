@@ -1,0 +1,47 @@
+{
+  "name": "codex-desktop",
+  "productName": "Codex",
+  "version": "1.0.0",
+  "description": "Codex: a knowledge console that maps subjects as skill trees, starting with the Mathematics dictionary.",
+  "author": "Wolfie's Coven <devon@ashleyhoffmann.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "build:web": "node tools/build-web.js",
+    "start": "node tools/build-web.js && electron .",
+    "dist": "node tools/build-web.js && electron-builder --publish never",
+    "release": "node tools/build-web.js && electron-builder --publish always"
+  },
+  "dependencies": {
+    "electron-log": "^5.4.4",
+    "electron-updater": "^6.8.9"
+  },
+  "devDependencies": {
+    "electron": "^44.5.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.wolfiescoven.codex",
+    "productName": "Codex",
+    "copyright": "Copyright © 2026 Wolfie's Coven",
+    "directories": { "output": "dist", "buildResources": "build" },
+    "files": ["main.js", "preload.js", "updater-mac.js", "app/**/*", "package.json"],
+    "afterPack": "build/after-pack.js",
+    "publish": [{ "provider": "github", "owner": "InquiringOwl", "repo": "codex-desktop", "releaseType": "release" }],
+    "mac": {
+      "category": "public.app-category.education",
+      "identity": null,
+      "hardenedRuntime": false,
+      "target": [
+        { "target": "dmg", "arch": ["arm64", "x64"] },
+        { "target": "zip", "arch": ["arm64", "x64"] }
+      ],
+      "artifactName": "Codex-${version}-${arch}-mac.${ext}"
+    },
+    "dmg": { "artifactName": "Codex-${version}-${arch}.${ext}" },
+    "win": { "target": [{ "target": "nsis", "arch": ["x64"] }], "artifactName": "Codex-Setup-${version}.${ext}" },
+    "nsis": { "oneClick": false, "allowToChangeInstallationDirectory": true },
+    "linux": { "target": ["AppImage"], "category": "Education", "artifactName": "Codex-${version}.${ext}" }
+  }
+}
