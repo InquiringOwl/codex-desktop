@@ -1,5 +1,5 @@
 // Smoke test: opens the built page in headless Chromium and visits every screen:
-// menu, dictionary, field map, each charted field's tree, and every topic page.
+// menu, dictionary, each subject's field map, every field page (tree or planned dossier), and every topic page.
 // On each topic page it checks the dossier and lab rendered, clicks the first two
 // lab buttons, and fails on any JavaScript error or console error/warning.
 // Run: node tools/smoke.js          (needs playwright; exit code 1 on any failure)
@@ -25,7 +25,9 @@ const { desktop, R } = require('./build-web.js');
   const DB = ctx.DB;
   const fields = Object.keys(DB.trees);
   const topics = fields.flatMap(f => DB.trees[f].nodes.map(n => n.id));
-  let routes = ['menu', 'dict', 'field-map', ...fields.map(f => 'field-' + f), ...topics];
+  const maps = Object.keys(DB.subjectMaps || { mathematics: 1 }).map(sub => sub === 'mathematics' ? 'field-map' : 'field-map-' + sub);
+  const planned = Object.keys(DB.fields).filter(f => !DB.trees[f]);
+  let routes = ['menu', 'dict', ...maps, ...fields.map(f => 'field-' + f), ...planned.map(f => 'field-' + f), ...topics];
   if (process.env.ONLY) routes = process.env.ONLY.split(',').map(s => s.trim()).filter(Boolean);
 
   const browser = await chromium.launch();

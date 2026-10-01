@@ -22,6 +22,7 @@ Writing a check file (helpers below are available without importing):
     same("practice[1]", expand((x+3)*(x-2)), x**2 + x - 6)   # expressions are identical
     solves("practice[2]", Eq(3*x - 4, 11), x, {5})            # real solution set is exactly {5}
     check("practice[3]", 29 % 4 == 1, "remainder 1")          # any True/False fact
+    near("practice[2]", sqrt(2*9.80*12), 15.3)                  # physics: rounded page value within 0.5 %
     skip("practice[0]", "vocabulary question, nothing to compute")
 A label is covered if at least one call uses it (use "example" for the worked example).
 Extra labels ("formal", "steps") are fine. Symbols a–z are predefined as real symbols.
@@ -94,13 +95,23 @@ class Run:
             self._pass(label, sp.simplify(sol.symmetric_difference(exp)) == sp.S.EmptySet or sol == exp,
                        f'solution set is {sol}, page says {exp}')
 
+        def near(label, got, page, rel=0.005):
+            """Physics numbers: the page's rounded value matches the computed one to within rel (default 0.5 %)."""
+            try:
+                g, e = float(sp.N(got)), float(sp.N(page))
+                good = abs(g - e) <= rel * max(abs(g), abs(e), 1e-300)
+            except Exception as ex:
+                self._pass(label, False, f'could not compare {got!r} and {page!r}: {ex}')
+                return
+            self._pass(label, good, f'computed {g:.6g}, page says {e:.6g}')
+
         def skip(label, reason):
             if not reason or len(reason) < 8:
                 self.fail.append(f'{label}: skip() needs a real reason')
             self.covered.add(label)
             self.skipped[label] = reason
 
-        return dict(check=check, same=same, solves=solves, skip=skip)
+        return dict(check=check, same=same, solves=solves, near=near, skip=skip)
 
 
 def main(argv):

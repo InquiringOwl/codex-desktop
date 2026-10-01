@@ -88,6 +88,25 @@ for (const [id, f] of Object.entries(DB.fields || {})) {
 }
 for (const id of Object.keys(DB.trees)) if (!(DB.fields || {})[id]) err(`tree ${id}`, 'no matching DB.fields entry');
 for (const g of DB.fieldGroups || []) for (const id of g.ids) if (!DB.fields[id]) err(`fieldGroup ${g.name}`, `unknown field "${id}"`);
+// subjects: every field in exactly one subject map group, prereqs inside the same subject
+const SMs = DB.subjectMaps || {};
+for (const [sub, sm] of Object.entries(SMs)) {
+  for (const g of sm.groups || []) for (const id of g.ids) {
+    if (!DB.fields[id]) err(`subject ${sub} / ${g.name}`, `unknown field "${id}"`);
+    else if ((DB.fields[id].subject || 'mathematics') !== sub) err(`subject ${sub} / ${g.name}`, `"${id}" belongs to ${DB.fields[id].subject}`);
+  }
+}
+for (const [id, f] of Object.entries(DB.fields || {})) {
+  const sub = f.subject || 'mathematics';
+  if (!SMs[sub]) { err(`field ${id}`, `unknown subject "${sub}"`); continue; }
+  if (!(SMs[sub].groups || []).some(g => g.ids.includes(id))) err(`field ${id}`, `not in any ${sub} group`);
+  for (const p of f.pre || []) if (DB.fields[p] && (DB.fields[p].subject || 'mathematics') !== sub) err(`field ${id}`, `prerequisite "${p}" is in another subject (use math: for mathematics)`);
+  for (const m of f.math || []) if (!DB.fields[m] || (DB.fields[m].subject || 'mathematics') !== 'mathematics') err(`field ${id}`, `math field "${m}" does not exist`);
+}
+// node.math: a charted math topic id, or "field:Topic name" copied from that field's topics list
+const mathOk = m => { const i = m.indexOf(':'); if (i < 0) return !!node[m] && (DB.fields[node[m].field].subject || 'mathematics') === 'mathematics';
+  const f = DB.fields[m.slice(0, i)]; return !!f && (f.subject || 'mathematics') === 'mathematics' && (f.topics || []).includes(m.slice(i + 1)); };
+for (const n of Object.values(node)) for (const m of n.math || []) if (!mathOk(m)) err(`tree ${n.field} / ${n.id}`, `math "${m}" is not a charted math topic or a field:Topic from a planned field's topics list`);
 
 // ---- topic dossiers ----
 const RAW = ['hero', 'lede', 'plain', 'formal', 'why', 'origin'];  // rendered as HTML
@@ -155,6 +174,10 @@ for (const [id, t] of Object.entries(T)) {
   for (const k of n.pre) if (!pw[k]) warn(W, `no prereqWhy for "${k}"`);
   for (const k of unlocks) if (!uw[k]) warn(W, `no unlocksWhy for "${k}"`);
   for (const [k, v] of Object.entries({ ...pw, ...uw })) checkHtml(W, `why["${k}"]`, v);
+  const mw = t.mathWhy || {};
+  for (const k of Object.keys(mw)) if (!(n.math || []).includes(k)) err(W, `mathWhy["${k}"] but it is not in the node's math list`);
+  for (const k of n.math || []) if (!mw[k]) warn(W, `no mathWhy for "${k}"`);
+  for (const [k, v] of Object.entries(mw)) checkHtml(W, `mathWhy["${k}"]`, v);
 
   const flat = JSON.stringify(t);
   const j = flat.match(JUNK); if (j) err(W, `contains placeholder text "${j[0]}"`);

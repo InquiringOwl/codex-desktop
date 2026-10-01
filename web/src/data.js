@@ -211,9 +211,143 @@ DB.fieldEras = [
 /* Other Dictionary subjects (future) */
 DB.subjects = [
   { id: "mathematics", name: "Mathematics", glyph: "∑", status: "open", note: "21 fields · Arithmetic, Pre-Algebra and Algebra I charted" },
-  { id: "physics", name: "Physics", glyph: "⚛", status: "locked", note: "Not yet charted" },
+  { id: "physics", name: "Physics", glyph: "⚛", status: "open", note: "17 fields · Mechanics charted" },
   { id: "chemistry", name: "Chemistry", glyph: "⌬", status: "locked", note: "Not yet charted" },
   { id: "biology", name: "Biology", glyph: "❦", status: "locked", note: "Not yet charted" },
   { id: "computer-science", name: "Computer Science", glyph: "λ", status: "locked", note: "Not yet charted" },
   { id: "economics", name: "Economics", glyph: "¤", status: "locked", note: "Not yet charted" }
 ];
+
+/* ============ Physics ============
+   Physics fields live in DB.fields too (ids unique across subjects) with subject: "physics".
+   A field's `math` lists the math fields it needs. A node's `math` lists the math it needs:
+   a charted math topic id, or "field:Topic name" (exact name from that field's topics list).
+   Math entries are informational and never lock a node. Spec: web/TREE-SPEC-PHYSICS.md */
+DB.subjectMaps = {
+  mathematics: { name: "Mathematics", glyph: "∑", groups: DB.fieldGroups, eras: DB.fieldEras, mapLine: "The whole path from arithmetic to analysis",
+    mapSub: "The standard order of study from arithmetic to upper-division mathematics. Arrows show the usual prerequisites." },
+  physics: { name: "Physics", glyph: "⚛", mapLine: "The whole path from mechanics to quantum field theory",
+    mapSub: "The standard calculus-based college sequence, from Physics I to graduate topics. Arrows show physics prerequisites; each field lists the mathematics it needs.",
+    groups: [
+      { name: "Introductory Sequence", ids: ["mechanics","waves","thermodynamics","electromagnetism","optics","modern-physics"] },
+      { name: "Intermediate Core", ids: ["math-methods","computational-physics","classical-mechanics","electrodynamics","quantum-mechanics","stat-mech"] },
+      { name: "Specialisations", ids: ["general-relativity","astrophysics","nuclear-particle","condensed-matter","qft"] }
+    ],
+    eras: [
+      { name: "Introductory Sequence", from: 0, to: 3 },
+      { name: "Intermediate Core", from: 4, to: 6 },
+      { name: "Specialisations", from: 7, to: 8 }
+    ] }
+};
+Object.values(DB.fields).forEach(f => { if (!f.subject) f.subject = "mathematics"; });
+Object.assign(DB.fields, {
+  "mechanics": { subject: "physics", name: "Mechanics", icon: "ΣF", level: "College PHYS 1xx · University Physics I", col: 0, row: 3, pre: [], math: ["algebra-1","trigonometry","calculus-1"], status: "charted",
+    blurb: "Motion and its causes: measurement, vectors, kinematics, Newton's laws, energy, momentum, rotation and gravitation. The first course in physics and the model for every later one.",
+    topics: [] },
+  "waves": { subject: "physics", name: "Waves & Fluids", icon: "∿", level: "College PHYS 1xx · University Physics I–II", col: 1, row: 2, pre: ["mechanics"], math: ["trigonometry","calculus-1"], status: "planned",
+    blurb: "Things that repeat and things that flow: simple harmonic motion, damping and resonance, mechanical waves and sound, and fluid statics and dynamics.",
+    topics: ["Fluid pressure and Pascal's principle","Buoyancy and Archimedes' principle","Fluid flow and Bernoulli's equation","Simple harmonic motion","Energy in SHM and the pendulum","Damped and driven oscillations, resonance","Travelling waves and the wave equation","Superposition, interference and standing waves","Sound: intensity, decibels and the Doppler effect","Beats and resonance in pipes and strings"] },
+  "thermodynamics": { subject: "physics", name: "Thermodynamics", icon: "ΔS", level: "College PHYS 1xx · University Physics II", col: 1, row: 4, pre: ["mechanics"], math: ["calculus-1"], status: "planned",
+    blurb: "Heat, temperature and energy transfer, the ideal gas and kinetic theory, and the laws that limit every engine and refrigerator.",
+    topics: ["Temperature and thermal equilibrium","Thermal expansion","Heat, specific heat and phase changes","Heat transfer: conduction, convection, radiation","The ideal gas law","Kinetic theory of gases","The first law of thermodynamics","Thermodynamic processes and PV diagrams","Heat engines, refrigerators and the Carnot cycle","The second law and entropy"] },
+  "electromagnetism": { subject: "physics", name: "Electricity & Magnetism", icon: "E·B", level: "College PHYS 2xx · University Physics II", col: 2, row: 3, pre: ["mechanics"], math: ["calculus-2","calculus-3"], status: "planned",
+    blurb: "Charges, fields and circuits, magnetism and induction, ending with Maxwell's equations and electromagnetic waves.",
+    topics: ["Electric charge and Coulomb's law","Electric fields","Gauss's law","Electric potential","Capacitance and dielectrics","Current, resistance and DC circuits","Magnetic fields and forces","Sources of magnetic fields (Biot–Savart, Ampère)","Faraday's law and inductance","AC circuits, Maxwell's equations and EM waves"] },
+  "optics": { subject: "physics", name: "Optics", icon: "λ", level: "College PHYS 2xx · University Physics III", col: 3, row: 2, pre: ["electromagnetism","waves"], math: ["trigonometry","geometry"], status: "planned",
+    blurb: "Light as rays and as waves: reflection, refraction, lenses and instruments, then interference, diffraction and polarisation.",
+    topics: ["Nature of light and the speed of light","Reflection and refraction (Snell's law)","Total internal reflection and dispersion","Polarisation","Mirrors and image formation","Thin lenses and the lens equation","Optical instruments","Interference and Young's double slit","Thin-film interference","Diffraction and gratings"] },
+  "modern-physics": { subject: "physics", name: "Modern Physics", icon: "hν", level: "College PHYS 2xx · University Physics III", col: 3, row: 4, pre: ["electromagnetism","waves"], math: ["calculus-2","algebra-2"], status: "planned",
+    blurb: "The physics of the twentieth century: special relativity, light quanta, matter waves, atoms, nuclei and a first look at quantum mechanics.",
+    topics: ["Special relativity: time dilation and length contraction","Relativistic momentum and energy","Blackbody radiation and photons","The photoelectric and Compton effects","Bohr model and atomic spectra","Matter waves and the uncertainty principle","Schrödinger equation and the particle in a box","Atomic structure and the periodic table","Nuclear structure and radioactive decay","Particle physics and cosmology overview"] },
+  "math-methods": { subject: "physics", name: "Mathematical Methods for Physics", icon: "∮", level: "College PHYS 3xx", col: 4, row: 5, pre: ["electromagnetism"], math: ["calculus-3","linear-algebra","diff-eq"], status: "planned",
+    blurb: "The mathematical toolkit of upper-division physics, taught with physical problems: vector calculus, linear algebra, series, Fourier analysis and special functions.",
+    topics: ["Vector calculus in curvilinear coordinates","Linear algebra and eigenvalue problems","Complex numbers and functions","Series expansions and approximations","Ordinary differential equations","Fourier series and transforms","Partial differential equations and separation of variables","Legendre polynomials and spherical harmonics","Bessel functions","Green's functions and the delta function"] },
+  "computational-physics": { subject: "physics", name: "Computational Physics", icon: "</>", level: "College PHYS 3xx", col: 4, row: 7, pre: ["mechanics","math-methods"], math: ["numerical-analysis","linear-algebra"], status: "planned",
+    blurb: "Solving physics problems with a computer: numerical integration of motion, Monte Carlo methods, and simulating fields and quantum systems.",
+    topics: ["Floating-point error in physical calculations","Numerical derivatives and integrals","ODE solvers for trajectories (Euler, Runge–Kutta, Verlet)","Root finding and optimisation","Linear systems and eigenvalue solvers","Fourier transforms and the FFT","Monte Carlo methods and random walks","The Ising model","Solving PDEs on a grid","Time-dependent quantum simulations"] },
+  "classical-mechanics": { subject: "physics", name: "Classical Mechanics", icon: "ℒ", level: "College PHYS 3xx · intermediate mechanics", col: 5, row: 1, pre: ["mechanics","waves","math-methods"], math: ["diff-eq","linear-algebra","calculus-3"], status: "planned",
+    blurb: "Newtonian mechanics recast: Lagrangian and Hamiltonian formulations, central forces, rigid bodies, coupled oscillations and chaos.",
+    topics: ["Newtonian mechanics revisited","Oscillators, damping and resonance","Calculus of variations","Lagrangian mechanics","Conservation laws and Noether's theorem","Central forces and orbits","Non-inertial frames","Rigid-body motion and the inertia tensor","Coupled oscillations and normal modes","Hamiltonian mechanics and chaos"] },
+  "electrodynamics": { subject: "physics", name: "Electrodynamics", icon: "∇·E", level: "College PHYS 3xx–4xx", col: 5, row: 3, pre: ["electromagnetism","math-methods"], math: ["calculus-3","diff-eq"], status: "planned",
+    blurb: "Maxwell's theory in full: electrostatics and magnetostatics with vector calculus, fields in matter, electromagnetic waves, radiation and relativity.",
+    topics: ["Vector analysis and the Dirac delta","Electrostatics and boundary conditions","Laplace's equation and the method of images","Multipole expansion","Electric fields in matter","Magnetostatics and vector potential","Magnetic fields in matter","Electrodynamics and Maxwell's equations","Electromagnetic waves and radiation","Relativistic electrodynamics"] },
+  "quantum-mechanics": { subject: "physics", name: "Quantum Mechanics", icon: "ψ", level: "College PHYS 4xx", col: 5, row: 5, pre: ["modern-physics","math-methods"], math: ["linear-algebra","diff-eq","probability"], status: "planned",
+    blurb: "The theory of the very small: wavefunctions, operators and measurement, the harmonic oscillator and hydrogen atom, spin and approximation methods.",
+    topics: ["The wavefunction and the Born rule","Time-independent Schrödinger equation","Infinite well and harmonic oscillator","Free particle, scattering and tunnelling","Formalism: Hilbert space, operators and observables","Angular momentum and the hydrogen atom","Spin","Identical particles","Perturbation theory","Variational principle and WKB approximation"] },
+  "stat-mech": { subject: "physics", name: "Thermal & Statistical Physics", icon: "k ln W", level: "College PHYS 4xx", col: 6, row: 6, pre: ["thermodynamics","quantum-mechanics"], math: ["probability","calculus-3"], status: "planned",
+    blurb: "Why thermodynamics works: counting microstates, the Boltzmann distribution, partition functions and quantum gases.",
+    topics: ["Microstates, macrostates and multiplicity","Entropy and temperature from counting","The Boltzmann factor","The partition function","Equipartition and heat capacities","Free energies and chemical potential","Phase transitions","Quantum statistics: Fermi–Dirac and Bose–Einstein","Blackbody radiation and phonons","Degenerate Fermi gases and Bose–Einstein condensation"] },
+  "general-relativity": { subject: "physics", name: "General Relativity", icon: "Gμν", level: "College PHYS 4xx · graduate", col: 7, row: 0, pre: ["classical-mechanics","electrodynamics"], math: ["linear-algebra","calculus-3","diff-eq"], status: "planned",
+    blurb: "Gravity as the curvature of spacetime: tensors, geodesics, Einstein's field equations, black holes, gravitational waves and cosmology.",
+    topics: ["Special relativity in four-vector form","The equivalence principle","Tensors and the metric","Geodesics","Curvature and the Riemann tensor","Einstein's field equations","The Schwarzschild solution","Black holes","Gravitational waves","Cosmology and the FLRW metric"] },
+  "astrophysics": { subject: "physics", name: "Astrophysics & Cosmology", icon: "☉", level: "College PHYS/ASTR 4xx", col: 7, row: 2, pre: ["classical-mechanics","modern-physics","stat-mech"], math: ["diff-eq","calculus-3"], status: "planned",
+    blurb: "Physics applied to the universe: stellar structure and evolution, compact objects, galaxies, and the expanding universe.",
+    topics: ["Celestial mechanics and binary stars","Radiation and stellar spectra","Stellar structure equations","Nuclear fusion in stars","Stellar evolution","White dwarfs, neutron stars and black holes","The interstellar medium","Galaxies and dark matter","The expanding universe and the Big Bang","The cosmic microwave background"] },
+  "nuclear-particle": { subject: "physics", name: "Nuclear & Particle Physics", icon: "ν", level: "College PHYS 4xx", col: 7, row: 4, pre: ["quantum-mechanics"], math: ["linear-algebra","probability"], status: "planned",
+    blurb: "The structure of nuclei and the elementary particles and forces of the Standard Model.",
+    topics: ["Nuclear properties and binding energy","Nuclear models","Radioactive decay and decay laws","Nuclear reactions, fission and fusion","Particle detectors and accelerators","Relativistic kinematics of collisions","Leptons, quarks and hadrons","Symmetries and conservation laws","The electroweak and strong interactions","The Standard Model and beyond"] },
+  "condensed-matter": { subject: "physics", name: "Condensed Matter Physics", icon: "⌗", level: "College PHYS 4xx", col: 7, row: 6, pre: ["quantum-mechanics","stat-mech"], math: ["linear-algebra","diff-eq"], status: "planned",
+    blurb: "The physics of solids and liquids: crystals, electrons in periodic potentials, semiconductors, magnetism and superconductivity.",
+    topics: ["Crystal structure and the reciprocal lattice","X-ray diffraction","Lattice vibrations and phonons","Free electron model","Band theory","Semiconductors","Magnetism in solids","Superconductivity","Dielectrics and optical properties","Soft matter overview"] },
+  "qft": { subject: "physics", name: "Quantum Field Theory", icon: "ϕ", level: "Graduate PHYS 5xx", col: 8, row: 3, pre: ["quantum-mechanics","electrodynamics","classical-mechanics"], math: ["complex-analysis","linear-algebra","abstract-algebra"], status: "planned",
+    blurb: "Quantum mechanics merged with special relativity: fields as the basic objects, particles as their excitations, and the framework of the Standard Model.",
+    topics: ["Classical field theory and Lagrangian densities","Symmetries and Noether currents","Canonical quantisation of the scalar field","The Dirac equation","Quantising the electromagnetic field","Interactions and perturbation theory","Feynman diagrams","Quantum electrodynamics","Renormalisation","Gauge theories"] }
+});
+
+DB.trees["mechanics"] = {
+  eras: [
+    { name: "Measurement & Vectors", from: 0, to: 3 },
+    { name: "Kinematics", from: 4, to: 9 },
+    { name: "Newton's Laws", from: 10, to: 15 },
+    { name: "Energy & Momentum", from: 16, to: 20 },
+    { name: "Rotation", from: 21, to: 24 },
+    { name: "Gravitation", from: 25, to: 27 }
+  ],
+  nodes: [
+    { id: "mech-units", col: 0, row: 3, icon: "SI", chips: ["m","kg","s"], pre: [], math: ["units","sci-notation","a1-exponents"] },
+    { id: "mech-dimensions", col: 1, row: 2, icon: "[L]", chips: ["[L]","[M]","[T]"], pre: ["mech-units"], math: ["pa-exponent-laws","a1-literal","proportions"] },
+    { id: "mech-vectors", col: 1, row: 5, icon: "→", chips: ["A+B","|A|"], pre: ["mech-units"], math: ["pa-coordinate","pa-pythagorean","geometry:Points, lines, planes and angles"] },
+    { id: "mech-sigfigs", col: 2, row: 2, icon: "±", chips: ["3 s.f.","±δ"], pre: ["mech-dimensions"], math: ["rounding","sci-notation"] },
+    { id: "mech-components", col: 2, row: 5, icon: "î ĵ", chips: ["Ax","Ay","θ"], pre: ["mech-vectors"], math: ["pa-pythagorean","trigonometry:Right-triangle ratios (SOH-CAH-TOA)","trigonometry:Inverse trigonometric functions","trigonometry:Vectors in the plane"] },
+    { id: "mech-vector-products", col: 3, row: 6, icon: "A×B", chips: ["A·B","A×B"], pre: ["mech-components"], math: ["trigonometry:Right-triangle ratios (SOH-CAH-TOA)","precalculus:Matrices and determinants","calculus-3:Vectors, dot and cross products"] },
+    { id: "mech-displacement", col: 4, row: 3, icon: "Δx", chips: ["x","Δx"], pre: ["mech-vectors"], math: ["integers","pa-coordinate","a1-functions"] },
+    { id: "mech-velocity", col: 5, row: 3, icon: "v", chips: ["Δx/Δt","dx/dt"], pre: ["mech-displacement"], math: ["pa-slope","a1-slope-forms","calculus-1:Definition of the derivative"] },
+    { id: "mech-acceleration", col: 6, row: 3, icon: "a", chips: ["dv/dt","m/s²"], pre: ["mech-velocity"], math: ["pa-slope","calculus-1:Differentiation rules (power, product, quotient, chain)"] },
+    { id: "mech-const-accel", col: 7, row: 2, icon: "v²", chips: ["v=v₀+at","½at²"], pre: ["mech-acceleration"], math: ["a1-literal","a1-quad-formula","a1-sys-sub"] },
+    { id: "mech-motion-integration", col: 7, row: 4, icon: "∫a dt", chips: ["∫a dt","∫v dt"], pre: ["mech-acceleration"], math: ["calculus-1:Antiderivatives and the definite integral","calculus-2:Fundamental Theorem of Calculus"] },
+    { id: "mech-free-fall", col: 8, row: 1, icon: "g", chips: ["9.80","↓"], pre: ["mech-const-accel"], math: ["a1-quad-apps","a1-quad-formula"] },
+    { id: "mech-2d-motion", col: 8, row: 3, icon: "r(t)", chips: ["r","v","a"], pre: ["mech-const-accel","mech-components"], math: ["pa-coordinate","trigonometry:Vectors in the plane","precalculus:Parametric equations"] },
+    { id: "mech-projectile", col: 9, row: 1, icon: "⌒", chips: ["θ","R","H"], pre: ["mech-2d-motion","mech-free-fall"], math: ["trigonometry:Right-triangle ratios (SOH-CAH-TOA)","trigonometry:Trigonometric identities","a1-quad-graphs"] },
+    { id: "mech-circular", col: 9, row: 3, icon: "○", chips: ["v²/r","T"], pre: ["mech-2d-motion"], math: ["trigonometry:Radian and degree measure","trigonometry:The unit circle","calculus-1:Derivatives of trig, exponential and log functions"] },
+    { id: "mech-relative", col: 9, row: 5, icon: "v′", chips: ["vAB","vBC"], pre: ["mech-2d-motion"], math: ["pa-pythagorean","trigonometry:Law of Sines and Law of Cosines"] },
+    { id: "mech-forces", col: 10, row: 3, icon: "ΣF", chips: ["N","FBD"], pre: ["mech-components","mech-acceleration"], math: ["trigonometry:Vectors in the plane","pa-pythagorean"] },
+    { id: "mech-newton-1", col: 11, row: 3, icon: "I", chips: ["ΣF=0","inertia"], pre: ["mech-forces"], math: ["trigonometry:Vectors in the plane"] },
+    { id: "mech-newton-2", col: 12, row: 2, icon: "F=ma", chips: ["ma","mg"], pre: ["mech-newton-1"], math: ["a1-literal","pa-proportional"] },
+    { id: "mech-newton-3", col: 12, row: 4, icon: "⇄", chips: ["FAB","−FBA"], pre: ["mech-newton-1"], math: ["a1-sys-elim"] },
+    { id: "mech-common-forces", col: 13, row: 3, icon: "N T", chips: ["N","T","−kx"], pre: ["mech-newton-2","mech-newton-3"], math: ["pa-proportional","a1-slope-forms","trigonometry:Right-triangle ratios (SOH-CAH-TOA)"] },
+    { id: "mech-friction", col: 14, row: 3, icon: "μ", chips: ["μs","μk"], pre: ["mech-common-forces"], math: ["a1-compound","trigonometry:Right-triangle ratios (SOH-CAH-TOA)"] },
+    { id: "mech-centripetal", col: 14, row: 1, icon: "Fc", chips: ["mv²/r","bank"], pre: ["mech-common-forces","mech-circular"], math: ["trigonometry:Right-triangle ratios (SOH-CAH-TOA)","a1-radicals"] },
+    { id: "mech-newton-apps", col: 15, row: 4, icon: "◿", chips: ["θ","T","a"], pre: ["mech-friction"], math: ["a1-sys-elim","trigonometry:Right-triangle ratios (SOH-CAH-TOA)"] },
+    { id: "mech-drag", col: 15, row: 2, icon: "vT", chips: ["½CρAv²","vT"], pre: ["mech-friction","mech-motion-integration"], math: ["a1-exp-functions","calculus-1:Limits and continuity","diff-eq:First-order equations: separable, linear, exact"] },
+    { id: "mech-work", col: 16, row: 2, icon: "W", chips: ["F·d","J"], pre: ["mech-newton-2","mech-vector-products"], math: ["trigonometry:Right-triangle ratios (SOH-CAH-TOA)","calculus-1:Antiderivatives and the definite integral","calculus-2:Area, volume, arc length, work"] },
+    { id: "mech-impulse", col: 16, row: 5, icon: "J", chips: ["p=mv","FΔt"], pre: ["mech-newton-3","mech-motion-integration"], math: ["a1-literal","calculus-1:Antiderivatives and the definite integral"] },
+    { id: "mech-kinetic", col: 17, row: 2, icon: "K", chips: ["½mv²","ΔK"], pre: ["mech-work"], math: ["a1-radicals","a1-literal"] },
+    { id: "mech-power", col: 17, row: 0, icon: "P", chips: ["W/t","F·v"], pre: ["mech-work"], math: ["a1-literal","calculus-1:Definition of the derivative"] },
+    { id: "mech-momentum-cons", col: 17, row: 5, icon: "Σp", chips: ["Σp=const"], pre: ["mech-impulse"], math: ["a1-sys-sub","trigonometry:Vectors in the plane"] },
+    { id: "mech-potential", col: 18, row: 2, icon: "U", chips: ["mgh","½kx²"], pre: ["mech-kinetic","mech-common-forces"], math: ["calculus-1:Antiderivatives and the definite integral","calculus-1:Differentiation rules (power, product, quotient, chain)"] },
+    { id: "mech-collisions", col: 18, row: 4, icon: "⊕", chips: ["elastic","inelastic"], pre: ["mech-momentum-cons","mech-kinetic"], math: ["a1-sys-elim","a1-quad-formula","trigonometry:Vectors in the plane"] },
+    { id: "mech-center-mass", col: 18, row: 6, icon: "cm", chips: ["Σmr/M"], pre: ["mech-momentum-cons"], math: ["averages","calculus-2:Area, volume, arc length, work"] },
+    { id: "mech-energy-cons", col: 19, row: 2, icon: "E", chips: ["K+U","ΔE=0"], pre: ["mech-potential"], math: ["a1-radicals","a1-sys-sub"] },
+    { id: "mech-energy-diagrams", col: 20, row: 2, icon: "U(x)", chips: ["U(x)","−dU/dx"], pre: ["mech-energy-cons"], math: ["a1-quad-graphs","calculus-1:Curve sketching and the Mean Value Theorem"] },
+    { id: "mech-rot-kinematics", col: 21, row: 3, icon: "ω", chips: ["θ","ω","α"], pre: ["mech-circular"], math: ["trigonometry:Radian and degree measure","calculus-1:Definition of the derivative"] },
+    { id: "mech-rot-inertia", col: 22, row: 2, icon: "I", chips: ["Σmr²","½Iω²"], pre: ["mech-rot-kinematics","mech-kinetic"], math: ["geometry:Area and volume of plane and solid figures","calculus-1:Antiderivatives and the definite integral"] },
+    { id: "mech-torque", col: 22, row: 4, icon: "τ", chips: ["r×F","N·m"], pre: ["mech-rot-kinematics","mech-vector-products","mech-newton-2"], math: ["trigonometry:Right-triangle ratios (SOH-CAH-TOA)","calculus-3:Vectors, dot and cross products"] },
+    { id: "mech-rot-dynamics", col: 23, row: 3, icon: "Iα", chips: ["τ=Iα"], pre: ["mech-rot-inertia","mech-torque"], math: ["a1-literal","a1-sys-elim"] },
+    { id: "mech-equilibrium", col: 23, row: 5, icon: "⚖", chips: ["ΣF=0","Στ=0"], pre: ["mech-torque","mech-center-mass"], math: ["a1-sys-elim","trigonometry:Right-triangle ratios (SOH-CAH-TOA)"] },
+    { id: "mech-rolling", col: 24, row: 2, icon: "◉", chips: ["v=Rω"], pre: ["mech-rot-dynamics","mech-energy-cons"], math: ["a1-radicals","a1-sys-sub"] },
+    { id: "mech-ang-momentum", col: 24, row: 4, icon: "L", chips: ["Iω","r×p"], pre: ["mech-rot-dynamics","mech-momentum-cons"], math: ["a1-literal","calculus-3:Vectors, dot and cross products"] },
+    { id: "mech-gravitation", col: 25, row: 3, icon: "G", chips: ["Gm₁m₂/r²"], pre: ["mech-newton-3","mech-centripetal"], math: ["sci-notation","a1-radicals","a1-rational-exp"] },
+    { id: "mech-orbits", col: 26, row: 3, icon: "⊙", chips: ["−GMm/r","vesc"], pre: ["mech-gravitation","mech-energy-cons"], math: ["a1-radicals","calculus-1:Antiderivatives and the definite integral"] },
+    { id: "mech-kepler", col: 27, row: 3, icon: "T²", chips: ["T²∝a³"], pre: ["mech-orbits","mech-ang-momentum"], math: ["a1-rational-exp","algebra-2:Conic sections"] }
+  ]
+};
