@@ -14,7 +14,7 @@ const warn = (where, msg) => warnings.push(`${where}: ${msg}`);
 // ---- load data + content (labs need a DOM, so they are scanned as text instead) ----
 const ctx = vm.createContext({ console, Math });
 ctx.window = ctx;
-const dataFiles = files.filter(f => f === 'web/src/data.js' || f.startsWith('web/content/'));
+const dataFiles = files.filter(f => f === 'web/src/data.js' || f.startsWith('web/art/') || f.startsWith('web/content/'));
 for (const f of dataFiles) {
   try { vm.runInContext(fs.readFileSync(path.join(R, f), 'utf8'), ctx, { filename: f }); }
   catch (e) { err(f, 'failed to load: ' + e.message); }
@@ -70,6 +70,20 @@ for (const n of Object.values(node)) {
     if (q.field === n.field && q.col >= n.col) err(W, `prerequisite "${p}" is not to its left (col ${q.col} ≥ ${n.col})`);
   }
   if (new Set(n.pre).size !== (n.pre || []).length) err(W, 'duplicate prerequisite');
+}
+// planned nodes (shown dashed until written): unique ids, prereqs inside the tree, to the left
+for (const [field, tree] of Object.entries(DB.trees)) {
+  const W = `tree ${field} (planned)`, pl = tree.planned || [], cells = new Set(tree.nodes.map(n => `${n.col},${n.row}`));
+  const here = Object.fromEntries([...tree.nodes, ...pl].map(n => [n.id, n]));
+  for (const n of pl) {
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(n.id || '')) err(W, `bad id "${n.id}"`);
+    if (node[n.id]) err(W, `"${n.id}" is planned but already a written node`);
+    if (!n.label || !n.icon || !Array.isArray(n.chips) || !Array.isArray(n.pre)) err(W, `"${n.id}" needs label, icon, chips[] and pre[]`);
+    const cell = `${n.col},${n.row}`; if (cells.has(cell)) err(W, `"${n.id}" shares col/row ${cell}`); cells.add(cell);
+    if (!tree.eras.some(e => n.col >= e.from && n.col <= e.to)) err(W, `"${n.id}" col ${n.col} is outside every era`);
+    for (const p of n.pre || []) { if (!here[p]) err(W, `"${n.id}" prerequisite "${p}" is not in this tree`); else if (here[p].col >= n.col) err(W, `"${n.id}" prerequisite "${p}" is not to its left`); }
+  }
+  for (const n of tree.nodes) for (const p of n.pre || []) if (pl.some(x => x.id === p)) err(`tree ${field} / ${n.id}`, `written node depends on planned node "${p}"`);
 }
 // cycle check
 const state = {};
@@ -178,6 +192,21 @@ for (const [id, t] of Object.entries(T)) {
   for (const k of Object.keys(mw)) if (!(n.math || []).includes(k)) err(W, `mathWhy["${k}"] but it is not in the node's math list`);
   for (const k of n.math || []) if (!mw[k]) warn(W, `no mathWhy for "${k}"`);
   for (const [k, v] of Object.entries(mw)) checkHtml(W, `mathWhy["${k}"]`, v);
+
+  // stories (English): passages built from tagged tokens, with original art from DB.scenes
+  if (t.stories !== undefined && arr(W, 'stories', t.stories, 1)) t.stories.forEach((st, i) => {
+    const S = `stories[${i}]`;
+    for (const k of ['title', 'book', 'author', 'kind', 'where', 'tokens', 'note']) nonEmpty(W, `${S}.${k}`, st[k]);
+    if (!Number.isInteger(st.year)) err(W, `${S}.year must be an integer`);
+    else if (st.year > new Date().getFullYear() - 96) warn(W, `${S}: ${st.book} (${st.year}) may still be under copyright; quote only public-domain works`);
+    if (!(DB.scenes || {})[st.scene]) err(W, `${S}.scene "${st.scene}" is not in DB.scenes (web/art/)`);
+    checkHtml(W, `${S}.note`, st.note);
+    if (!Array.isArray(st.focus) || !st.focus.length || st.focus.some(f => !DB.posTags[f])) err(W, `${S}.focus must list tags from DB.posTags`);
+    const toks = DB.parseStory(st.tokens), keys = new Set(toks.filter(x => x.tag).map(x => x.key));
+    toks.forEach(x => { if (x.tag && !DB.posTags[x.tag]) err(W, `${S}: unknown tag "_${x.tag}" on "${x.w}"`); if (!x.tag && !x.br && /[A-Za-z0-9]/.test(x.w)) err(W, `${S}: word "${x.w}" has no _tag`); });
+    if (st.focus && !st.focus.some(f => toks.some(x => x.tag === f))) err(W, `${S}: no word has a focus tag`);
+    for (const k of Object.keys(st.notes || {})) { if (!keys.has(k)) err(W, `${S}.notes["${k}"] matches no word`); checkText(W, `${S}.notes["${k}"]`, st.notes[k]); }
+  });
 
   const flat = JSON.stringify(t);
   const j = flat.match(JUNK); if (j) err(W, `contains placeholder text "${j[0]}"`);

@@ -114,7 +114,7 @@ function renderMenu(){
     $("#chk", s).onclick = () => window.codexDesktop.checkForUpdates();
   }
   const d = h("button", { type: "button", class: "slot big", onclick: () => go({ view: "dict", topic: null }) },
-    `<span class="glyph">Ⅾ</span><span><h3>Dictionary</h3><p>Subjects broken into fields and topics, ordered as a path to mastery. Mathematics and Physics are open.</p></span><span class="tag">Online</span>`);
+    `<span class="glyph">Ⅾ</span><span><h3>Dictionary</h3><p>Subjects broken into fields and topics, ordered as a path to mastery. Mathematics, Physics and English are open.</p></span><span class="tag">Online</span>`);
   slots.appendChild(d);
   for (let i = 2; i <= 4; i++) slots.appendChild(h("div", { class: "slot big locked", "aria-disabled": "true" },
     `<span class="glyph">·</span><span><h3>Slot 0${i}</h3><p>Reserved for a future section.</p></span><span class="tag">Empty</span>`));
@@ -126,19 +126,26 @@ function renderDict(){
   s.innerHTML = `<div class="screen-in">
     <div class="hello"><p class="eyebrow">Dictionary</p><h1>Subjects</h1>
     <p>Pick a subject to open its navigator. Fields appear on the left and the selected field's skill tree on the right.</p></div>
-    <div class="slots" id="subj"></div></div>`;
+    <div class="subj-groups" id="subj"></div></div>`;
   viewEl.appendChild(s);
-  DB.subjects.forEach(sub => {
-    const open = sub.status === "open";
-    const el = h(open ? "button" : "div", open ? { type: "button", class: "slot", onclick: () => go({ view: "math", subject: sub.id, field: "map", topic: null }) } : { class: "slot locked", "aria-disabled": "true" },
-      `<span class="glyph">${sub.glyph}</span><span><h3>${esc(sub.name)}</h3><p>${esc(sub.note)}</p></span><span class="tag">${open ? "Open" : "Locked"}</span>`);
-    $("#subj", s).appendChild(el);
+  (DB.subjectGroups || [{ id: "all", name: "Subjects", line: "" }]).forEach(g => {
+    const subs = DB.subjects.filter(x => (x.group || "all") === g.id);
+    if (!subs.length) return;
+    const sec = h("section", { class: "subj-group", "data-accent": g.accent || "", "aria-label": g.name });
+    sec.innerHTML = `<div class="subj-gh"><h2>${esc(g.name)}</h2><span class="ln">${esc(g.line || "")}</span><span class="n">${subs.length}</span></div><div class="slots"></div>`;
+    subs.forEach(sub => {
+      const open = sub.status === "open";
+      const el = h(open ? "button" : "div", open ? { type: "button", class: "slot", onclick: () => go({ view: "math", subject: sub.id, field: "map", topic: null }) } : { class: "slot locked", "aria-disabled": "true" },
+        `<span class="glyph">${sub.glyph}</span><span><h3>${esc(sub.name)}</h3><p>${esc(sub.note)}</p></span><span class="tag">${open ? "Open" : "Locked"}</span>`);
+      $(".slots", sec).appendChild(el);
+    });
+    $("#subj", s).appendChild(sec);
   });
 }
 
 /* ---------- workspace ---------- */
 function renderWork(){
-  const w = h("div", { class: "work" });
+  const w = h("div", { class: "work", "data-accent": SM[S.subject].accent || "" });
   const nav = h("aside", { class: "nav", "aria-label": SM[S.subject].name + " navigator" });
   const main = h("section", { class: "main" });
   w.append(nav, main); viewEl.appendChild(w);
@@ -320,16 +327,21 @@ function renderFieldTree(main, f){
   const head = h("div", { class: "tree-head" });
   const done = doneIn(f);
   const hrs = FN.reduce((s, n) => s + (T[n.id]?.hours || 0), 0);
-  head.innerHTML = `<button type="button" class="btn-s navtoggle" id="navtoggle2">☰ Fields</button><div><h2>${esc(F.name)}</h2><div class="sub">${FN.length} topics · about ${hrs} study hours · ${done} mastered</div></div>
-   <div class="legend-chips"><span><i class="lg-m"></i>Mastered</span><span><i class="lg-a"></i>Ready</span><span><i class="lg-l"></i>Locked</span><span><i class="lg-s"></i>Last opened</span></div>`;
+  head.innerHTML = `<button type="button" class="btn-s navtoggle" id="navtoggle2">☰ Fields</button><div><h2>${esc(F.name)}</h2><div class="sub">${FN.length} topic${FN.length === 1 ? "" : "s"}${TR.planned && TR.planned.length ? ` written, ${TR.planned.length} planned` : ""} · about ${hrs} study hours · ${done} mastered</div></div>
+   <div class="legend-chips"><span><i class="lg-m"></i>Mastered</span><span><i class="lg-a"></i>Ready</span><span><i class="lg-l"></i>Locked</span>${TR.planned && TR.planned.length ? '<span><i class="lg-p"></i>Planned</span>' : ""}<span><i class="lg-s"></i>Last opened</span></div>`;
   main.appendChild(head);
   $("#navtoggle2", head).onclick = () => main.parentElement.classList.toggle("navopen");
   const inTree = new Set(FN.map(n => n.id));
-  const nodes = FN.map(n => ({ ...n, pre: n.pre.filter(p => inTree.has(p)), ext: n.pre.filter(p => !inTree.has(p)), label: T[n.id]?.title || n.id, right: T[n.id] ? T[n.id].hours + " h" : "" }));
+  // Planned nodes (TR.planned) show the rest of a partly written tree, dashed and not openable.
+  const PL = TR.planned || [], PLAN = Object.fromEntries(PL.map(n => [n.id, n]));
+  const nodes = FN.map(n => ({ ...n, pre: n.pre.filter(p => inTree.has(p)), ext: n.pre.filter(p => !inTree.has(p)), label: T[n.id]?.title || n.id, right: T[n.id] ? T[n.id].hours + " h" : "" }))
+    .concat(PL.map(n => ({ ...n, right: "Planned" })));
   const tree = buildTree(main, {
-    nodes, eras: TR.eras, key: "tree-" + f, title: F.name, stateFn: stateOf,
-    onOpen: id => go({ view: "math", field: f, topic: id }),
+    nodes, eras: TR.eras, key: "tree-" + f, title: F.name, stateFn: id => PLAN[id] ? "planned" : stateOf(id),
+    onOpen: id => { if (!PLAN[id]) go({ view: "math", field: f, topic: id }); },
     infoFn: (id, anc) => {
+      if (PLAN[id]) { const lb = p => esc(PLAN[p] ? PLAN[p].label : (T[p]?.title || p));
+        return `<div><span class="pill l">Planned</span></div><h4>${esc(PLAN[id].label)}</h4><p>This topic's page is not written yet. It is shown so you can see the whole path.</p><div class="req">${PLAN[id].pre.length ? "Requires: " + PLAN[id].pre.map(lb).join(", ") : ""}</div>`; }
       const t = T[id], st = stateOf(id), nd = NODE[id];
       const pill = st === "mastered" ? `<span class="pill m">Mastered</span>` : st === "avail" ? `<span class="pill a">Ready to study</span>` : `<span class="pill l">Locked</span>`;
       const nm = p => esc(T[p]?.title || p) + (NODE[p].field !== f ? ` <span style="color:var(--faint)">(${esc(DB.fields[NODE[p].field].name)})</span>` : "");
@@ -355,7 +367,7 @@ function renderFieldMap(main){
     nodes, eras: sm.eras, key: "map-" + S.subject, title: sm.name + " field map",
     stateFn: id => charted(id) ? "avail" : "planned",
     onOpen: id => go({ view: "math", field: id, topic: null }),
-    infoFn: id => { const f = DB.fields[id]; return `<div>${charted(id) ? '<span class="pill a">Charted</span>' : '<span class="pill l">Planned</span>'}</div><h4>${esc(f.name)}</h4><p>${esc(f.blurb)}</p><div class="req">${esc(f.level)}${f.pre.length ? "<br>Requires: " + f.pre.map(p => esc(DB.fields[p].name)).join(", ") : S.subject !== "mathematics" ? "<br>Starting field, no physics prerequisites" : ""}${f.math && f.math.length ? "<br>Mathematics: " + f.math.map(p => esc(DB.fields[p].name)).join(", ") : ""}</div>`; }
+    infoFn: id => { const f = DB.fields[id]; return `<div>${charted(id) ? '<span class="pill a">Charted</span>' : '<span class="pill l">Planned</span>'}</div><h4>${esc(f.name)}</h4><p>${esc(f.blurb)}</p><div class="req">${esc(f.level)}${f.pre.length ? "<br>Requires: " + f.pre.map(p => esc(DB.fields[p].name)).join(", ") : S.subject !== "mathematics" ? `<br>Starting field, no ${esc(sm.name)} prerequisites` : ""}${f.math && f.math.length ? "<br>Mathematics: " + f.math.map(p => esc(DB.fields[p].name)).join(", ") : ""}</div>`; }
   });
 }
 
@@ -379,6 +391,33 @@ function renderDossier(main){
   main.appendChild(d);
   d.querySelectorAll("[data-f]").forEach(b => b.onclick = () => go({ view: "math", field: b.dataset.f, topic: null }));
   $("#navtoggle2", d).onclick = () => main.parentElement.classList.toggle("navopen");
+}
+
+/* ---------- story panels (English topics) ---------- */
+// A story: { title, book, author, year, kind, where, scene, focus: [tags], tokens, notes, note }.
+// Focus words are coloured by part of speech; the art comes from DB.scenes.
+function storyPassage(st){
+  const P = DB.posTags, focus = new Set(st.focus || []);
+  let html = "<p>";
+  DB.parseStory(st.tokens).forEach(x => {
+    if (x.br) { html += "</p><p>"; return; }
+    let w = esc(x.w); if (x.it) w = `<i>${w}</i>`;
+    if (x.tag && focus.has(x.tag)) { const note = (st.notes || {})[x.key]; w = `<span class="sw ${P[x.tag].c}" title="${esc(P[x.tag].name + (note ? ": " + note : ""))}">${w}</span>`; }
+    html += (x.glue ? "" : " ") + w;
+  });
+  return html + "</p>";
+}
+function storyPanel(st){
+  const P = DB.posTags, art = (DB.scenes || {})[st.scene] || "";
+  const keys = [...new Set((st.focus || []).map(f => P[f].c + "|" + P[f].name))].map(k => { const [c, n] = k.split("|"); return `<span class="sk ${c}">${esc(n)}</span>`; }).join("");
+  return `<article class="story">
+    <header class="story-h"><h3>${esc(st.title)}</h3></header>
+    <div class="story-art">${art}</div>
+    <div class="story-txt">${storyPassage(st)}
+      <div class="story-cite">${esc(st.author)} · <i>${esc(st.book)}</i> (${st.year}) · ${esc(st.where)}</div>
+      <div class="story-note"><div class="story-keys">${keys}</div>${st.note}</div>
+    </div>
+  </article>`;
 }
 
 /* ---------- topic page ---------- */
@@ -427,6 +466,7 @@ function renderTopic(main){
         <div><h2>In plain words</h2><span class="voice">${t.voice === "young" ? "For a ten-year-old" : "Plain language"}</span>${t.plain}</div>
         <div><h2>Formal statement</h2><span class="voice f">College level</span>${t.formal}</div>
       </div>
+      ${(t.stories || []).length ? `<div><h2>In the stories</h2><p>Passages from well-known books, with the words this topic is about picked out in colour. Every passage is quoted exactly from a public-domain edition.</p><div class="stories">${t.stories.map(storyPanel).join("")}</div></div>` : ""}
       <div><h2>${esc(t.steps.title)}</h2><ol class="steps">${t.steps.items.map(s => `<li><div>${s}</div></li>`).join("")}</ol></div>
       <div><h2>Worked example</h2><div class="ex"><div class="prompt"><p class="eyebrow">Problem</p>${t.example.prompt}</div>
         <div class="tbl"><table>${t.example.lines.map(l => `<tr><td>${l.math}</td><td>${esc(l.note)}</td></tr>`).join("")}</table></div>

@@ -6,15 +6,18 @@ Read this first in every session. Keep it short and current: update it in the sa
 A desktop knowledge console (Electron) that maps subjects as Civ V-style skill trees. Menu → Dictionary → a subject (Mathematics, Physics) → its Field map → a field's tree → topic pages (dossier + interactive lab).
 - **Mathematics** charted: Arithmetic (30), Pre-Algebra (22), Algebra I (37), Geometry (38). Next, in order: Algebra II, Trigonometry, Precalculus, Calculus.
 - **Physics** (calculus-based college sequence, 17 fields) charted: Mechanics (45, ≈ OpenStax *University Physics Vol. 1* ch. 1–11, 13; first node `mech-units`). Next: Waves & Fluids, Thermodynamics, Electricity & Magnetism. Each physics node lists the math it needs (`math`, informational, never locks) with `mathWhy` text, shown under Learning path → Mathematics you need; fields list `math` fields. Spec: `web/TREE-SPEC-PHYSICS.md`, brief `web/CONTENT-BRIEF-3.md`.
+- **English** (Arts & Humanities, magenta accent, 20 fields): Grammar & Usage begun (first node `eng-parts-of-speech`; the other 20 nodes are `planned`, shown dashed). English pages add **story panels**: public-domain passages (pre-1931, verified against Gutenberg) as tagged tokens, with original SVG scenes from `web/art/`. Spec `web/TREE-SPEC-ENGLISH.md`, brief `web/CONTENT-BRIEF-ENGLISH.md`.
+- Dictionary groups subjects as STEM, Arts & Humanities, Social Sciences (`DB.subjectGroups`, each subject's `group`).
 - Standard: **college-level accuracy**, standard college order and terminology (Pre-Algebra ≈ OpenStax *Prealgebra 2e*, Algebra I ≈ OpenStax *Elementary Algebra 2e*, Geometry ≈ Jurgensen *Geometry* / Common Core HS-G, axiomatic order).
-- Look: EVE Online-inspired. Palette amber `#F2B84B` (c1), cyan `#5CC8E0` (c2), pink `#F07CA0` (c3), violet `#B49BFF` (c4), green `#7BD88F` (c5). Fonts STIX Two Text, IBM Plex Sans/Mono, Saira Semi Condensed (bundled in `app/fonts`).
+- Look: EVE Online-inspired. Palette amber `#F2B84B` (c1), cyan `#5CC8E0` (c2), pink `#F07CA0` (c3), violet `#B49BFF` (c4), green `#7BD88F` (c5); magenta `#D97AE6` is the Arts & Humanities accent (`data-accent="magenta"`), not a content colour. Fonts STIX Two Text, IBM Plex Sans/Mono, Saira Semi Condensed (bundled in `app/fonts`).
 
 ## Where things are
 | Path | What |
 | --- | --- |
-| `web/src/data.js` | `DB.trees[field] = {eras, nodes}`, `DB.fields` (every subject's fields, `subject`, `status: "charted"`/`"planned"`), `DB.subjectMaps[subject] = {groups, eras, …}` (per-subject field map), `DB.subjects` |
+| `web/src/data.js` | `DB.trees[field] = {eras, nodes}`, `DB.fields` (every subject's fields, `subject`, `status: "charted"`/`"planned"`), `DB.subjectMaps[subject] = {groups, eras, …}` (per-subject field map), `DB.subjects`, `DB.subjectGroups`, `DB.posTags`/`DB.parseStory` (English) |
+| `web/art/*.js` | `DB.scenes[key]`: original inline-SVG story art for English pages |
 | `web/content/<field>/<id>.js` | One topic dossier per file, `ARITH["id"] = {…}` (global stays `window.ARITH` for all fields) |
-| `checks/<field>/<id>.py` | Saved sympy checks for that topic's formal claims, worked example and practice (first line: `# content:` stamp) |
+| `checks/<field>/<id>.py` | Saved sympy checks for that topic's formal claims, worked example and practice (first line: `# content:` stamp; English checks verify story quotes and tagging) |
 | `web/labs/*.js`, `web/src/labs1-3.js` | Labs, `L["id"] = k => {…}` using `web/src/labkit.js` |
 | `web/src/app.js`, `style.css` | Menus, trees, topic pages, routing (`#menu`, `#dict`, `#field-map`, `#field-map-physics`, `#field-<id>`, `#<topic-id>`) |
 | `web/CONTENT-BRIEF.md` (+ `-2`, `-3` physics, `-4` geometry) | Dossier schema, markup and style rules. **Follow these for any content.** Geometry adds `.ov` (segment overline) and `table.proof` (two-column proofs) in `style.css`. |

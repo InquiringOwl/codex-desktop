@@ -24,6 +24,8 @@ Writing a check file (helpers below are available without importing):
     check("practice[3]", 29 % 4 == 1, "remainder 1")          # any True/False fact
     near("practice[2]", sqrt(2*9.80*12), 15.3)                  # physics: rounded page value within 0.5 %
     skip("practice[0]", "vocabulary question, nothing to compute")
+`page` is the topic's dumped content (formal, example, practice, stories) for checks on text.
+English pages also need "story[0]" … : the passage, tags stripped, equals the verified source text (see web/CONTENT-BRIEF-ENGLISH.md).
 A label is covered if at least one call uses it (use "example" for the worked example).
 Extra labels ("formal", "steps") are fine. Symbols a–z are predefined as real symbols.
 Check what the PAGE says: type the page's numbers in, and compute the truth independently.
@@ -48,8 +50,22 @@ def load_content():
 
 
 def content_hash(info):
-    blob = json.dumps({k: info.get(k) for k in ('formal', 'example', 'practice')}, sort_keys=True, ensure_ascii=False)
+    keys = ('formal', 'example', 'practice') + (('stories',) if info.get('stories') else ())   # English pages: quoted passages too
+    blob = json.dumps({k: info.get(k) for k in keys}, sort_keys=True, ensure_ascii=False)
     return hashlib.sha256(blob.encode('utf8')).hexdigest()[:12]
+
+
+def detok(tokens):
+    """Rebuild plain text from an English story token string ("word_tag", punctuation, ¶ paragraph breaks).
+    Mirrors DB.storyText in web/src/data.js."""
+    out = ''
+    for t in tokens.split():
+        if t == '¶':
+            out += '\n'; continue
+        w = re.sub(r'_[a-z]+\*?(#[a-z0-9]+)?$', '', t).replace('~', ' ')
+        glue = out == '' or out.endswith('\n') or out.endswith(('“', '—', '‘')) or re.match(r'^([,.;:!?’”—)]|’[a-z]|n’t)', w)
+        out += ('' if glue else ' ') + w
+    return out
 
 
 STAMP = re.compile(r'^# content: ([0-9a-f]{12})\n')
@@ -111,7 +127,12 @@ class Run:
             self.covered.add(label)
             self.skipped[label] = reason
 
-        return dict(check=check, same=same, solves=solves, near=near, skip=skip)
+        def quote(label, tokens, source):
+            """English: a story's token string, rebuilt as plain text, equals the verbatim source passage."""
+            got = detok(tokens)
+            self._pass(label, got == source, f'passage differs from source:\n   page:   {got}\n   source: {source}')
+
+        return dict(check=check, same=same, solves=solves, near=near, skip=skip, quote=quote, detok=detok)
 
 
 def main(argv):
@@ -138,7 +159,7 @@ def main(argv):
         m = STAMP.match(src)
         h = content_hash(info)
         run = Run(tid)
-        env = {'__name__': 'check', **{k: getattr(sp, k) for k in dir(sp) if not k.startswith('_')}, **letters, **run.helpers()}
+        env = {'__name__': 'check', **{k: getattr(sp, k) for k in dir(sp) if not k.startswith('_')}, **letters, **run.helpers(), 'page': info}
         try:
             with open(path, encoding='utf8') as f:
                 exec(compile(f.read(), path, 'exec'), env)
@@ -146,6 +167,7 @@ def main(argv):
             problems.append(f'{tid}: check file crashed\n' + traceback.format_exc(limit=3))
             continue
         need = ['example'] + [f'practice[{i}]' for i in range(len(info.get('practice') or []))]
+        need += [f'story[{i}]' for i in range(len(info.get('stories') or []))]   # each quoted passage checked against its source
         missing = [lbl for lbl in need if lbl not in run.covered]
         if missing:
             problems.append(f'{tid}: not checked: {", ".join(missing)}')

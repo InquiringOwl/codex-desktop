@@ -12,7 +12,7 @@
   color-scheme: dark;
   --void:#070A10; --ink:#0B1019; --panel:#111827; --panel-2:#162033; --panel-3:#1B2740;
   --line:#243149; --line-2:#34445F; --text:#DDE4EF; --muted:#8B97AE; --faint:#58647D;
-  --amber:#F2B84B; --cyan:#5CC8E0; --pink:#F07CA0; --violet:#B49BFF; --green:#7BD88F; --red:#E5675B;
+  --amber:#F2B84B; --cyan:#5CC8E0; --pink:#F07CA0; --violet:#B49BFF; --green:#7BD88F; --magenta:#D97AE6; --red:#E5675B;
   --glow:rgba(92,200,224,.35);
   --math:"STIX Two Text","Cambria Math",Cambria,Georgia,serif;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -124,6 +124,7 @@ table.proof td:first-child{width:55%}
 .item:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
 .item .ic{width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--line-2);font:400 12px/1 var(--math);color:var(--muted);background:var(--ink);overflow:hidden;white-space:nowrap}
 .item .nm{font:500 14px/1.2 var(--sans);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item>span>.nm{display:block}
 .item .lv{display:block;font:11px/1.3 var(--sans);color:var(--faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .item .st{font:500 10px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .item.charted .st{color:var(--green)}
@@ -149,6 +150,7 @@ table.proof td:first-child{width:55%}
 .lg-a{background:#5A4418;border-color:#E8B04A!important}
 .lg-l{background:#1A2233;border-color:#3A475F!important}
 .lg-s{background:#16445A;border-color:#5CC8E0!important}
+.lg-p{background:#1A2233;border-color:#3A475F!important;border-style:dashed!important}
 .tree-vp{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;
   background:
    linear-gradient(rgba(36,49,73,.18) 1px,transparent 1px) 0 0/40px 40px,
@@ -355,6 +357,76 @@ input[type=checkbox]{accent-color:var(--amber);width:16px;height:16px}
 .u.x{text-decoration:line-through;text-decoration-color:var(--pink);text-decoration-thickness:2px;color:var(--faint)}
 .chain .op{color:var(--faint)}
 .chain .res{color:var(--amber);font-size:24px}
+
+
+/* ---------- dictionary subject groups (STEM, Arts & Humanities, Social Sciences) ---------- */
+.subj-groups{display:grid;gap:30px}
+.subj-gh{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.subj-gh h2{font:600 15px/1 var(--ui);letter-spacing:.22em;text-transform:uppercase;margin:0;color:var(--cyan)}
+.subj-gh .ln{color:var(--muted);font-size:13px}
+.subj-gh .n{margin-left:auto;font:500 11px/1 var(--ui);letter-spacing:.14em;color:var(--faint)}
+/* Arts & Humanities accent: magenta, between the pink and violet of the palette */
+[data-accent="magenta"] .subj-gh{border-bottom-color:#4a3358}
+[data-accent="magenta"] .subj-gh h2{color:var(--magenta);text-shadow:0 0 12px rgba(217,122,230,.35)}
+[data-accent="magenta"] .slot{background:linear-gradient(180deg,rgba(46,29,60,.88),rgba(19,13,29,.92));border-color:#4f3a62}
+[data-accent="magenta"] .slot:hover{border-color:var(--magenta);background:linear-gradient(180deg,rgba(62,37,80,.92),rgba(24,15,36,.95))}
+[data-accent="magenta"] .slot:focus-visible{outline-color:var(--magenta)}
+[data-accent="magenta"] .slot .glyph{color:var(--magenta);border-color:#5f4474;background:radial-gradient(circle at 35% 30%,rgba(217,122,230,.28),rgba(11,16,25,.8) 70%)}
+[data-accent="magenta"] .slot .tag{color:var(--magenta)}
+[data-accent="magenta"] .slot.locked:hover{border-color:#4f3a62;background:linear-gradient(180deg,rgba(46,29,60,.88),rgba(19,13,29,.92))}
+[data-accent="magenta"] .slot.locked .glyph{color:#9a7aa8}
+[data-accent="magenta"] .slot.locked .tag{color:#7a6488}
+.work[data-accent="magenta"] .nav-title .glyph{color:var(--magenta);border-color:#5f4474;box-shadow:0 0 12px rgba(217,122,230,.25)}
+.work[data-accent="magenta"] .win-h .dot{background:var(--magenta);box-shadow:0 0 8px var(--magenta)}
+.work[data-accent="magenta"] .win::before{border-color:var(--magenta)}
+.work[data-accent="magenta"] .win::after{border-color:var(--magenta)}
+
+/* ---------- story panels (English): a framed scene above the passage ---------- */
+.stories{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:18px;margin-top:14px}
+.story{background:linear-gradient(180deg,#141823,#0b0e15);border:1px solid #3b4050;box-shadow:0 0 0 1px rgba(0,0,0,.6),0 10px 30px rgba(0,0,0,.35);padding:10px 12px 14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.story-h{position:relative;padding:2px 2px 12px}
+.story-h h3{margin:0;font:500 18px/1.2 var(--sans);letter-spacing:.01em;text-transform:none;color:#eef1f6}
+.story-h::before{content:"";position:absolute;left:0;bottom:4px;width:58%;height:2px;background:linear-gradient(90deg,#d6dbe4,#9aa2b2)}
+.story-h::after{content:"";position:absolute;left:58%;bottom:1px;width:24%;height:4px;border-top:1px solid #6d7588;border-left:1px solid #6d7588;transform:skewX(-45deg);transform-origin:left bottom}
+.story-art{position:relative;aspect-ratio:8/3;padding:2px;background:linear-gradient(135deg,#e6e9ef,#7a8293 40%,#c9ced8 60%,#5d6475);
+  clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);
+  box-shadow:0 0 18px rgba(217,122,230,.18)}
+.story-art svg{display:block;width:100%;height:100%;
+  clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0 calc(100% - 11px),0 11px)}
+.story-art::after{content:"";position:absolute;inset:2px;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 30%,transparent 80%,rgba(0,0,0,.35));
+  clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0 calc(100% - 11px),0 11px)}
+.story-txt{border:1px solid #3b4050;background:rgba(0,0,0,.32);padding:12px 14px 12px;display:grid;gap:8px}
+.notes .story-txt p{margin:0;max-width:none;color:#cfe0dc;font:400 16.5px/1.6 var(--math)}
+.story .sw{font-weight:600;border-bottom:1px dotted currentColor;cursor:help}
+.story-cite{font:500 11.5px/1.4 var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.story-cite i{text-transform:none;letter-spacing:.02em;font:italic 400 13px/1.4 var(--math);color:var(--muted)}
+.story-note{border-top:1px dashed #3b4050;padding-top:9px;font-size:13.5px;line-height:1.55;color:var(--muted)}
+.story-keys{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.story-keys .sk{font:600 10.5px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase;padding:4px 7px;border:1px solid currentColor;border-radius:2px;background:rgba(255,255,255,.03)}
+
+/* ---------- parts-of-speech lab (word chips) ---------- */
+.stage .dom.pos-wrap{padding:58px 22px 22px;display:grid;gap:16px;align-content:start}
+.pos-src{font:500 11px/1.3 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.pos-src i{font:italic 13px/1.3 var(--math);letter-spacing:0;text-transform:none;color:var(--muted)}
+.pos-text{font:400 clamp(19px,2.3vw,25px)/2.05 var(--math);color:var(--text)}
+.pos-text p{margin:0 0 6px}
+.pos-w{font:inherit;color:inherit;background:none;border:0;margin:0;line-height:inherit;cursor:pointer;padding:0 2px;border-radius:3px;border-bottom:2px solid transparent;transition:background .15s,color .15s}
+.pos-w:hover{background:rgba(255,255,255,.07)}
+.pos-w:focus-visible{outline:2px solid var(--cyan);outline-offset:1px}
+.pos-w.on{border-bottom-color:currentColor}
+.pos-w.sel{background:rgba(255,255,255,.12);box-shadow:0 0 0 1px currentColor}
+.pos-w.c1{color:var(--amber)} .pos-w.c2{color:var(--cyan)} .pos-w.c3{color:var(--pink)} .pos-w.c4{color:var(--violet)} .pos-w.c5{color:var(--green)}
+.pos-quiz{display:flex;flex-wrap:wrap;gap:8px}
+.pos-quiz button{font:500 13px/1 var(--sans);padding:9px 12px;border-radius:4px;border:1px solid var(--line-2);background:var(--panel-2);color:var(--text);cursor:pointer}
+.pos-quiz button:hover{border-color:var(--cyan)}
+.pos-quiz button.right{border-color:var(--green);background:#16351f}
+.pos-quiz button.wrong{border-color:var(--red);background:#3a1a17}
+.pos-jobs{display:grid;gap:10px}
+.pos-job{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;align-items:baseline;padding:10px 12px;border:1px solid var(--line);border-radius:4px;background:rgba(0,0,0,.2);cursor:pointer}
+.pos-job:hover,.pos-job.sel{border-color:var(--line-2);background:rgba(255,255,255,.04)}
+.pos-job .s{font:400 19px/1.5 var(--math)}
+.pos-job .s b{font-weight:600;border-bottom:2px solid currentColor}
+.pos-job .t{font:600 11px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase}
 
 @media (max-width:980px){
   .lab{grid-template-columns:minmax(0,1fr)}
@@ -656,14 +728,24 @@ DB.fieldEras = [
   { name: "Upper Division", from: 10, to: 11 }
 ];
 
-/* Other Dictionary subjects (future) */
+/* Dictionary subjects, grouped the way universities group them.
+   group: "stem" | "humanities" | "social" (see DB.subjectGroups). status "open" = has a field map. */
+DB.subjectGroups = [
+  { id: "stem", name: "STEM", line: "Science, technology, engineering and mathematics" },
+  { id: "humanities", name: "Arts & Humanities", line: "Language, literature, the arts and ideas", accent: "magenta" },
+  { id: "social", name: "Social Sciences", line: "How people, markets and societies behave" }
+];
 DB.subjects = [
-  { id: "mathematics", name: "Mathematics", glyph: "∑", status: "open", note: "21 fields · Arithmetic, Pre-Algebra, Algebra I and Geometry charted" },
-  { id: "physics", name: "Physics", glyph: "⚛", status: "open", note: "17 fields · Mechanics charted" },
-  { id: "chemistry", name: "Chemistry", glyph: "⌬", status: "locked", note: "Not yet charted" },
-  { id: "biology", name: "Biology", glyph: "❦", status: "locked", note: "Not yet charted" },
-  { id: "computer-science", name: "Computer Science", glyph: "λ", status: "locked", note: "Not yet charted" },
-  { id: "economics", name: "Economics", glyph: "¤", status: "locked", note: "Not yet charted" }
+  { id: "mathematics", group: "stem", name: "Mathematics", glyph: "∑", status: "open", note: "21 fields · Arithmetic, Pre-Algebra, Algebra I and Geometry charted" },
+  { id: "physics", group: "stem", name: "Physics", glyph: "⚛", status: "open", note: "17 fields · Mechanics charted" },
+  { id: "chemistry", group: "stem", name: "Chemistry", glyph: "⌬", status: "locked", note: "Not yet charted" },
+  { id: "biology", group: "stem", name: "Biology", glyph: "❦", status: "locked", note: "Not yet charted" },
+  { id: "computer-science", group: "stem", name: "Computer Science", glyph: "λ", status: "locked", note: "Not yet charted" },
+  { id: "english", group: "humanities", name: "English", glyph: "¶", status: "open", note: "20 fields · Grammar & Usage begun" },
+  { id: "music-theory", group: "humanities", name: "Music Theory", glyph: "♪", status: "locked", note: "Not yet charted" },
+  { id: "visual-arts", group: "humanities", name: "Visual Arts", glyph: "◈", status: "locked", note: "Not yet charted" },
+  { id: "philosophy", group: "humanities", name: "Philosophy", glyph: "Φ", status: "locked", note: "Not yet charted" },
+  { id: "economics", group: "social", name: "Economics", glyph: "¤", status: "locked", note: "Not yet charted" }
 ];
 
 /* ============ Physics ============
@@ -799,6 +881,293 @@ DB.trees["mechanics"] = {
     { id: "mech-kepler", col: 27, row: 3, icon: "T²", chips: ["T²∝a³"], pre: ["mech-orbits","mech-ang-momentum"], math: ["a1-rational-exp","algebra-2:Conic sections"] }
   ]
 };
+
+/* ============ English ============
+   A standard college English program: language and writing first, then literature surveys,
+   the upper-division core, and specialisations. Fields live in DB.fields with subject: "english".
+   Topic pages add `stories` (public-domain passages, art from DB scenes in web/art/). Spec: web/TREE-SPEC-ENGLISH.md */
+DB.subjectMaps.english = { name: "English", glyph: "¶", accent: "magenta", mapLine: "From grammar to the senior seminar",
+  mapSub: "The standard college English program: language and writing, literature surveys, the upper-division core and specialisations. Arrows show the usual prerequisites.",
+  groups: [
+    { name: "Language & Writing", ids: ["grammar","comp-1","comp-2","creative-writing","intro-lit","linguistics"] },
+    { name: "Literature Surveys", ids: ["brit-lit-1","brit-lit-2","am-lit-1","am-lit-2","world-lit"] },
+    { name: "Upper-Division Core", ids: ["shakespeare","lit-theory","rhetoric","hist-english"] },
+    { name: "Specialisations & Capstone", ids: ["drama","poetry","novel","cw-workshop","senior-seminar"] }
+  ],
+  eras: [
+    { name: "Language & Writing", from: 0, to: 2 },
+    { name: "Surveys", from: 3, to: 3 },
+    { name: "Upper-Division Core", from: 4, to: 4 },
+    { name: "Specialisations", from: 5, to: 6 }
+  ] };
+Object.assign(DB.fields, {
+  "grammar": { subject: "english", name: "Grammar & Usage", icon: "N·V", level: "College ENGL 1xx · English grammar", col: 0, row: 4, pre: [], status: "charted",
+    blurb: "How English sentences are built: the parts of speech, phrases, clauses and sentence patterns, then the usage, punctuation and style choices that make writing clear and correct.",
+    topics: [] },
+  "comp-1": { subject: "english", name: "Composition I", icon: "¶", level: "College ENGL 101 · first-year writing", col: 1, row: 4, pre: ["grammar"], status: "planned",
+    blurb: "The first-year writing course: writing as a process, the thesis-driven academic essay, paragraphs that develop one idea, and reading closely to write about texts.",
+    topics: ["The writing process: invention, drafting, revision","The rhetorical situation: audience, purpose, context","Thesis statements","Paragraph unity and development","Introductions and conclusions","Organisation and transitions","Narrative and descriptive writing","Expository writing: definition, comparison, cause and effect","Summary and paraphrase","Peer review and revision"] },
+  "comp-2": { subject: "english", name: "Composition II", icon: "§", level: "College ENGL 102 · argument and research", col: 2, row: 3, pre: ["comp-1"], status: "planned",
+    blurb: "Argument and research: claims, reasons and evidence, finding and evaluating sources, integrating them fairly, and documenting them in MLA and APA style.",
+    topics: ["Claims, reasons and evidence","The Toulmin model of argument","Appeals: ethos, pathos, logos","Logical fallacies","Counterargument and rebuttal","Research questions and search strategies","Evaluating sources","Quoting, paraphrasing and synthesis","Avoiding plagiarism","MLA and APA documentation","The researched argument essay"] },
+  "creative-writing": { subject: "english", name: "Introduction to Creative Writing", icon: "✒", level: "College ENGL 2xx · introductory workshop", col: 2, row: 1, pre: ["comp-1"], status: "planned",
+    blurb: "The craft of fiction, poetry and creative nonfiction, learned by reading published work closely and writing and revising your own in a workshop.",
+    topics: ["Reading as a writer","Image and concrete detail","Character","Point of view","Dialogue","Scene and summary","Plot and structure","Line, image and form in poetry","Creative nonfiction and the personal essay","The workshop and revision"] },
+  "intro-lit": { subject: "english", name: "Introduction to Literature", icon: "“ ”", level: "College ENGL 2xx · literary analysis", col: 2, row: 5, pre: ["comp-1"], status: "planned",
+    blurb: "How to read and write about fiction, poetry and drama: the elements of each genre, close reading, interpretation and the literary-analysis essay.",
+    topics: ["What literature is and how to read it","Plot and narrative structure","Character and characterisation","Setting","Point of view and the narrator","Theme","Symbol, imagery and figurative language","Tone and irony","Poetry: speaker, diction, sound and form","Meter and rhyme","Drama: dialogue, staging and conflict","Close reading","The literary analysis essay"] },
+  "linguistics": { subject: "english", name: "Introduction to English Linguistics", icon: "/ə/", level: "College ENGL/LING 2xx", col: 2, row: 7, pre: ["grammar"], status: "planned",
+    blurb: "The scientific study of English: its sounds, word structure, sentence structure and meaning, and how it varies between speakers, places and situations.",
+    topics: ["Language as a system","Phonetics: the sounds of English and the IPA","Phonology","Morphology: how words are built","Syntax and constituent structure","Semantics","Pragmatics","Language acquisition","Dialects and variation","Sociolinguistics"] },
+  "brit-lit-1": { subject: "english", name: "British Literature I", icon: "Þ", level: "College ENGL 2xx · survey to 1798", col: 3, row: 0, pre: ["intro-lit"], status: "planned",
+    blurb: "From Old English to the end of the eighteenth century: Beowulf, Chaucer, the Renaissance, Milton and the Restoration and eighteenth century.",
+    topics: ["Old English literature and Beowulf","Middle English and the romance","Chaucer's Canterbury Tales","Medieval drama","The English Renaissance and the sonnet","Spenser and Marlowe","Metaphysical poets: Donne and Herbert","Milton's Paradise Lost","Restoration literature","Satire: Swift and Pope","The rise of the novel"] },
+  "brit-lit-2": { subject: "english", name: "British Literature II", icon: "Br II", level: "College ENGL 2xx · survey 1798 to now", col: 3, row: 2, pre: ["intro-lit"], status: "planned",
+    blurb: "From the Romantics to the present: Wordsworth and Keats, the Victorian novel and poem, modernism, and postwar and postcolonial writing.",
+    topics: ["Romanticism: Wordsworth and Coleridge","The second generation: Byron, Shelley, Keats","Jane Austen and the novel of manners","The Victorian novel: Dickens, the Brontës, Eliot","Victorian poetry: Tennyson and Browning","Late Victorians and the fin de siècle","Modernism: Woolf, Joyce, Eliot","Poetry of the World Wars","Postwar British writing","Postcolonial literature in English"] },
+  "am-lit-1": { subject: "english", name: "American Literature I", icon: "Am I", level: "College ENGL 2xx · survey to 1865", col: 3, row: 4, pre: ["intro-lit"], status: "planned",
+    blurb: "From Native American oral traditions and colonial writing to the Civil War: Puritans, the Revolution, the American Renaissance and the slave narrative.",
+    topics: ["Native American oral traditions","Exploration and colonial writing","Puritan literature","Literature of the Revolution","Early American fiction","Transcendentalism: Emerson and Thoreau","Hawthorne and Poe","Melville","The slave narrative: Douglass and Jacobs","Whitman and Dickinson"] },
+  "am-lit-2": { subject: "english", name: "American Literature II", icon: "Am II", level: "College ENGL 2xx · survey 1865 to now", col: 3, row: 6, pre: ["intro-lit"], status: "planned",
+    blurb: "From Reconstruction to the present: realism and naturalism, the Harlem Renaissance, modernism, and contemporary American writing in all its voices.",
+    topics: ["Realism: Twain and James","Regionalism and naturalism","Women writers of the late nineteenth century","The Harlem Renaissance","American modernism: Fitzgerald, Hemingway, Faulkner","Modernist poetry","Drama: O'Neill, Williams, Miller","Postwar fiction and the Beats","The Civil Rights era and the Black Arts Movement","Contemporary and multiethnic American literature"] },
+  "world-lit": { subject: "english", name: "World Literature", icon: "◎", level: "College ENGL 2xx · survey", col: 3, row: 8, pre: ["intro-lit"], status: "planned",
+    blurb: "Major works from many traditions, read in English translation: ancient epics, classical drama, sacred and philosophical texts, and the modern world novel.",
+    topics: ["The Epic of Gilgamesh","Homer: the Iliad and the Odyssey","Greek tragedy","Ancient India: the Mahabharata and Ramayana","Classical Chinese poetry","Dante's Divine Comedy","The Tale of Genji","Don Quixote","The modern world novel","Literature in translation"] },
+  "shakespeare": { subject: "english", name: "Shakespeare", icon: "W.S.", level: "College ENGL 3xx", col: 4, row: 1, pre: ["brit-lit-1"], status: "planned",
+    blurb: "A close study of Shakespeare's comedies, histories, tragedies and romances, his sonnets, his language and verse, and his theatre in performance.",
+    topics: ["Shakespeare's life and the Elizabethan stage","Blank verse and Shakespeare's language","The comedies","The histories","The great tragedies","The problem plays","The romances","The sonnets","Shakespeare in performance and adaptation"] },
+  "lit-theory": { subject: "english", name: "Literary Theory & Criticism", icon: "Crit", level: "College ENGL 3xx", col: 4, row: 4, pre: ["intro-lit","comp-2"], status: "planned",
+    blurb: "The major ways of reading: from Plato and Aristotle through formalism, structuralism and deconstruction to feminist, Marxist, postcolonial and ecocritical approaches.",
+    topics: ["Classical criticism: Plato and Aristotle","Formalism and New Criticism","Structuralism","Poststructuralism and deconstruction","Psychoanalytic criticism","Marxist criticism","Feminist and gender criticism","Reader-response theory","New Historicism and cultural studies","Postcolonial criticism","Critical race theory","Ecocriticism"] },
+  "rhetoric": { subject: "english", name: "Advanced Composition & Rhetoric", icon: "Rhet", level: "College ENGL 3xx", col: 4, row: 6, pre: ["comp-2"], status: "planned",
+    blurb: "Rhetoric as an art and a theory: the classical canons, style at the level of the sentence, and writing for real audiences in many genres.",
+    topics: ["Classical rhetoric: Aristotle, Cicero, Quintilian","The five canons","Kairos and the rhetorical situation","Style: clarity, cohesion and emphasis","Sentence rhetoric and schemes","Tropes and figures","Rhetorical analysis","Genre and discourse communities","Visual and digital rhetoric","Writing for public audiences"] },
+  "hist-english": { subject: "english", name: "History of the English Language", icon: "OE→", level: "College ENGL 3xx", col: 4, row: 8, pre: ["linguistics","brit-lit-1"], status: "planned",
+    blurb: "How English became English: its Indo-European roots, Old and Middle English, the Great Vowel Shift, standardisation, and English as a world language.",
+    topics: ["Indo-European and Germanic origins","Old English: sounds, inflections and vocabulary","The Norman Conquest and Middle English","Chaucer's English","The Great Vowel Shift","Early Modern English","Dictionaries, grammars and standardisation","American English","World Englishes"] },
+  "drama": { subject: "english", name: "Drama", icon: "Act", level: "College ENGL 4xx", col: 5, row: 0, pre: ["shakespeare"], status: "planned",
+    blurb: "Plays as literature and as performance, from Greek tragedy and Renaissance theatre to modern and contemporary drama.",
+    topics: ["Aristotle's Poetics and tragedy","Greek and Roman theatre","Medieval and Renaissance theatre","Restoration and eighteenth-century comedy","Realism: Ibsen and Chekhov","Modern drama","Theatre of the Absurd","Contemporary drama","Reading a play for performance"] },
+  "poetry": { subject: "english", name: "Poetry & Poetics", icon: "˘ ´", level: "College ENGL 4xx", col: 5, row: 2, pre: ["brit-lit-2","lit-theory"], status: "planned",
+    blurb: "How poems work: meter and prosody, fixed forms and free verse, figurative language, and the history of poetic movements in English.",
+    topics: ["Prosody and scansion","Accentual-syllabic meter","Fixed forms: sonnet, villanelle, sestina","Free verse","Figurative language","The lyric","Narrative and dramatic poetry","Romantic and Victorian poetics","Modernist poetics","Contemporary poetry"] },
+  "novel": { subject: "english", name: "The Novel", icon: "Ch. 1", level: "College ENGL 4xx", col: 5, row: 4, pre: ["lit-theory"], status: "planned",
+    blurb: "The history and theory of the novel: its rise in the eighteenth century, realism, modernist experiment, and the contemporary novel.",
+    topics: ["The rise of the novel","Narrative theory: story and discourse","Free indirect discourse","The realist novel","The Gothic novel","The modernist novel","The postmodern novel","Genre fiction and the literary novel","The contemporary novel"] },
+  "cw-workshop": { subject: "english", name: "Advanced Creative Writing Workshop", icon: "Draft", level: "College ENGL 3xx–4xx", col: 5, row: 6, pre: ["creative-writing","rhetoric"], status: "planned",
+    blurb: "A workshop in one genre (fiction, poetry or creative nonfiction): longer projects, sustained revision, and preparing work for publication.",
+    topics: ["Developing a project","Voice and style","Structure in longer work","Advanced revision","Line editing","The writer's notebook and reading list","Submitting work for publication","The portfolio"] },
+  "senior-seminar": { subject: "english", name: "Senior Seminar", icon: "Thesis", level: "College ENGL 4xx · capstone", col: 6, row: 4, pre: ["lit-theory","novel","rhetoric"], status: "planned",
+    blurb: "The capstone: a sustained research project on a literary or rhetorical question, from proposal and annotated bibliography to a seminar paper presented to peers.",
+    topics: ["Choosing a research question","The research proposal","The annotated bibliography","Entering a critical conversation","Drafting the seminar paper","Revision and peer review","Presenting research"] }
+});
+
+/* Grammar & Usage. `planned` nodes show the rest of the tree (dashed) until their pages are written. */
+DB.trees["grammar"] = {
+  eras: [
+    { name: "Words", from: 0, to: 1 },
+    { name: "The Simple Sentence", from: 2, to: 3 },
+    { name: "Clauses & Sentences", from: 4, to: 5 },
+    { name: "Usage & Mechanics", from: 6, to: 8 }
+  ],
+  nodes: [
+    { id: "eng-parts-of-speech", col: 0, row: 4, icon: "N V", chips: ["noun","verb","adj.","adv."], pre: [] }
+  ],
+  planned: [
+    { id: "eng-nouns-pronouns", label: "Nouns & Pronouns", col: 1, row: 1, icon: "N", chips: ["number","case"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-verbs", label: "Verbs: Tense, Aspect & Mood", col: 1, row: 3, icon: "V", chips: ["tense","aspect"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-modifiers", label: "Adjectives & Adverbs", col: 1, row: 5, icon: "Adj", chips: ["-er","-est","-ly"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-function-words", label: "Prepositions & Conjunctions", col: 1, row: 7, icon: "P C", chips: ["in","and","because"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-subject-predicate", label: "Subject & Predicate", col: 2, row: 3, icon: "S|P", chips: ["S","P"], pre: ["eng-nouns-pronouns","eng-verbs"] },
+    { id: "eng-agreement", label: "Subject–Verb Agreement", col: 3, row: 0, icon: "S=V", chips: ["is","are"], pre: ["eng-subject-predicate"] },
+    { id: "eng-patterns", label: "Complements & Sentence Patterns", col: 3, row: 2, icon: "SVO", chips: ["DO","IO","SC"], pre: ["eng-subject-predicate"] },
+    { id: "eng-phrases", label: "Phrases", col: 3, row: 5, icon: "NP", chips: ["NP","VP","PP"], pre: ["eng-subject-predicate","eng-modifiers","eng-function-words"] },
+    { id: "eng-voice", label: "Active & Passive Voice", col: 4, row: 0, icon: "be+en", chips: ["active","passive"], pre: ["eng-patterns"] },
+    { id: "eng-pronoun-usage", label: "Pronoun Case & Reference", col: 4, row: 2, icon: "I/me", chips: ["who","whom"], pre: ["eng-agreement","eng-nouns-pronouns"] },
+    { id: "eng-clauses", label: "Independent & Dependent Clauses", col: 4, row: 4, icon: "[IC]", chips: ["IC","DC"], pre: ["eng-patterns","eng-phrases"] },
+    { id: "eng-verbals", label: "Verbals: Gerunds, Participles & Infinitives", col: 4, row: 6, icon: "-ing", chips: ["to go","going"], pre: ["eng-phrases"] },
+    { id: "eng-sentence-types", label: "Simple, Compound & Complex Sentences", col: 5, row: 3, icon: "S+S", chips: ["CS","CX"], pre: ["eng-clauses"] },
+    { id: "eng-subordinate", label: "Relative, Noun & Adverb Clauses", col: 5, row: 5, icon: "who…", chips: ["who","that","when"], pre: ["eng-clauses"] },
+    { id: "eng-fragments", label: "Fragments, Run-ons & Comma Splices", col: 6, row: 2, icon: "‖", chips: ["frag","CS"], pre: ["eng-sentence-types"] },
+    { id: "eng-parallelism", label: "Parallelism", col: 6, row: 4, icon: "= =", chips: ["A, B, C"], pre: ["eng-sentence-types","eng-verbals"] },
+    { id: "eng-modifier-placement", label: "Misplaced & Dangling Modifiers", col: 6, row: 6, icon: "↷", chips: ["dangling"], pre: ["eng-verbals","eng-subordinate"] },
+    { id: "eng-commas", label: "Commas", col: 7, row: 3, icon: ",", chips: ["FANBOYS","intro"], pre: ["eng-fragments","eng-subordinate"] },
+    { id: "eng-punctuation", label: "Semicolons, Colons, Dashes & Apostrophes", col: 8, row: 2, icon: "; : —", chips: [";",":","’"], pre: ["eng-commas"] },
+    { id: "eng-style", label: "Concision & Sentence Variety", col: 8, row: 5, icon: "Style", chips: ["concise","vary"], pre: ["eng-parallelism","eng-modifier-placement","eng-commas"] }
+  ]
+};
+
+/* Parts-of-speech tags used in English story passages. The traditional eight, coloured in five
+   groups: naming words (c1), verbs (c2), noun modifiers (c3), adverbs (c4), connectors and exclamations (c5).
+   Articles count as adjectives in the traditional eight; they keep their own tag so pages can say "article". */
+DB.posTags = {
+  n:  { name: "Noun", c: "c1", test: "Fits the frame “the ___” and can usually be made plural or possessive: truth, truths, truth’s. Proper nouns (names) are capitalised." },
+  pr: { name: "Pronoun", c: "c1", test: "Stands in for a whole noun phrase. Personal pronouns change form for case: I, me, my." },
+  v:  { name: "Verb", c: "c2", test: "Heads the predicate and can be marked for tense: is → was, give → gave. Auxiliaries (be, have, will, would, must) are verbs too." },
+  aj: { name: "Adjective", c: "c3", test: "Modifies a noun. Fits “a ___ thing” and “very ___”, and most compare: young, younger, youngest." },
+  ar: { name: "Article", c: "c3", test: "a, an, the: mark a noun as indefinite or definite. The traditional eight count articles as adjectives (modern grammars: determiners)." },
+  av: { name: "Adverb", c: "c4", test: "Modifies a verb, an adjective, another adverb or a whole clause. Answers how, when, where, how often or how much." },
+  p:  { name: "Preposition", c: "c5", test: "Links a noun phrase (its object) to the rest of the sentence: in Tuckahoe, of a wife." },
+  cj: { name: "Conjunction", c: "c5", test: "Joins words, phrases or clauses. Coordinating: and, but, or. Subordinating: that, because, although." },
+  ij: { name: "Interjection", c: "c5", test: "An exclamation that stands outside the grammar of the sentence: Bah! Oh! Alas!" }
+};
+/* Story token strings: "word_tag" separated by spaces; bare punctuation; "*" after the tag = italic in
+   the source; "#key" after the tag = use notes[key]; "¶" = paragraph break. Mirrors detok() in tools/mathcheck.py. */
+DB.parseStory = tokens => {
+  const out = []; let prev = "";
+  tokens.trim().split(/\s+/).forEach(t => {
+    if (t === "¶") { out.push({ br: true }); prev = "\n"; return; }
+    const m = t.match(/^(.*?)_([a-z]+)(\*?)(?:#([a-z0-9]+))?$/);
+    const w = (m ? m[1] : t).replace(/~/g, " ");
+    const glue = prev === "" || prev === "\n" || /[“—‘]$/.test(prev) || /^([,.;:!?’”—)]|’[a-z]|n’t)/.test(w);
+    out.push({ w, tag: m ? m[2] : null, it: !!(m && m[3]), key: m ? (m[4] || w.toLowerCase().replace(/[’']s$/, "")) : null, glue });
+    prev = w;
+  });
+  return out;
+};
+DB.storyText = tokens => DB.parseStory(tokens).map(x => x.br ? "\n" : (x.glue ? "" : " ") + x.w).join("");
+
+</script>
+<script>/* web/art/scenes-1.js */
+/* ============ Story art: original illustrated scenes (inline SVG, offline) ============
+   DB.scenes[key] = svg string. Banner shape 480 × 180. Used by story panels on English topic pages.
+   Every scene is drawn for Codex: no book covers, film stills or other artists' illustrations. */
+(function(){
+window.DB = window.DB || {};
+const S = DB.scenes = DB.scenes || {};
+const svg = (id, body) => `<svg viewBox="0 0 480 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">${body}</svg>`;
+
+/* Pride and Prejudice: a Regency drawing room at evening, tall sash window onto the park. */
+S["drawing-room"] = svg("dr", `
+<defs><linearGradient id="dr-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a1d2e"/><stop offset="1" stop-color="#170f1b"/></linearGradient>
+<linearGradient id="dr-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3b779"/><stop offset=".55" stop-color="#d97a83"/><stop offset="1" stop-color="#6c4c7c"/></linearGradient>
+<radialGradient id="dr-glow" cx=".5" cy=".45" r=".6"><stop offset="0" stop-color="#ffcf8a" stop-opacity=".35"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></radialGradient>
+<linearGradient id="dr-floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2618"/><stop offset="1" stop-color="#1a110b"/></linearGradient></defs>
+<rect width="480" height="180" fill="url(#dr-wall)"/>
+<g stroke="#4a3550" stroke-width="1" opacity=".55">${Array.from({length:16},(_,i)=>`<line x1="${15+i*30}" y1="0" x2="${15+i*30}" y2="140"/>`).join("")}</g>
+<rect x="190" y="14" width="100" height="120" fill="url(#dr-sky)"/>
+<path d="M190 112 Q215 92 240 104 T290 98 V134 H190Z" fill="#3c3048"/>
+<g fill="#2b2238"><ellipse cx="208" cy="104" rx="14" ry="12"/><ellipse cx="226" cy="99" rx="10" ry="9"/><ellipse cx="272" cy="100" rx="13" ry="11"/></g>
+<g stroke="#e9dccb" stroke-width="2.5" fill="none"><rect x="190" y="14" width="100" height="120"/><line x1="240" y1="14" x2="240" y2="134"/><line x1="190" y1="54" x2="290" y2="54"/><line x1="190" y1="94" x2="290" y2="94"/></g>
+<path d="M176 8 Q186 70 180 140 L198 140 Q194 70 204 8Z" fill="#7a2e4a"/><path d="M304 8 Q294 70 300 140 L282 140 Q286 70 276 8Z" fill="#7a2e4a"/>
+<rect x="170" y="4" width="140" height="8" fill="#b88a4a"/>
+<rect x="0" y="140" width="480" height="40" fill="url(#dr-floor)"/><rect x="0" y="138" width="480" height="4" fill="#5a3e2a"/>
+<ellipse cx="240" cy="90" rx="200" ry="80" fill="url(#dr-glow)"/>
+<g><rect x="54" y="34" width="62" height="78" fill="#3a2a1e" stroke="#c49a52" stroke-width="3"/><ellipse cx="85" cy="66" rx="16" ry="20" fill="#6b4a3a"/><path d="M62 112 Q85 82 108 112Z" fill="#4d2f3e"/></g>
+<g fill="#120b10"><path d="M352 150 q0 -48 22 -54 q24 -4 26 54z"/><rect x="348" y="146" width="60" height="10" rx="3"/><rect x="352" y="154" width="4" height="18"/><rect x="400" y="154" width="4" height="18"/>
+<path d="M128 150 q-2 -40 18 -46 q20 -2 22 46z"/><rect x="122" y="146" width="54" height="10" rx="3"/><rect x="126" y="154" width="4" height="18"/><rect x="168" y="154" width="4" height="18"/></g>
+<g><rect x="430" y="70" width="6" height="40" fill="#c9a35a"/><ellipse cx="433" cy="64" rx="3" ry="6" fill="#ffd27a"/><ellipse cx="433" cy="64" rx="14" ry="14" fill="#ffd27a" opacity=".18"/></g>`);
+
+/* Moby-Dick: a three-masted whaler at dusk on a long swell; a fluke breaks the water. */
+S["whaler"] = svg("wh", `
+<defs><linearGradient id="wh-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1a33"/><stop offset=".6" stop-color="#2d4f72"/><stop offset="1" stop-color="#d08a5a"/></linearGradient>
+<linearGradient id="wh-sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d3b55"/><stop offset="1" stop-color="#07121f"/></linearGradient></defs>
+<rect width="480" height="180" fill="url(#wh-sky)"/>
+<circle cx="380" cy="40" r="14" fill="#f1e6c8"/><circle cx="380" cy="40" r="34" fill="#f1e6c8" opacity=".12"/>
+<g fill="#cfe2ef" opacity=".7"><circle cx="40" cy="20" r="1"/><circle cx="110" cy="34" r="1.2"/><circle cx="210" cy="16" r="1"/><circle cx="300" cy="28" r="1"/><circle cx="450" cy="18" r="1.1"/></g>
+<rect y="118" width="480" height="62" fill="url(#wh-sea)"/>
+<rect y="116" width="480" height="3" fill="#e9a874" opacity=".55"/>
+<g fill="#0a1626"><path d="M120 120 L250 120 L236 134 L132 134Z"/>
+<rect x="148" y="40" width="3" height="82"/><rect x="186" y="28" width="3.5" height="94"/><rect x="222" y="46" width="3" height="76"/>
+<path d="M136 120 L148 60 L150 118Z" opacity=".9"/></g>
+<g fill="#d9d2bf" opacity=".85"><path d="M151 48 Q166 60 151 76Z"/><path d="M151 80 Q170 92 151 108Z"/><path d="M190 36 Q210 52 190 70Z"/><path d="M190 74 Q214 90 190 110Z"/><path d="M225 54 Q240 66 225 82Z"/><path d="M225 86 Q244 98 225 114Z"/></g>
+<g stroke="#0a1626" stroke-width=".8"><line x1="120" y1="122" x2="187" y2="30"/><line x1="250" y1="122" x2="187" y2="30"/></g>
+<path d="M344 132 q8 -22 0 -40 q-10 -6 -26 -4 q12 4 16 14 q-10 0 -22 8 q16 -2 24 4 q4 10 -2 18z" fill="#0c1b2c"/>
+<path d="M330 134 q14 -6 28 0" stroke="#bfe1f2" stroke-width="1.5" fill="none" opacity=".7"/>
+<g stroke="#5c88a8" stroke-width="1.2" fill="none" opacity=".6"><path d="M0 142 q30 -6 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0"/><path d="M0 158 q30 -6 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0"/><path d="M-30 172 q30 -6 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0"/></g>`);
+
+/* Alice's Adventures in Wonderland: falling down a deep well lined with shelves, jars and maps. */
+S["rabbit-hole"] = svg("rh", `
+<defs><radialGradient id="rh-deep" cx=".5" cy=".95" r=".9"><stop offset="0" stop-color="#05030a"/><stop offset=".6" stop-color="#1c1235"/><stop offset="1" stop-color="#3a2560"/></radialGradient>
+<linearGradient id="rh-wall" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a1a14"/><stop offset="1" stop-color="#4a2e20"/></linearGradient>
+<radialGradient id="rh-light" cx=".5" cy="0" r=".7"><stop offset="0" stop-color="#ffe2a8" stop-opacity=".45"/><stop offset="1" stop-color="#ffe2a8" stop-opacity="0"/></radialGradient></defs>
+<rect width="480" height="180" fill="url(#rh-deep)"/>
+<path d="M0 0 H150 Q128 90 160 180 H0Z" fill="url(#rh-wall)"/><path d="M480 0 H330 Q352 90 320 180 H480Z" fill="url(#rh-wall)"/>
+<rect width="480" height="180" fill="url(#rh-light)"/>
+<g fill="#6a4632"><rect x="40" y="38" width="92" height="5"/><rect x="34" y="104" width="98" height="5"/><rect x="346" y="58" width="94" height="5"/><rect x="350" y="128" width="94" height="5"/></g>
+<g><rect x="52" y="20" width="12" height="18" rx="2" fill="#c8a24a"/><rect x="54" y="16" width="8" height="5" fill="#e9e1c9"/>
+<rect x="74" y="24" width="10" height="14" fill="#7aa0c8"/><rect x="88" y="22" width="9" height="16" fill="#a05a7a"/><rect x="99" y="25" width="8" height="13" fill="#5f8a60"/>
+<rect x="48" y="86" width="40" height="18" fill="#d9c79c"/><path d="M52 92 h14 M54 98 h22 M70 90 v10" stroke="#7a6640" stroke-width="1"/>
+<circle cx="380" cy="47" r="10" fill="#d8c08a" stroke="#6a4a22" stroke-width="2"/><path d="M380 47 V40 M380 47 h5" stroke="#3a2a12" stroke-width="1.5"/>
+<rect x="400" y="44" width="11" height="14" rx="2" fill="#c97a4a"/><rect x="402" y="40" width="7" height="5" fill="#eee"/>
+<rect x="362" y="112" width="34" height="16" fill="#3e5f86"/><rect x="404" y="114" width="20" height="14" fill="#8a3a4a"/></g>
+<g transform="translate(240 96) rotate(-14)">
+<path d="M-24 -6 Q0 -20 24 -6 L16 20 Q0 26 -16 20Z" fill="#7fb6e6"/><path d="M-18 16 Q0 22 18 16 L14 22 Q0 28 -14 22Z" fill="#f2f2f2"/>
+<rect x="-6" y="-26" width="12" height="20" rx="5" fill="#f2f2f2"/><circle cx="0" cy="-34" r="9" fill="#f0d2b4"/><path d="M-10 -36 Q0 -52 10 -36 Q12 -24 16 -18 Q4 -30 0 -40 Q-4 -30 -16 -18 Q-12 -24 -10 -36Z" fill="#e8c35a"/>
+<path d="M-6 -20 L-30 -40" stroke="#f0d2b4" stroke-width="4" stroke-linecap="round"/><path d="M6 -20 L30 -36" stroke="#f0d2b4" stroke-width="4" stroke-linecap="round"/>
+<path d="M-7 24 L-12 44" stroke="#f0d2b4" stroke-width="4" stroke-linecap="round"/><path d="M7 24 L14 42" stroke="#f0d2b4" stroke-width="4" stroke-linecap="round"/></g>
+<g opacity=".8"><path d="M300 30 q6 -8 12 0 v8 h-12z" fill="#e9e1c9"/><path d="M304 38 q4 4 0 8" stroke="#e9e1c9" fill="none"/>
+<rect x="170" y="140" width="22" height="16" rx="3" fill="#c8a24a" transform="rotate(20 181 148)"/><circle cx="300" cy="150" r="5" fill="#d84a5a"/></g>
+<g stroke="#ffe2a8" stroke-width="1" opacity=".25"><line x1="232" y1="0" x2="236" y2="52"/><line x1="250" y1="0" x2="246" y2="50"/></g>`);
+})();
+
+</script>
+<script>/* web/art/scenes-2.js */
+/* ============ Story art, part 2 ============ */
+(function(){
+const S = DB.scenes = DB.scenes || {};
+const svg = body => `<svg viewBox="0 0 480 180" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">${body}</svg>`;
+
+/* The Great Gatsby: a bay at night, a lit mansion on one shore, a small green light at the end of a far dock. */
+S["green-light"] = svg(`
+<defs><linearGradient id="gl-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050914"/><stop offset=".7" stop-color="#14223d"/><stop offset="1" stop-color="#26385a"/></linearGradient>
+<linearGradient id="gl-water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d1a2e"/><stop offset="1" stop-color="#03070f"/></linearGradient>
+<radialGradient id="gl-g" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#9dffb4" stop-opacity=".9"/><stop offset=".3" stop-color="#3fe08a" stop-opacity=".45"/><stop offset="1" stop-color="#3fe08a" stop-opacity="0"/></radialGradient></defs>
+<rect width="480" height="180" fill="url(#gl-sky)"/>
+<g fill="#dfe8ff">${[[30,18],[80,40],[132,12],[170,52],[230,24],[262,60],[318,14],[350,44],[410,22],[455,58],[60,70],[200,80]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="${(x*7%10)/10+0.5}" opacity=".7"/>`).join("")}</g>
+<rect y="118" width="480" height="62" fill="url(#gl-water)"/>
+<path d="M0 118 L0 96 Q30 92 60 98 L150 104 Q170 112 190 118Z" fill="#070c16"/>
+<g fill="#0b1220"><rect x="38" y="62" width="88" height="40"/><path d="M34 64 L82 40 L130 64Z"/><rect x="58" y="44" width="10" height="16"/><rect x="104" y="48" width="8" height="12"/></g>
+<g fill="#ffd98a">${[46,60,74,88,102,116].map(x=>`<rect x="${x}" y="70" width="6" height="9" opacity=".9"/><rect x="${x}" y="86" width="6" height="9" opacity=".75"/>`).join("")}</g>
+<g fill="#ffd98a" opacity=".25">${[46,60,74,88,102,116].map((x,i)=>`<rect x="${x}" y="${122+i%2*4}" width="6" height="${16+i%3*6}"/>`).join("")}</g>
+<path d="M300 118 Q360 106 420 108 Q460 110 480 106 V118Z" fill="#070c16"/>
+<rect x="352" y="113" width="44" height="3" fill="#0f1828"/><rect x="394" y="104" width="2.5" height="12" fill="#1a2436"/>
+<circle cx="395" cy="103" r="14" fill="url(#gl-g)"/><circle cx="395" cy="103" r="2.2" fill="#c9ffd6"/>
+<path d="M395 120 v26" stroke="#3fe08a" stroke-width="3" opacity=".35"/><path d="M395 120 v44" stroke="#3fe08a" stroke-width="1" opacity=".25"/>
+<g stroke="#2c4366" stroke-width="1" opacity=".6" fill="none"><path d="M200 132 h60 M240 144 h80 M150 156 h50 M300 162 h70"/></g>
+<path d="M150 117 L188 117" stroke="#0f1828" stroke-width="3"/><path d="M168 117 v-14" stroke="#0f1828" stroke-width="2"/>
+<g fill="#06090f"><path d="M174 103 q-3 -10 2 -12 q5 2 2 12z"/><rect x="172" y="103" width="6" height="14"/></g>`);
+
+/* A Christmas Carol: a cold counting-house on Christmas Eve, one candle, fog and snow at the window. */
+S["counting-house"] = svg(`
+<defs><linearGradient id="ch-wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#171a22"/><stop offset="1" stop-color="#0c0d12"/></linearGradient>
+<linearGradient id="ch-fog" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a6a80"/><stop offset="1" stop-color="#2a3344"/></linearGradient>
+<radialGradient id="ch-candle" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffd27a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient></defs>
+<rect width="480" height="180" fill="url(#ch-wall)"/>
+<rect x="300" y="18" width="130" height="96" fill="url(#ch-fog)"/>
+<g fill="#3a4658"><rect x="300" y="78" width="26" height="36"/><rect x="330" y="64" width="22" height="50"/><rect x="390" y="72" width="30" height="42"/><path d="M356 114 V58 l12 -10 12 10 V114z"/></g>
+<g fill="#ffe7b0" opacity=".5"><rect x="336" y="74" width="4" height="5"/><rect x="398" y="82" width="4" height="5"/><rect x="408" y="92" width="4" height="5"/></g>
+<g fill="#eef3fa">${Array.from({length:28},(_,i)=>`<circle cx="${302 + (i*47)%126}" cy="${22 + (i*31)%88}" r="${1 + (i%3)*0.5}" opacity=".8"/>`).join("")}</g>
+<g stroke="#2b2f3a" stroke-width="5" fill="none"><rect x="300" y="18" width="130" height="96"/><line x1="365" y1="18" x2="365" y2="114"/><line x1="300" y1="66" x2="430" y2="66"/></g>
+<rect x="296" y="114" width="138" height="6" fill="#2b2f3a"/>
+<path d="M40 120 L250 120 L262 132 L28 132Z" fill="#3b2617"/><rect x="40" y="132" width="10" height="48" fill="#24170e"/><rect x="232" y="132" width="10" height="48" fill="#24170e"/>
+<path d="M90 116 L150 110 L208 116 L150 120Z" fill="#e8dcc0"/><path d="M150 110 V120" stroke="#9a8a6a"/><g stroke="#8a7a5a" stroke-width=".8"><path d="M100 115 L144 111 M102 117 L144 114 M158 112 L200 115 M158 114 L198 117"/></g>
+<rect x="216" y="100" width="8" height="18" fill="#efe4c8"/><path d="M220 100 q-3 -6 0 -11 q3 5 0 11z" fill="#ffcb5a"/><circle cx="220" cy="96" r="60" fill="url(#ch-candle)"/>
+<rect x="60" y="106" width="14" height="10" fill="#1d1f26"/><path d="M67 106 L80 84" stroke="#d9d2bf" stroke-width="1.5"/>
+<g fill="#0a0b0f"><path d="M118 70 q2 -18 18 -18 q16 0 16 18 l4 40 h-42z"/><path d="M128 54 q8 -10 18 0" stroke="#0a0b0f" stroke-width="2"/></g>
+<g fill="#0a0b0f"><path d="M262 120 q0 -26 14 -30 q14 4 14 30 l2 60 h-32z"/><rect x="258" y="86" width="36" height="6" rx="2"/></g>`);
+
+/* Narrative of the Life of Frederick Douglass: a tidewater road in Talbot County at first light, a milestone toward Easton. */
+S["tidewater"] = svg(`
+<defs><linearGradient id="tw-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b3a5c"/><stop offset=".55" stop-color="#b98a8a"/><stop offset="1" stop-color="#f2c48a"/></linearGradient>
+<linearGradient id="tw-land" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3c4a34"/><stop offset="1" stop-color="#18200f"/></linearGradient>
+<linearGradient id="tw-river" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e8b884" stop-opacity=".2"/><stop offset=".5" stop-color="#f6d7a4" stop-opacity=".8"/><stop offset="1" stop-color="#e8b884" stop-opacity=".2"/></linearGradient></defs>
+<rect width="480" height="180" fill="url(#tw-sky)"/>
+<circle cx="330" cy="98" r="16" fill="#ffe3a8"/><circle cx="330" cy="98" r="40" fill="#ffe3a8" opacity=".18"/>
+<path d="M0 104 Q120 92 240 100 T480 98 V180 H0Z" fill="#3a4b3e"/>
+<path d="M180 108 Q300 100 480 106 L480 116 Q320 110 196 116Z" fill="url(#tw-river)"/>
+<g fill="#1f2a1c"><ellipse cx="40" cy="96" rx="26" ry="18"/><ellipse cx="70" cy="92" rx="20" ry="22"/><rect x="58" y="100" width="4" height="14"/>
+<ellipse cx="420" cy="96" rx="22" ry="14"/><ellipse cx="452" cy="92" rx="18" ry="18"/>
+<path d="M120 104 l8 -30 8 30z"/><path d="M134 104 l7 -24 7 24z"/></g>
+<path d="M0 124 Q200 112 480 122 V180 H0Z" fill="url(#tw-land)"/>
+<path d="M150 180 Q210 150 250 128 Q262 122 290 120 Q270 130 262 140 Q236 160 230 180Z" fill="#7a6a4a" opacity=".85"/>
+<g stroke="#2a331f" stroke-width="1" opacity=".6"><path d="M20 150 l6 -10 M40 158 l4 -12 M330 150 l5 -10 M380 160 l6 -12 M430 150 l4 -10"/></g>
+<g><rect x="306" y="128" width="18" height="30" rx="7" fill="#b8b0a0"/><rect x="306" y="150" width="18" height="10" fill="#8e8676"/>
+<text x="315" y="139" font-family="IBM Plex Mono, monospace" font-size="5.5" text-anchor="middle" fill="#3a352c">EASTON</text>
+<text x="315" y="148" font-family="IBM Plex Mono, monospace" font-size="8" text-anchor="middle" fill="#3a352c">12</text></g>
+<g fill="#1a1a14" opacity=".7"><path d="M60 64 q6 -4 12 0 q-6 -2 -12 0z"/><path d="M80 56 q5 -3 10 0 q-5 -2 -10 0z"/></g>`);
+})();
 
 </script>
 <script>/* web/content/algebra-1/a1-abs-eq.js */
@@ -10608,6 +10977,127 @@ ARITH["g-volume"] = {
     { q: `Three tennis balls, each 6.5 cm in diameter, fit snugly in a cylindrical can (the can's radius equals a ball's radius and its height is three diameters). What fraction of the can is empty, and how much empty space is there?`, a: `With <span class="m"><i>r</i> = 3.25</span>: balls <span class="m">3 · <span class="fr"><span>4</span><span>3</span></span>π<i>r</i><sup>3</sup> = 4π<i>r</i><sup>3</sup></span>, can <span class="m">π<i>r</i><sup>2</sup> · 6<i>r</i> = 6π<i>r</i><sup>3</sup></span>. Empty: <span class="m">2π<i>r</i><sup>3</sup></span>, which is <span class="m"><span class="fr"><span>1</span><span>3</span></span></span> of the can whatever the size. Here <span class="m">2π(3.25)<sup>3</sup> = <span class="fr"><span>2197π</span><span>32</span></span> ≈ 215.7</span> cm³.` }
   ],
   origin: `Archimedes credits Democritus with stating that a cone is one third of the cylinder with the same base and height, and Eudoxus with the first proof. Archimedes himself showed, in <i>On the Sphere and Cylinder</i>, that a sphere is two thirds of its enclosing cylinder. The slicing principle was used by Zu Gengzhi in China around 500 CE to find the volume of a sphere, and was published in Europe by Bonaventura Cavalieri in 1635.`
+};
+
+</script>
+<script>/* web/content/grammar/eng-parts-of-speech.js */
+window.ARITH = window.ARITH || {};
+
+ARITH["eng-parts-of-speech"] = {
+  title: "The Parts of Speech",
+  short: "The eight word classes of English and how to tell which one a word belongs to",
+  grade: "College ENGL 1xx · grammar",
+  hours: 4,
+  voice: "plain",
+  eyebrow: "Grammar & Usage · word classes",
+  hero: `<span class="c2">Would</span> <span class="c3">the</span> <span class="c1">fall</span> <span class="c4"><i>never</i></span> <span class="c2">come</span> <span class="c5">to</span> <span class="c3">an</span> <span class="c1">end</span>?`,
+  lede: `Every word in a sentence belongs to a word class, a part of speech. The class is decided by what the word does in that sentence, which is why the same word can be a noun in one line and a verb in the next.`,
+  plain: `<p>Grammar starts by sorting words into groups that behave alike. Traditional English grammar uses <b>eight parts of speech</b>: <b>nouns</b> name things and ideas (<i>truth, wife, Maryland</i>); <b>pronouns</b> stand in for nouns (<i>I, me, nothing, who</i>); <b>verbs</b> say what happens or what is (<i>fell, gave, is</i>); <b>adjectives</b> describe nouns (<i>single, younger, watery</i>); <b>adverbs</b> describe verbs, adjectives or other adverbs (<i>down, never, quickly</i>); <b>prepositions</b> link a noun to the rest of the sentence (<i>in, of, near</i>); <b>conjunctions</b> join words and clauses (<i>and, or, that</i>); and <b>interjections</b> are exclamations that stand on their own (<i>Bah!</i>). The little words <i>a</i>, <i>an</i> and <i>the</i> are <b>articles</b>, which the traditional eight count as adjectives.</p>
+<p>The trap is to sort words by meaning alone. "A noun is a person, place or thing" sounds right until you meet <i>truth</i>, <i>possession</i> or <i>want</i>, which are nouns but are none of those. A better question is <b>what job the word is doing here</b>, and there are two quick tests. The <b>form test</b>: can the word take the endings its class takes? Nouns go plural (<i>fortune, fortunes</i>), verbs change tense (<i>give, gave</i>), adjectives compare (<i>young, younger</i>). The <b>slot test</b>: does the word fit the class's usual position? A noun fits after <i>the</i>; an adjective fits between <i>a</i> and a noun.</p>
+<p>Because the job decides the class, many words change class. <i>Down</i> is an adverb in "Down, down, down", a preposition in "down the hole", a noun in "a pillow stuffed with down" and a verb in "they downed tools". Learn the classes as jobs, and the rest of grammar (phrases, clauses, commas, agreement) is built from these same eight pieces.</p>`,
+  formal: `<p>A <b>part of speech</b> (a <b>word class</b> or <b>lexical category</b>) is a set of words that share <b>morphological</b> properties (the inflections they take), <b>syntactic</b> properties (the positions they fill and the words they combine with) and, loosely, a typical <b>meaning</b>. Classification rests on the first two; meaning is a guide, not a definition.</p>
+<div class="display"><span class="c1">Noun</span>: heads a noun phrase; inflects for number and possessive (<i>wife, wives, wife’s</i>).<br><span class="c1">Pronoun</span>: replaces a noun phrase; personal pronouns inflect for case (<i>I / me / my</i>).<br><span class="c2">Verb</span>: heads the predicate; inflects for tense and agreement (<i>give, gives, gave, given, giving</i>).<br><span class="c3">Adjective</span>: modifies a noun or follows a linking verb; most grade (<i>young, younger, youngest</i>).<br><span class="c4">Adverb</span>: modifies a verb, adjective, adverb or clause (<i>never, very, aloud</i>).<br><span class="c5">Preposition</span>: takes a noun phrase as its object and relates it to another element (<i>in Tuckahoe</i>).<br><span class="c5">Conjunction</span>: coordinating (<i>and, but, or, nor, for, so, yet</i>) or subordinating (<i>that, because, if</i>).<br><span class="c5">Interjection</span>: an exclamation outside the clause structure (<i>Bah! Alas!</i>).</div>
+<p>Nouns, verbs, adjectives and adverbs are <b>open classes</b>: they carry most of a sentence's content (<b>lexical</b> or content words) and admit new members (<i>to google</i>, <i>a selfie</i>). Pronouns, prepositions, conjunctions, articles and other determiners are <b>closed classes</b> of <b>function words</b>: small, fixed sets that mark grammatical relations. A word's class is a property of each <b>use</b>: English allows <b>conversion</b> (zero derivation), a change of class with no change of form, as in <i>a fast</i> (noun), <i>to fast</i> (verb), <i>a fast train</i> (adjective), <i>run fast</i> (adverb).</p>
+<p>The eight-class scheme is the traditional one used in most college handbooks. Modern reference grammars such as Huddleston and Pullum's <i>Cambridge Grammar of the English Language</i> (2002) revise it: articles and words like <i>my, this, some, every</i> form a separate class of <b>determinatives</b>; pronouns are treated as a subclass of nouns; and conjunctions split into <b>coordinators</b> and <b>subordinators</b>, with many traditional subordinating conjunctions (<i>before, since, after</i>) reclassified as prepositions. Codex uses the traditional eight and notes the modern analysis where it differs.</p>`,
+  legend: [
+    { c: "c1", sym: `N`, name: "Nouns & pronouns", desc: "Naming words. Nouns head noun phrases (<i>truth, Ishmael</i>); pronouns stand in for them (<i>I, me, who, nothing</i>)." },
+    { c: "c2", sym: `V`, name: "Verbs", desc: "The engine of the predicate, including auxiliaries: <i>is, gave, would sail, was born</i>. Verbs are the only words that take tense." },
+    { c: "c3", sym: `Adj`, name: "Adjectives & articles", desc: "Noun modifiers: <i>single, watery, younger</i>, plus the articles <i>a, an, the</i> and determiners such as <i>some, this, twelve</i>." },
+    { c: "c4", sym: `Adv`, name: "Adverbs", desc: "Modify verbs, adjectives, other adverbs or whole clauses: <i>down, never, quickly, more, aloud</i>." },
+    { c: "c5", sym: `P C !`, name: "Prepositions, conjunctions, interjections", desc: "Connectors and exclamations: <i>in, of, near</i>; <i>and, or, that</i>; <i>Bah! Humbug!</i>" }
+  ],
+  steps: { title: "How to find a word's part of speech", items: [
+    `Read the <b>whole sentence</b> first. A word has no class on its own, only in a sentence.`,
+    `Find the <span class="c2">verb</span> first: the word that can change tense (<i>gives → gave</i>). Everything else is arranged around it.`,
+    `Apply the <b>form test</b>: can the word go plural or possessive (<span class="c1">noun</span>), compare with <i>-er</i> or <i>more</i> (<span class="c3">adjective</span> or <span class="c4">adverb</span>)?`,
+    `Apply the <b>slot test</b>: does it fit "the ___" (<span class="c1">noun</span>), "a ___ thing" (<span class="c3">adjective</span>), "She did it ___" (<span class="c4">adverb</span>)?`,
+    `For short words, ask what follows. A noun phrase after it makes it a <span class="c5">preposition</span> (<i>down the hole</i>); nothing after it makes it an <span class="c4">adverb</span> (<i>fell down</i>); a whole clause after it may make it a <span class="c5">conjunction</span> (<i>that you tried</i>).`,
+    `Confirm by <b>substitution</b>: swap in a word whose class you are sure of. If the sentence still works, the two words are doing the same job.`
+  ] },
+  example: {
+    prompt: `Give the part of speech of every word in the famous "garden-path" sentence <i>The old man the boats.</i>`,
+    lines: [
+      { math: `<span class="c3">The</span> <span class="c3">old</span> <span class="c1">man</span> · the boats ?`, note: "First reading: old = adjective, man = noun. Then there is no verb left, so this reading cannot be right." },
+      { math: `<span class="c1">man</span> → <span class="c2">manned</span>`, note: "Look for a word that can change tense. 'Man' can: to man a boat means to crew it (The old manned the boats)." },
+      { math: `<span class="c3">The</span> <span class="c1">old</span> = the old people`, note: "With man as the verb, 'the old' is the subject. Old does a noun's job: an adjective used as a noun, like the rich or the brave." },
+      { math: `<span class="c3">The</span> <span class="c1">old</span> | <span class="c2">man</span> <span class="c3">the</span> <span class="c1">boats</span>`, note: "Subject | predicate. 'The boats' is the object of the verb, a noun with its article." },
+      { math: `<span class="c3">The</span> <span class="c1">sailors</span> <span class="c2">crew</span> <span class="c3">the</span> <span class="c1">boats</span> ✓`, note: "Substitution check: words of known class in the same slots give a normal sentence with the same structure." }
+    ],
+    answer: `<i>The</i>: article (adjective); <i>old</i>: adjective used as a noun; <i>man</i>: verb; <i>the</i>: article (adjective); <i>boats</i>: noun. The sentence means "Old people crew the boats."`
+  },
+  why: `<p>The parts of speech are the vocabulary of every conversation about writing. A handbook rule such as "use a comma before a coordinating conjunction that joins two independent clauses", "a pronoun must agree with its antecedent" or "don't use an adjective where an adverb is needed" is impossible to follow without them. Editors, teachers and style guides all speak this language, and so does every grammar checker that flags a sentence.</p>
+<p>They are also the first step in reading closely. Writers choose word classes deliberately: Austen's opening is built on abstract nouns, Carroll tells a fall in adverbs, Douglass fixes his birthplace with a chain of prepositions. Seeing the class of a word is how you start to see why a sentence works. And the same categories carry over to learning other languages and to the computational study of language, where part-of-speech tagging is a basic step in processing text.</p>`,
+  careers: [
+    { role: "Copy editor", use: "Names and fixes errors precisely (a dangling participle, a pronoun with no antecedent, an adjective where an adverb belongs) when querying an author." },
+    { role: "English or ESL teacher", use: "Teaches sentence structure and explains learners' errors by word class, for example why 'She sings beautiful' needs the adverb 'beautifully'." },
+    { role: "Computational linguist", use: "Builds and evaluates part-of-speech taggers, the step that lets search engines, translation systems and grammar checkers parse a sentence." },
+    { role: "Lexicographer", use: "Assigns part-of-speech labels to dictionary entries and records new conversions, such as a noun that has started to be used as a verb." },
+    { role: "Lawyer or legislative drafter", use: "Argues and drafts on the scope of words, such as whether 'only' or a modifying phrase attaches to one noun or to a whole list." },
+    { role: "Speech-language pathologist", use: "Assesses a child's grammatical development by which word classes and endings the child uses correctly." }
+  ],
+  life: [
+    "Reading a dictionary entry, which lists each sense under n., v., adj. or adv.",
+    "Understanding a grammar checker's suggestion before accepting it.",
+    "Learning a foreign language, where textbooks teach nouns, verbs and adjectives separately.",
+    "Choosing between 'good' and 'well', or 'bad' and 'badly', in your own writing."
+  ],
+  fields: [
+    { name: "Linguistics", use: "Word classes are the categories of syntax and morphology, tested with the same form and position criteria." },
+    { name: "Foreign language study", use: "Gender, case and agreement rules in Spanish, French or German are all stated in terms of word classes." },
+    { name: "Computer science (natural language processing)", use: "Part-of-speech tagging is a standard first stage in parsing, search and machine translation." },
+    { name: "Law", use: "Statutory interpretation often turns on how a word or modifier functions in a sentence." }
+  ],
+  prereqWhy: {},
+  unlocksWhy: {},
+  beyond: [
+    { field: "Composition I", why: "Revising sentences, and every handbook rule for commas, agreement and modifiers, is stated in terms of the parts of speech." },
+    { field: "Introduction to Literature", why: "Close reading starts with diction: noticing which nouns, verbs and modifiers a writer chooses and why." },
+    { field: "Introduction to English Linguistics", why: "Syntax builds phrases and clauses from these categories and refines them with formal tests." },
+    { field: "History of the English Language", why: "Conversion between classes and the loss of Old English inflections explain why English words change class so freely." }
+  ],
+  mistakes: [
+    { wrong: `"A noun is a person, place or thing, so <i>truth</i> and <i>want</i> are not nouns."`, fix: `Meaning-based definitions leak. Use form and position: <i>a truth</i>, <i>truths</i>, <i>in want of</i>. Both fill noun slots, so both are nouns there.` },
+    { wrong: `"Every word ending in <i>-ly</i> is an adverb."`, fix: `<i>Friendly, lonely, costly, ugly</i> are adjectives (<i>a friendly dog</i>). Many adverbs have no <i>-ly</i> at all: <i>fast, soon, never, down, very</i>.` },
+    { wrong: `"A word has one part of speech, the one in the dictionary."`, fix: `Dictionaries list several because the class depends on use: <i>fast</i> is a noun, verb, adjective or adverb depending on the sentence.` },
+    { wrong: `"<i>To</i> is always a preposition."`, fix: `Before a noun phrase it is (<i>to an end</i>). Before a verb it is the infinitive marker that goes with the verb (<i>to interest me</i>).` }
+  ],
+  practice: [
+    { q: `Give the part of speech of <i>fast</i> in each: (a) She runs fast. (b) a fast train (c) They broke their fast at sunset. (d) Many patients fast before surgery.`,
+      a: `(a) adverb, it modifies the verb <i>runs</i>; (b) adjective, it modifies the noun <i>train</i>; (c) noun, it follows the possessive <i>their</i> and is the object of <i>broke</i>; (d) verb, it is the predicate and can change tense (<i>fasted</i>).` },
+    { q: `Label every word: <i>Alas, the old ship sank slowly beneath the waves.</i>`,
+      a: `<i>Alas</i> interjection; <i>the</i> article (adjective); <i>old</i> adjective; <i>ship</i> noun; <i>sank</i> verb; <i>slowly</i> adverb; <i>beneath</i> preposition; <i>the</i> article (adjective); <i>waves</i> noun.` },
+    { q: `Is <i>up</i> a preposition or an adverb in (a) <i>She ran up the hill</i> and (b) <i>She looked the word up</i>? Give a test.`,
+      a: `(a) preposition: it takes the object <i>the hill</i>, and the phrase moves as a unit (<i>Up the hill she ran</i>). (b) adverb (a particle of the phrasal verb <i>look up</i>): it can follow the object (<i>looked the word up</i>), and <i>Up the word she looked</i> is impossible.` },
+    { q: `Classify <i>that</i> in each: (a) <i>That lamp is broken.</i> (b) <i>I know that.</i> (c) <i>I know that you tried.</i> (d) <i>the lamp that broke</i>`,
+      a: `(a) adjective (a demonstrative determiner) modifying <i>lamp</i>; (b) pronoun (demonstrative), the object of <i>know</i>; (c) conjunction (subordinating), it introduces the clause <i>you tried</i>; (d) pronoun (relative), it refers back to <i>lamp</i> and is the subject of <i>broke</i>.` }
+  ],
+  stories: [
+    { title: "A Truth Universally Acknowledged", book: "Pride and Prejudice", author: "Jane Austen", year: 1813, kind: "Novel", where: "Chapter 1", scene: "drawing-room", focus: ["n"],
+      tokens: `It_pr is_v a_ar truth_n universally_av acknowledged_v , that_cj a_ar single_aj man_n in_p possession_n of_p a_ar good_aj fortune_n must_v be_v in_p want_n of_p a_ar wife_n .`,
+      notes: { it: "A “dummy” pronoun: it holds the subject position while the real subject, the that-clause, waits at the end of the sentence.", acknowledged: "A past participle (a verb form) heading the phrase universally acknowledged, which describes truth.", that: "Subordinating conjunction: it introduces the clause that says what the truth is.", must: "A modal auxiliary verb. With be it forms the verb phrase must be.", want: "Usually a verb (I want). Here it follows the preposition in, so it is a noun meaning “need”." },
+      note: `Six nouns carry the most famous sentence in English fiction: <i>truth, man, possession, fortune, want, wife</i>. Only two of them name people. <i>Truth</i>, <i>possession</i> and <i>want</i> are ideas, which is why "person, place or thing" fails as a definition. What makes them nouns is their position, each after an article or a preposition, and their form: <i>truths, fortunes, wives</i>. Notice <i>want</i>, usually a verb, doing a noun's job after <i>in</i>.` },
+    { title: "Call Me Ishmael", book: "Moby-Dick", author: "Herman Melville", year: 1851, kind: "Novel", where: "Chapter 1, Loomings", scene: "whaler", focus: ["pr"],
+      tokens: `Call_v me_pr Ishmael_n . Some_aj years_n ago_av — never_av mind_v how_av long_av precisely_av — having_v little_aj or_cj no_aj money_n in_p my_pr purse_n , and_cj nothing_pr particular_aj to_v interest_v me_pr on_p shore_n , I_pr thought_v I_pr would_v sail_v about_av a_ar little_n#alittle and_cj see_v the_ar watery_aj part_n of_p the_ar world_n .`,
+      notes: { call: "An imperative verb: the subject (you) is understood, not written.", ishmael: "A proper noun, the narrator's name. It completes the verb: call me what?", ago: "Traditional grammar calls ago an adverb (how long before now). Modern grammars class it as a preposition that follows its complement.", having: "A present participle (a verb form) heading the long phrase that explains why he went to sea.", little: "A determiner of amount before the noun money, counted as an adjective in the traditional eight.", no: "A determiner meaning “not any”, counted as an adjective in the traditional eight.", my: "A possessive pronoun (a possessive determiner in modern grammars).", nothing: "An indefinite pronoun: it stands for a whole noun phrase, “no thing”.", to: "The infinitive marker, which goes with the verb interest. It is not a preposition here: no noun phrase follows it.", would: "A modal auxiliary verb, shared by sail and see.", about: "An adverb: sail about means sail around, here and there.", alittle: "In a little, little is a noun (a small amount); the whole phrase works like an adverb of degree: “somewhat”." },
+      note: `Melville opens with a pronoun before we learn a name: <i>me</i>, then <i>Ishmael</i>. Follow the pronouns and you follow the narrator: <i>me, my, me, I, I</i>. They are the same person in three cases: <i>I</i> as subject, <i>me</i> as object, <i>my</i> as possessive. <i>Nothing</i> is a pronoun too, an indefinite one that stands for "no thing".` },
+    { title: "Bah! Humbug!", book: "A Christmas Carol", author: "Charles Dickens", year: 1843, kind: "Novella", where: "Stave One", scene: "counting-house", focus: ["v", "ij"],
+      tokens: `“ A_ar merry_aj Christmas_n , uncle_n ! God_n save_v you_pr ! ” cried_v a_ar cheerful_aj voice_n . It_pr was_v the_ar voice_n of_p Scrooge’s_n nephew_n , who_pr came_v upon_p him_pr so_av quickly_av that_cj this_pr was_v the_ar first_aj intimation_n he_pr had_v of_p his_pr approach_n . ¶ “ Bah_ij ! ” said_v Scrooge_n , “ Humbug_ij ! ”`,
+      notes: { christmas: "A proper noun: the name of a particular day.", save: "A verb in the subjunctive mood (a wish): God save you. It has the plain base form, with no -s.", scrooge: "A proper noun. In Scrooge’s nephew it is possessive, still a noun.", who: "A relative pronoun: it refers back to nephew and is the subject of came.", that: "A subordinating conjunction, paired with so: so quickly that…", this: "A demonstrative pronoun, standing alone as the subject of was.", humbug: "Normally a noun (a fraud, nonsense). Flung out on its own it works as an interjection.", bah: "An interjection: it is attached to no other word and expresses only Scrooge's contempt." },
+      note: `Dickens drives the scene with verbs: <i>cried, was, came, was, had, said</i>, all past tense, the default tense of narrative. <i>Save</i> in "God save you" is a subjunctive, a wish. Then come Scrooge's two words. <i>Bah!</i> and <i>Humbug!</i> are interjections: they sit outside the grammar of any sentence, modify nothing and connect nothing, and tell us only how he feels.` },
+    { title: "Younger and More Vulnerable", book: "The Great Gatsby", author: "F. Scott Fitzgerald", year: 1925, kind: "Novel", where: "Chapter I", scene: "green-light", focus: ["aj"],
+      tokens: `In_p my_pr younger_aj and_cj more_av vulnerable_aj years_n my_pr father_n gave_v me_pr some_aj advice_n that_pr I_pr ’ve_v been_v turning_v over_av in_p my_pr mind_n ever_av since_av .`,
+      notes: { younger: "An adjective in the comparative degree, formed with -er.", more: "An adverb: it modifies the adjective vulnerable, making the comparative of a long word.", vulnerable: "An adjective; with younger it describes years.", some: "A determiner of quantity before advice, counted as an adjective in the traditional eight.", my: "A possessive pronoun (a possessive determiner in modern grammars).", that: "A relative pronoun: it refers back to advice and is the object of turning over.", over: "An adverb particle: turn over (think about) is a phrasal verb.", since: "An adverb here: ever since means “from then until now”. Followed by a clause (since I was young) the same word is a conjunction.", "’ve": "The contracted auxiliary verb have." },
+      note: `<i>Younger and more vulnerable</i>: two adjectives joined by <i>and</i>, both describing <i>years</i>. They show the two ways English compares adjectives: the ending <i>-er</i> for short words (<i>younger</i>) and the adverb <i>more</i> for longer ones (<i>more vulnerable</i>). Notice what the sentence lacks: not one article. <i>Some</i> sits in the article's place, a determiner the traditional eight count as an adjective.` },
+    { title: "Down, Down, Down", book: "Alice's Adventures in Wonderland", author: "Lewis Carroll", year: 1865, kind: "Novel", where: "Chapter I", scene: "rabbit-hole", focus: ["av"],
+      tokens: `Down_av , down_av , down_av . Would_v the_ar fall_n never_av* come_v to_p an_ar end_n ? “ I_pr wonder_v how_av many_aj miles_n I_pr ’ve_v fallen_v by_p this_aj time_n ? ” she_pr said_v aloud_av .`,
+      notes: { down: "An adverb of direction. In down the rabbit-hole the same word is a preposition, because a noun phrase follows it.", would: "A modal auxiliary verb; with come it forms the verb phrase would come.", never: "An adverb of time modifying the verb come. Carroll set it in italics for emphasis.", fall: "A noun here, after the article the. In Alice fell it would be a verb.", how: "An adverb of degree modifying the adjective many.", many: "A determiner of quantity before miles, counted as an adjective.", this: "A demonstrative adjective (determiner) modifying time.", aloud: "An adverb of manner: it says how she said it.", "’ve": "The contracted auxiliary verb have; with fallen it forms the present perfect." },
+      note: `Carroll tells the fall in adverbs. <i>Down, down, down</i> answers "where?" and stands alone as a whole sentence. <i>Never</i> modifies the verb <i>come</i>; <i>how</i> modifies the adjective <i>many</i>; <i>aloud</i> tells how Alice <i>said</i> it. Not one of them ends in <i>-ly</i>, which is why the <i>-ly</i> test finds only some adverbs.` },
+    { title: "I Was Born in Tuckahoe", book: "Narrative of the Life of Frederick Douglass, an American Slave", author: "Frederick Douglass", year: 1845, kind: "Autobiography", where: "Chapter I", scene: "tidewater", focus: ["p", "cj"],
+      tokens: `I_pr was_v born_v in_p Tuckahoe_n , near_p Hillsborough_n , and_cj about_av twelve_aj miles_n from_p Easton_n , in_p Talbot_n county_n , Maryland_n .`,
+      notes: { born: "A past participle. Was born is a passive verb phrase.", about: "An adverb meaning “approximately”, modifying twelve.", twelve: "A number before a noun: an adjective in the traditional eight (a determiner in modern grammars).", talbot: "A proper noun used to modify county. A noun in front of another noun stays a noun.", and: "A coordinating conjunction joining the place phrases." },
+      note: `Douglass opens his autobiography by fixing a place with a chain of prepositions: <i>in</i> Tuckahoe, <i>near</i> Hillsborough, <i>from</i> Easton, <i>in</i> Talbot county. Each preposition takes a noun as its object and links it to <i>was born</i>. The conjunction <i>and</i> joins the phrases. Watch <i>about</i>: here it is not a preposition but an adverb meaning "approximately", modifying <i>twelve</i>.` }
+  ],
+  origin: `The idea of eight parts of speech is about two thousand years old. The <i>Art of Grammar</i> attributed to Dionysius Thrax (Greek, about 100 BC) listed eight for Greek: noun, verb, participle, article, pronoun, preposition, adverb and conjunction. The Roman grammarian Donatus (4th century AD), whose <i>Ars minor</i> was the standard school grammar of medieval Europe, kept eight for Latin, which has no article, by adding the interjection. English grammars of the eighteenth century, such as Robert Lowth's (1762) and Lindley Murray's (1795), listed nine: they folded the participle into the verb, made the adjective (which Latin grammarians had grouped with the noun) a class of its own, and restored the article. School grammars later counted the article as a kind of adjective, giving the eight taught today. Modern descriptive grammars, notably Huddleston and Pullum's <i>Cambridge Grammar of the English Language</i> (2002), revise the scheme on the evidence of how English words actually behave.`
 };
 
 </script>
@@ -22012,6 +22502,103 @@ L["a1-quad-apps"] = k => {
 })();
 
 </script>
+<script>/* web/labs/eng-1.js */
+/* ============ Labs: English · Grammar & Usage ============ */
+(function(){
+const L = window.LABS;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* The Parts of Speech: tag the story passages, see one word take many jobs, and a quiz. */
+L["eng-parts-of-speech"] = k => {
+  const P = DB.posTags, ST = ((window.ARITH || {})["eng-parts-of-speech"] || {}).stories || [];
+  const GROUPS = [["all", "All eight classes"], ["c1", "Nouns & pronouns"], ["c2", "Verbs"], ["c3", "Adjectives & articles"], ["c4", "Adverbs"], ["c5", "Prepositions, conjunctions, interjections"]];
+  const QUIZ = ["n", "pr", "v", "aj", "av", "p", "cj", "ij"];             // the traditional eight (an article counts as an adjective)
+  const JOBS = {
+    fast: [["She runs <b>fast</b>.", "av", "It modifies the verb runs (how does she run?)."], ["a <b>fast</b> train", "aj", "It modifies the noun train, and it compares: a faster train."], ["They broke their <b>fast</b> at sunset.", "n", "It follows the possessive their and goes plural: fasts."], ["Many patients <b>fast</b> before surgery.", "v", "It is the predicate and changes tense: they fasted."]],
+    down: [["Alice fell <b>down</b>.", "av", "Nothing follows it: an adverb of direction."], ["Alice fell <b>down</b> the hole.", "p", "It takes the noun phrase the hole as its object."], ["a pillow stuffed with <b>down</b>", "n", "Soft feathers: the object of the preposition with."], ["The dockers <b>down</b> tools at noon.", "v", "It is the predicate and changes tense: they downed tools."]],
+    that: [["<b>That</b> lamp is broken.", "aj", "It points to the noun lamp: a demonstrative adjective (a determiner)."], ["I know <b>that</b>.", "pr", "It stands alone for a whole noun phrase: a demonstrative pronoun."], ["I know <b>that</b> you tried.", "cj", "It introduces the clause you tried: a subordinating conjunction."], ["the lamp <b>that</b> broke", "pr", "It refers back to lamp and is the subject of broke: a relative pronoun."]],
+    round: [["a <b>round</b> table", "aj", "It modifies the noun table, and it compares: rounder."], ["We won the first <b>round</b>.", "n", "It follows the first and goes plural: rounds."], ["The ship <b>rounds</b> the cape.", "v", "It is the predicate and changes tense: rounded."], ["They sat <b>round</b> the fire.", "p", "It takes the object the fire (American English prefers around)."], ["Come <b>round</b> tomorrow.", "av", "Nothing follows it: an adverb meaning “over, to my place”."]]
+  };
+  const dom = k.dom(); dom.classList.add("pos-wrap");
+  let mode = "read", story = 0, group = "all", sel = null, word = "fast", job = 0, q = null, score = { right: 0, tries: 0 };
+  const parsed = ST.map(s => DB.parseStory(s.tokens));
+  const tagName = t => t === "ar" ? "Article (adjective)" : P[t].name;
+  const src = s => `${esc(s.author)} · <i>${esc(s.book)}</i> (${s.year})`;
+  const passage = (i, cls) => { let html = "<p>"; parsed[i].forEach((x, j) => {
+    if (x.br) { html += "</p><p>"; return; }
+    let w = esc(x.w); if (x.it) w = `<i>${w}</i>`;
+    if (x.tag) w = cls(x, j, w);
+    html += (x.glue ? "" : " ") + w; }); return html + "</p>"; };
+
+  function controls(){
+    k.ctl.innerHTML = "";
+    if (mode === "read") {
+      k.select("Passage", ST.map((s, i) => [i, s.book]), story, v => { story = +v; sel = null; draw(); });
+      k.select("Colour", GROUPS, group, v => { group = v; draw(); });
+      k.button("Clear selection", () => { sel = null; draw(); }, "btn ghost");
+    } else if (mode === "jobs") {
+      k.select("Word", Object.keys(JOBS).map(w => [w, w]), word, v => { word = v; job = 0; draw(); });
+      k.button("Next sentence", () => { job = (job + 1) % JOBS[word].length; draw(); }, "btn ghost");
+    } else {
+      k.button("Next word", () => { pick(); draw(); });
+      k.button("Reset score", () => { score = { right: 0, tries: 0 }; draw(); }, "btn ghost");
+    }
+  }
+  function pick(){
+    const pool = []; parsed.forEach((p, i) => p.forEach((x, j) => { if (x.tag) pool.push([i, j]); }));
+    let c; do { c = pool[Math.floor(Math.random() * pool.length)]; } while (q && pool.length > 1 && c[0] === q.i && c[1] === q.j);
+    q = { i: c[0], j: c[1], answer: null };
+  }
+
+  function draw(){
+    if (mode === "read") {
+      const s = ST[story];
+      dom.innerHTML = `<div class="pos-src">${src(s)} · ${esc(s.where)}</div><div class="pos-text">${passage(story, (x, j, w) => {
+        const c = P[x.tag].c, on = group === "all" || group === c;
+        return `<button type="button" class="pos-w ${on ? c + " on" : ""}${sel === j ? " sel " + c : ""}" data-j="${j}" aria-label="${esc(x.w)}">${w}</button>`; })}</div>`;
+      dom.querySelectorAll(".pos-w").forEach(b => b.onclick = () => { sel = +b.dataset.j; draw(); });
+      const counts = {}; parsed[story].forEach(x => { if (x.tag) counts[x.tag] = (counts[x.tag] || 0) + 1; });
+      const x = sel != null ? parsed[story][sel] : null;
+      const note = x ? (s.notes || {})[x.key] : null;
+      k.setRO(x ? `<div><h2>Selected word</h2><div class="ro-big" style="margin-top:8px"><span class="${P[x.tag].c}">${esc(x.w)}</span></div></div>
+        <div class="ro-rows"><div class="row"><span class="v ${P[x.tag].c}">${esc(tagName(x.tag))}</span><span class="lbl">${esc(P[x.tag].test)}</span></div></div>
+        <div class="landmark${note ? " hit" : ""}"><div class="big">${note ? "In this sentence" : "Why this class"}</div><div class="note">${esc(note || "Its form and its position in this sentence are those of a " + tagName(x.tag).toLowerCase() + ".")}</div></div>
+        <p class="narr">An amber box means this word has a note for this sentence: it changes class or needs a closer look.</p>`
+      : `<div><h2>Words by class</h2><div class="ro-big" style="margin-top:8px"><span class="num">${parsed[story].filter(x => x.tag).length}</span> words</div></div>
+        <div class="ro-rows">${Object.keys(P).filter(t => counts[t]).map(t => `<div class="row"><span class="${P[t].c}">${esc(tagName(t))}</span> <span class="v ${P[t].c}">${counts[t]}</span></div>`).join("")}</div>
+        <div class="landmark"><div class="big">Click any word</div><div class="note">The readout names its part of speech, the test that proves it, and any note on how it works in this sentence.</div></div>
+        <p class="narr">Use Colour to pick out one class at a time. Which class does this writer lean on?</p>`);
+    } else if (mode === "jobs") {
+      const list = JOBS[word], cur = list[job];
+      dom.innerHTML = `<div class="pos-src">One word, many jobs: <i>${esc(word)}</i></div><div class="pos-jobs">${list.map(([s, t], i) =>
+        `<div class="pos-job${i === job ? " sel" : ""}" data-i="${i}" role="button" tabindex="0"><span class="s ${i === job ? P[t].c : ""}">${s.replace(/<b>/, `<b class="${P[t].c}">`)}</span><span class="t ${P[t].c}">${esc(P[t].name)}</span></div>`).join("")}</div>`;
+      dom.querySelectorAll(".pos-job").forEach(el => { el.onclick = () => { job = +el.dataset.i; draw(); }; el.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); el.onclick(); } }; });
+      const classes = [...new Set(list.map(r => r[1]))].length;
+      k.setRO(`<div><h2>${esc(word)} in sentence ${job + 1}</h2><div class="ro-big" style="margin-top:8px"><span class="${P[cur[1]].c}">${esc(P[cur[1]].name)}</span></div></div>
+        <div class="ro-rows"><div class="row"><span class="lbl" style="font-size:14px;color:var(--muted)">${esc(cur[2])}</span></div><div class="row"><span>Classes for this one spelling</span> <span class="v c1">${classes}</span></div></div>
+        <div class="landmark hit"><div class="big">Same spelling, different job</div><div class="note">English changes a word's class with no change of form (conversion). The class belongs to the use, not to the word.</div></div>
+        <p class="narr">Pick another word, or step through the sentences.</p>`);
+    } else {
+      if (!q) pick();
+      const s = ST[q.i], x = parsed[q.i][q.j], truth = x.tag === "ar" ? "aj" : x.tag;
+      dom.innerHTML = `<div class="pos-src">${src(s)}</div><div class="pos-text">${passage(q.i, (y, j, w) => j === q.j ? `<span class="pos-w sel ${q.answer ? P[x.tag].c : ""}" style="box-shadow:0 0 0 1px var(--amber)">${w}</span>` : w)}</div>
+        <div class="pos-quiz">${QUIZ.map(t => `<button type="button" data-t="${t}" class="${q.answer ? (t === truth ? "right" : t === q.answer ? "wrong" : "") : ""}">${esc(P[t].name)}</button>`).join("")}</div>`;
+      dom.querySelectorAll(".pos-quiz button").forEach(b => b.onclick = () => { if (q.answer) return; q.answer = b.dataset.t; score.tries++; if (q.answer === truth) score.right++; draw(); });
+      const note = (s.notes || {})[x.key];
+      k.setRO(`<div><h2>Score</h2><div class="ro-big" style="margin-top:8px"><span class="num c5">${score.right}</span> / <span class="num">${score.tries}</span></div></div>
+        <div class="ro-rows"><div class="row"><span>Word</span> <span class="v c1">${esc(x.w)}</span><span class="lbl">Boxed in the passage. What part of speech is it here?</span></div></div>
+        ${q.answer ? `<div class="landmark hit"><div class="big">${q.answer === truth ? "Right" : "Not quite"}: <span class="${P[x.tag].c}">${esc(tagName(x.tag))}</span></div><div class="note">${esc(note || P[x.tag].test)}</div></div>`
+          : `<div class="landmark"><div class="big">Choose a class</div><div class="note">Use the tests: find the verb first, then try the form and slot tests on this word.</div></div>`}
+        <p class="narr">${q.answer ? "Press Next word for another." : "Articles count as adjectives in the traditional eight."}</p>`);
+    }
+  }
+  const md = k.modes([["read", "Tag a passage"], ["jobs", "One word, many jobs"], ["quiz", "Quiz"]], mode, m => { mode = m; controls(); draw(); });
+  dom.parentNode.insertBefore(md, dom);
+  controls(); draw();
+};
+})();
+
+</script>
 <script>/* web/labs/g-a.js */
 /* ============ Labs: Geometry A (foundations: points, segments, angles, angle pairs, constructions) ============ */
 (function(){
@@ -32765,7 +33352,7 @@ function renderMenu(){
     $("#chk", s).onclick = () => window.codexDesktop.checkForUpdates();
   }
   const d = h("button", { type: "button", class: "slot big", onclick: () => go({ view: "dict", topic: null }) },
-    `<span class="glyph">Ⅾ</span><span><h3>Dictionary</h3><p>Subjects broken into fields and topics, ordered as a path to mastery. Mathematics and Physics are open.</p></span><span class="tag">Online</span>`);
+    `<span class="glyph">Ⅾ</span><span><h3>Dictionary</h3><p>Subjects broken into fields and topics, ordered as a path to mastery. Mathematics, Physics and English are open.</p></span><span class="tag">Online</span>`);
   slots.appendChild(d);
   for (let i = 2; i <= 4; i++) slots.appendChild(h("div", { class: "slot big locked", "aria-disabled": "true" },
     `<span class="glyph">·</span><span><h3>Slot 0${i}</h3><p>Reserved for a future section.</p></span><span class="tag">Empty</span>`));
@@ -32777,19 +33364,26 @@ function renderDict(){
   s.innerHTML = `<div class="screen-in">
     <div class="hello"><p class="eyebrow">Dictionary</p><h1>Subjects</h1>
     <p>Pick a subject to open its navigator. Fields appear on the left and the selected field's skill tree on the right.</p></div>
-    <div class="slots" id="subj"></div></div>`;
+    <div class="subj-groups" id="subj"></div></div>`;
   viewEl.appendChild(s);
-  DB.subjects.forEach(sub => {
-    const open = sub.status === "open";
-    const el = h(open ? "button" : "div", open ? { type: "button", class: "slot", onclick: () => go({ view: "math", subject: sub.id, field: "map", topic: null }) } : { class: "slot locked", "aria-disabled": "true" },
-      `<span class="glyph">${sub.glyph}</span><span><h3>${esc(sub.name)}</h3><p>${esc(sub.note)}</p></span><span class="tag">${open ? "Open" : "Locked"}</span>`);
-    $("#subj", s).appendChild(el);
+  (DB.subjectGroups || [{ id: "all", name: "Subjects", line: "" }]).forEach(g => {
+    const subs = DB.subjects.filter(x => (x.group || "all") === g.id);
+    if (!subs.length) return;
+    const sec = h("section", { class: "subj-group", "data-accent": g.accent || "", "aria-label": g.name });
+    sec.innerHTML = `<div class="subj-gh"><h2>${esc(g.name)}</h2><span class="ln">${esc(g.line || "")}</span><span class="n">${subs.length}</span></div><div class="slots"></div>`;
+    subs.forEach(sub => {
+      const open = sub.status === "open";
+      const el = h(open ? "button" : "div", open ? { type: "button", class: "slot", onclick: () => go({ view: "math", subject: sub.id, field: "map", topic: null }) } : { class: "slot locked", "aria-disabled": "true" },
+        `<span class="glyph">${sub.glyph}</span><span><h3>${esc(sub.name)}</h3><p>${esc(sub.note)}</p></span><span class="tag">${open ? "Open" : "Locked"}</span>`);
+      $(".slots", sec).appendChild(el);
+    });
+    $("#subj", s).appendChild(sec);
   });
 }
 
 /* ---------- workspace ---------- */
 function renderWork(){
-  const w = h("div", { class: "work" });
+  const w = h("div", { class: "work", "data-accent": SM[S.subject].accent || "" });
   const nav = h("aside", { class: "nav", "aria-label": SM[S.subject].name + " navigator" });
   const main = h("section", { class: "main" });
   w.append(nav, main); viewEl.appendChild(w);
@@ -32971,16 +33565,21 @@ function renderFieldTree(main, f){
   const head = h("div", { class: "tree-head" });
   const done = doneIn(f);
   const hrs = FN.reduce((s, n) => s + (T[n.id]?.hours || 0), 0);
-  head.innerHTML = `<button type="button" class="btn-s navtoggle" id="navtoggle2">☰ Fields</button><div><h2>${esc(F.name)}</h2><div class="sub">${FN.length} topics · about ${hrs} study hours · ${done} mastered</div></div>
-   <div class="legend-chips"><span><i class="lg-m"></i>Mastered</span><span><i class="lg-a"></i>Ready</span><span><i class="lg-l"></i>Locked</span><span><i class="lg-s"></i>Last opened</span></div>`;
+  head.innerHTML = `<button type="button" class="btn-s navtoggle" id="navtoggle2">☰ Fields</button><div><h2>${esc(F.name)}</h2><div class="sub">${FN.length} topic${FN.length === 1 ? "" : "s"}${TR.planned && TR.planned.length ? ` written, ${TR.planned.length} planned` : ""} · about ${hrs} study hours · ${done} mastered</div></div>
+   <div class="legend-chips"><span><i class="lg-m"></i>Mastered</span><span><i class="lg-a"></i>Ready</span><span><i class="lg-l"></i>Locked</span>${TR.planned && TR.planned.length ? '<span><i class="lg-p"></i>Planned</span>' : ""}<span><i class="lg-s"></i>Last opened</span></div>`;
   main.appendChild(head);
   $("#navtoggle2", head).onclick = () => main.parentElement.classList.toggle("navopen");
   const inTree = new Set(FN.map(n => n.id));
-  const nodes = FN.map(n => ({ ...n, pre: n.pre.filter(p => inTree.has(p)), ext: n.pre.filter(p => !inTree.has(p)), label: T[n.id]?.title || n.id, right: T[n.id] ? T[n.id].hours + " h" : "" }));
+  // Planned nodes (TR.planned) show the rest of a partly written tree, dashed and not openable.
+  const PL = TR.planned || [], PLAN = Object.fromEntries(PL.map(n => [n.id, n]));
+  const nodes = FN.map(n => ({ ...n, pre: n.pre.filter(p => inTree.has(p)), ext: n.pre.filter(p => !inTree.has(p)), label: T[n.id]?.title || n.id, right: T[n.id] ? T[n.id].hours + " h" : "" }))
+    .concat(PL.map(n => ({ ...n, right: "Planned" })));
   const tree = buildTree(main, {
-    nodes, eras: TR.eras, key: "tree-" + f, title: F.name, stateFn: stateOf,
-    onOpen: id => go({ view: "math", field: f, topic: id }),
+    nodes, eras: TR.eras, key: "tree-" + f, title: F.name, stateFn: id => PLAN[id] ? "planned" : stateOf(id),
+    onOpen: id => { if (!PLAN[id]) go({ view: "math", field: f, topic: id }); },
     infoFn: (id, anc) => {
+      if (PLAN[id]) { const lb = p => esc(PLAN[p] ? PLAN[p].label : (T[p]?.title || p));
+        return `<div><span class="pill l">Planned</span></div><h4>${esc(PLAN[id].label)}</h4><p>This topic's page is not written yet. It is shown so you can see the whole path.</p><div class="req">${PLAN[id].pre.length ? "Requires: " + PLAN[id].pre.map(lb).join(", ") : ""}</div>`; }
       const t = T[id], st = stateOf(id), nd = NODE[id];
       const pill = st === "mastered" ? `<span class="pill m">Mastered</span>` : st === "avail" ? `<span class="pill a">Ready to study</span>` : `<span class="pill l">Locked</span>`;
       const nm = p => esc(T[p]?.title || p) + (NODE[p].field !== f ? ` <span style="color:var(--faint)">(${esc(DB.fields[NODE[p].field].name)})</span>` : "");
@@ -33006,7 +33605,7 @@ function renderFieldMap(main){
     nodes, eras: sm.eras, key: "map-" + S.subject, title: sm.name + " field map",
     stateFn: id => charted(id) ? "avail" : "planned",
     onOpen: id => go({ view: "math", field: id, topic: null }),
-    infoFn: id => { const f = DB.fields[id]; return `<div>${charted(id) ? '<span class="pill a">Charted</span>' : '<span class="pill l">Planned</span>'}</div><h4>${esc(f.name)}</h4><p>${esc(f.blurb)}</p><div class="req">${esc(f.level)}${f.pre.length ? "<br>Requires: " + f.pre.map(p => esc(DB.fields[p].name)).join(", ") : S.subject !== "mathematics" ? "<br>Starting field, no physics prerequisites" : ""}${f.math && f.math.length ? "<br>Mathematics: " + f.math.map(p => esc(DB.fields[p].name)).join(", ") : ""}</div>`; }
+    infoFn: id => { const f = DB.fields[id]; return `<div>${charted(id) ? '<span class="pill a">Charted</span>' : '<span class="pill l">Planned</span>'}</div><h4>${esc(f.name)}</h4><p>${esc(f.blurb)}</p><div class="req">${esc(f.level)}${f.pre.length ? "<br>Requires: " + f.pre.map(p => esc(DB.fields[p].name)).join(", ") : S.subject !== "mathematics" ? `<br>Starting field, no ${esc(sm.name)} prerequisites` : ""}${f.math && f.math.length ? "<br>Mathematics: " + f.math.map(p => esc(DB.fields[p].name)).join(", ") : ""}</div>`; }
   });
 }
 
@@ -33030,6 +33629,33 @@ function renderDossier(main){
   main.appendChild(d);
   d.querySelectorAll("[data-f]").forEach(b => b.onclick = () => go({ view: "math", field: b.dataset.f, topic: null }));
   $("#navtoggle2", d).onclick = () => main.parentElement.classList.toggle("navopen");
+}
+
+/* ---------- story panels (English topics) ---------- */
+// A story: { title, book, author, year, kind, where, scene, focus: [tags], tokens, notes, note }.
+// Focus words are coloured by part of speech; the art comes from DB.scenes.
+function storyPassage(st){
+  const P = DB.posTags, focus = new Set(st.focus || []);
+  let html = "<p>";
+  DB.parseStory(st.tokens).forEach(x => {
+    if (x.br) { html += "</p><p>"; return; }
+    let w = esc(x.w); if (x.it) w = `<i>${w}</i>`;
+    if (x.tag && focus.has(x.tag)) { const note = (st.notes || {})[x.key]; w = `<span class="sw ${P[x.tag].c}" title="${esc(P[x.tag].name + (note ? ": " + note : ""))}">${w}</span>`; }
+    html += (x.glue ? "" : " ") + w;
+  });
+  return html + "</p>";
+}
+function storyPanel(st){
+  const P = DB.posTags, art = (DB.scenes || {})[st.scene] || "";
+  const keys = [...new Set((st.focus || []).map(f => P[f].c + "|" + P[f].name))].map(k => { const [c, n] = k.split("|"); return `<span class="sk ${c}">${esc(n)}</span>`; }).join("");
+  return `<article class="story">
+    <header class="story-h"><h3>${esc(st.title)}</h3></header>
+    <div class="story-art">${art}</div>
+    <div class="story-txt">${storyPassage(st)}
+      <div class="story-cite">${esc(st.author)} · <i>${esc(st.book)}</i> (${st.year}) · ${esc(st.where)}</div>
+      <div class="story-note"><div class="story-keys">${keys}</div>${st.note}</div>
+    </div>
+  </article>`;
 }
 
 /* ---------- topic page ---------- */
@@ -33078,6 +33704,7 @@ function renderTopic(main){
         <div><h2>In plain words</h2><span class="voice">${t.voice === "young" ? "For a ten-year-old" : "Plain language"}</span>${t.plain}</div>
         <div><h2>Formal statement</h2><span class="voice f">College level</span>${t.formal}</div>
       </div>
+      ${(t.stories || []).length ? `<div><h2>In the stories</h2><p>Passages from well-known books, with the words this topic is about picked out in colour. Every passage is quoted exactly from a public-domain edition.</p><div class="stories">${t.stories.map(storyPanel).join("")}</div></div>` : ""}
       <div><h2>${esc(t.steps.title)}</h2><ol class="steps">${t.steps.items.map(s => `<li><div>${s}</div></li>`).join("")}</ol></div>
       <div><h2>Worked example</h2><div class="ex"><div class="prompt"><p class="eyebrow">Problem</p>${t.example.prompt}</div>
         <div class="tbl"><table>${t.example.lines.map(l => `<tr><td>${l.math}</td><td>${esc(l.note)}</td></tr>`).join("")}</table></div>

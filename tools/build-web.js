@@ -11,8 +11,8 @@ const css = read('web/src/style.css');
 const dir = d => fs.existsSync(path.join(R, d)) ? fs.readdirSync(path.join(R, d)).filter(f => f.endsWith('.js')).sort().map(f => d + '/' + f) : [];
 // Content is one file per topic: web/content/<field>/<topic-id>.js
 const tree = d => fs.existsSync(path.join(R, d)) ? fs.readdirSync(path.join(R, d), { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name)).flatMap(e => e.isDirectory() ? tree(d + '/' + e.name) : e.name.endsWith('.js') ? [d + '/' + e.name] : []) : [];
-// Order matters: data, then every content file, then the lab toolkit and every lab file, then the app.
-const files = ['web/src/data.js', ...tree('web/content'), 'web/src/labkit.js',
+// Order matters: data, story art (web/art), then every content file, then the lab toolkit and every lab file, then the app.
+const files = ['web/src/data.js', ...dir('web/art'), ...tree('web/content'), 'web/src/labkit.js',
   ...dir('web/src').filter(f => /\/labs\d*\.js$/.test(f)), ...dir('web/labs'), 'web/src/app.js'];
 const vm = require('vm');
 function scripts({ lenient = false } = {}) {

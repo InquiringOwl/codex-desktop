@@ -4,7 +4,7 @@
   color-scheme: dark;
   --void:#070A10; --ink:#0B1019; --panel:#111827; --panel-2:#162033; --panel-3:#1B2740;
   --line:#243149; --line-2:#34445F; --text:#DDE4EF; --muted:#8B97AE; --faint:#58647D;
-  --amber:#F2B84B; --cyan:#5CC8E0; --pink:#F07CA0; --violet:#B49BFF; --green:#7BD88F; --red:#E5675B;
+  --amber:#F2B84B; --cyan:#5CC8E0; --pink:#F07CA0; --violet:#B49BFF; --green:#7BD88F; --magenta:#D97AE6; --red:#E5675B;
   --glow:rgba(92,200,224,.35);
   --math:"STIX Two Text","Cambria Math",Cambria,Georgia,serif;
   --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -116,6 +116,7 @@ table.proof td:first-child{width:55%}
 .item:focus-visible{outline:2px solid var(--cyan);outline-offset:-2px}
 .item .ic{width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--line-2);font:400 12px/1 var(--math);color:var(--muted);background:var(--ink);overflow:hidden;white-space:nowrap}
 .item .nm{font:500 14px/1.2 var(--sans);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item>span>.nm{display:block}
 .item .lv{display:block;font:11px/1.3 var(--sans);color:var(--faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .item .st{font:500 10px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
 .item.charted .st{color:var(--green)}
@@ -141,6 +142,7 @@ table.proof td:first-child{width:55%}
 .lg-a{background:#5A4418;border-color:#E8B04A!important}
 .lg-l{background:#1A2233;border-color:#3A475F!important}
 .lg-s{background:#16445A;border-color:#5CC8E0!important}
+.lg-p{background:#1A2233;border-color:#3A475F!important;border-style:dashed!important}
 .tree-vp{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;
   background:
    linear-gradient(rgba(36,49,73,.18) 1px,transparent 1px) 0 0/40px 40px,
@@ -347,6 +349,76 @@ input[type=checkbox]{accent-color:var(--amber);width:16px;height:16px}
 .u.x{text-decoration:line-through;text-decoration-color:var(--pink);text-decoration-thickness:2px;color:var(--faint)}
 .chain .op{color:var(--faint)}
 .chain .res{color:var(--amber);font-size:24px}
+
+
+/* ---------- dictionary subject groups (STEM, Arts & Humanities, Social Sciences) ---------- */
+.subj-groups{display:grid;gap:30px}
+.subj-gh{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 14px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.subj-gh h2{font:600 15px/1 var(--ui);letter-spacing:.22em;text-transform:uppercase;margin:0;color:var(--cyan)}
+.subj-gh .ln{color:var(--muted);font-size:13px}
+.subj-gh .n{margin-left:auto;font:500 11px/1 var(--ui);letter-spacing:.14em;color:var(--faint)}
+/* Arts & Humanities accent: magenta, between the pink and violet of the palette */
+[data-accent="magenta"] .subj-gh{border-bottom-color:#4a3358}
+[data-accent="magenta"] .subj-gh h2{color:var(--magenta);text-shadow:0 0 12px rgba(217,122,230,.35)}
+[data-accent="magenta"] .slot{background:linear-gradient(180deg,rgba(46,29,60,.88),rgba(19,13,29,.92));border-color:#4f3a62}
+[data-accent="magenta"] .slot:hover{border-color:var(--magenta);background:linear-gradient(180deg,rgba(62,37,80,.92),rgba(24,15,36,.95))}
+[data-accent="magenta"] .slot:focus-visible{outline-color:var(--magenta)}
+[data-accent="magenta"] .slot .glyph{color:var(--magenta);border-color:#5f4474;background:radial-gradient(circle at 35% 30%,rgba(217,122,230,.28),rgba(11,16,25,.8) 70%)}
+[data-accent="magenta"] .slot .tag{color:var(--magenta)}
+[data-accent="magenta"] .slot.locked:hover{border-color:#4f3a62;background:linear-gradient(180deg,rgba(46,29,60,.88),rgba(19,13,29,.92))}
+[data-accent="magenta"] .slot.locked .glyph{color:#9a7aa8}
+[data-accent="magenta"] .slot.locked .tag{color:#7a6488}
+.work[data-accent="magenta"] .nav-title .glyph{color:var(--magenta);border-color:#5f4474;box-shadow:0 0 12px rgba(217,122,230,.25)}
+.work[data-accent="magenta"] .win-h .dot{background:var(--magenta);box-shadow:0 0 8px var(--magenta)}
+.work[data-accent="magenta"] .win::before{border-color:var(--magenta)}
+.work[data-accent="magenta"] .win::after{border-color:var(--magenta)}
+
+/* ---------- story panels (English): a framed scene above the passage ---------- */
+.stories{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:18px;margin-top:14px}
+.story{background:linear-gradient(180deg,#141823,#0b0e15);border:1px solid #3b4050;box-shadow:0 0 0 1px rgba(0,0,0,.6),0 10px 30px rgba(0,0,0,.35);padding:10px 12px 14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.story-h{position:relative;padding:2px 2px 12px}
+.story-h h3{margin:0;font:500 18px/1.2 var(--sans);letter-spacing:.01em;text-transform:none;color:#eef1f6}
+.story-h::before{content:"";position:absolute;left:0;bottom:4px;width:58%;height:2px;background:linear-gradient(90deg,#d6dbe4,#9aa2b2)}
+.story-h::after{content:"";position:absolute;left:58%;bottom:1px;width:24%;height:4px;border-top:1px solid #6d7588;border-left:1px solid #6d7588;transform:skewX(-45deg);transform-origin:left bottom}
+.story-art{position:relative;aspect-ratio:8/3;padding:2px;background:linear-gradient(135deg,#e6e9ef,#7a8293 40%,#c9ced8 60%,#5d6475);
+  clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px);
+  box-shadow:0 0 18px rgba(217,122,230,.18)}
+.story-art svg{display:block;width:100%;height:100%;
+  clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0 calc(100% - 11px),0 11px)}
+.story-art::after{content:"";position:absolute;inset:2px;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 30%,transparent 80%,rgba(0,0,0,.35));
+  clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0 calc(100% - 11px),0 11px)}
+.story-txt{border:1px solid #3b4050;background:rgba(0,0,0,.32);padding:12px 14px 12px;display:grid;gap:8px}
+.notes .story-txt p{margin:0;max-width:none;color:#cfe0dc;font:400 16.5px/1.6 var(--math)}
+.story .sw{font-weight:600;border-bottom:1px dotted currentColor;cursor:help}
+.story-cite{font:500 11.5px/1.4 var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.story-cite i{text-transform:none;letter-spacing:.02em;font:italic 400 13px/1.4 var(--math);color:var(--muted)}
+.story-note{border-top:1px dashed #3b4050;padding-top:9px;font-size:13.5px;line-height:1.55;color:var(--muted)}
+.story-keys{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
+.story-keys .sk{font:600 10.5px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase;padding:4px 7px;border:1px solid currentColor;border-radius:2px;background:rgba(255,255,255,.03)}
+
+/* ---------- parts-of-speech lab (word chips) ---------- */
+.stage .dom.pos-wrap{padding:58px 22px 22px;display:grid;gap:16px;align-content:start}
+.pos-src{font:500 11px/1.3 var(--ui);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.pos-src i{font:italic 13px/1.3 var(--math);letter-spacing:0;text-transform:none;color:var(--muted)}
+.pos-text{font:400 clamp(19px,2.3vw,25px)/2.05 var(--math);color:var(--text)}
+.pos-text p{margin:0 0 6px}
+.pos-w{font:inherit;color:inherit;background:none;border:0;margin:0;line-height:inherit;cursor:pointer;padding:0 2px;border-radius:3px;border-bottom:2px solid transparent;transition:background .15s,color .15s}
+.pos-w:hover{background:rgba(255,255,255,.07)}
+.pos-w:focus-visible{outline:2px solid var(--cyan);outline-offset:1px}
+.pos-w.on{border-bottom-color:currentColor}
+.pos-w.sel{background:rgba(255,255,255,.12);box-shadow:0 0 0 1px currentColor}
+.pos-w.c1{color:var(--amber)} .pos-w.c2{color:var(--cyan)} .pos-w.c3{color:var(--pink)} .pos-w.c4{color:var(--violet)} .pos-w.c5{color:var(--green)}
+.pos-quiz{display:flex;flex-wrap:wrap;gap:8px}
+.pos-quiz button{font:500 13px/1 var(--sans);padding:9px 12px;border-radius:4px;border:1px solid var(--line-2);background:var(--panel-2);color:var(--text);cursor:pointer}
+.pos-quiz button:hover{border-color:var(--cyan)}
+.pos-quiz button.right{border-color:var(--green);background:#16351f}
+.pos-quiz button.wrong{border-color:var(--red);background:#3a1a17}
+.pos-jobs{display:grid;gap:10px}
+.pos-job{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;align-items:baseline;padding:10px 12px;border:1px solid var(--line);border-radius:4px;background:rgba(0,0,0,.2);cursor:pointer}
+.pos-job:hover,.pos-job.sel{border-color:var(--line-2);background:rgba(255,255,255,.04)}
+.pos-job .s{font:400 19px/1.5 var(--math)}
+.pos-job .s b{font-weight:600;border-bottom:2px solid currentColor}
+.pos-job .t{font:600 11px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase}
 
 @media (max-width:980px){
   .lab{grid-template-columns:minmax(0,1fr)}

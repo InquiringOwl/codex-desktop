@@ -257,14 +257,24 @@ DB.fieldEras = [
   { name: "Upper Division", from: 10, to: 11 }
 ];
 
-/* Other Dictionary subjects (future) */
+/* Dictionary subjects, grouped the way universities group them.
+   group: "stem" | "humanities" | "social" (see DB.subjectGroups). status "open" = has a field map. */
+DB.subjectGroups = [
+  { id: "stem", name: "STEM", line: "Science, technology, engineering and mathematics" },
+  { id: "humanities", name: "Arts & Humanities", line: "Language, literature, the arts and ideas", accent: "magenta" },
+  { id: "social", name: "Social Sciences", line: "How people, markets and societies behave" }
+];
 DB.subjects = [
-  { id: "mathematics", name: "Mathematics", glyph: "∑", status: "open", note: "21 fields · Arithmetic, Pre-Algebra, Algebra I and Geometry charted" },
-  { id: "physics", name: "Physics", glyph: "⚛", status: "open", note: "17 fields · Mechanics charted" },
-  { id: "chemistry", name: "Chemistry", glyph: "⌬", status: "locked", note: "Not yet charted" },
-  { id: "biology", name: "Biology", glyph: "❦", status: "locked", note: "Not yet charted" },
-  { id: "computer-science", name: "Computer Science", glyph: "λ", status: "locked", note: "Not yet charted" },
-  { id: "economics", name: "Economics", glyph: "¤", status: "locked", note: "Not yet charted" }
+  { id: "mathematics", group: "stem", name: "Mathematics", glyph: "∑", status: "open", note: "21 fields · Arithmetic, Pre-Algebra, Algebra I and Geometry charted" },
+  { id: "physics", group: "stem", name: "Physics", glyph: "⚛", status: "open", note: "17 fields · Mechanics charted" },
+  { id: "chemistry", group: "stem", name: "Chemistry", glyph: "⌬", status: "locked", note: "Not yet charted" },
+  { id: "biology", group: "stem", name: "Biology", glyph: "❦", status: "locked", note: "Not yet charted" },
+  { id: "computer-science", group: "stem", name: "Computer Science", glyph: "λ", status: "locked", note: "Not yet charted" },
+  { id: "english", group: "humanities", name: "English", glyph: "¶", status: "open", note: "20 fields · Grammar & Usage begun" },
+  { id: "music-theory", group: "humanities", name: "Music Theory", glyph: "♪", status: "locked", note: "Not yet charted" },
+  { id: "visual-arts", group: "humanities", name: "Visual Arts", glyph: "◈", status: "locked", note: "Not yet charted" },
+  { id: "philosophy", group: "humanities", name: "Philosophy", glyph: "Φ", status: "locked", note: "Not yet charted" },
+  { id: "economics", group: "social", name: "Economics", glyph: "¤", status: "locked", note: "Not yet charted" }
 ];
 
 /* ============ Physics ============
@@ -400,3 +410,149 @@ DB.trees["mechanics"] = {
     { id: "mech-kepler", col: 27, row: 3, icon: "T²", chips: ["T²∝a³"], pre: ["mech-orbits","mech-ang-momentum"], math: ["a1-rational-exp","algebra-2:Conic sections"] }
   ]
 };
+
+/* ============ English ============
+   A standard college English program: language and writing first, then literature surveys,
+   the upper-division core, and specialisations. Fields live in DB.fields with subject: "english".
+   Topic pages add `stories` (public-domain passages, art from DB scenes in web/art/). Spec: web/TREE-SPEC-ENGLISH.md */
+DB.subjectMaps.english = { name: "English", glyph: "¶", accent: "magenta", mapLine: "From grammar to the senior seminar",
+  mapSub: "The standard college English program: language and writing, literature surveys, the upper-division core and specialisations. Arrows show the usual prerequisites.",
+  groups: [
+    { name: "Language & Writing", ids: ["grammar","comp-1","comp-2","creative-writing","intro-lit","linguistics"] },
+    { name: "Literature Surveys", ids: ["brit-lit-1","brit-lit-2","am-lit-1","am-lit-2","world-lit"] },
+    { name: "Upper-Division Core", ids: ["shakespeare","lit-theory","rhetoric","hist-english"] },
+    { name: "Specialisations & Capstone", ids: ["drama","poetry","novel","cw-workshop","senior-seminar"] }
+  ],
+  eras: [
+    { name: "Language & Writing", from: 0, to: 2 },
+    { name: "Surveys", from: 3, to: 3 },
+    { name: "Upper-Division Core", from: 4, to: 4 },
+    { name: "Specialisations", from: 5, to: 6 }
+  ] };
+Object.assign(DB.fields, {
+  "grammar": { subject: "english", name: "Grammar & Usage", icon: "N·V", level: "College ENGL 1xx · English grammar", col: 0, row: 4, pre: [], status: "charted",
+    blurb: "How English sentences are built: the parts of speech, phrases, clauses and sentence patterns, then the usage, punctuation and style choices that make writing clear and correct.",
+    topics: [] },
+  "comp-1": { subject: "english", name: "Composition I", icon: "¶", level: "College ENGL 101 · first-year writing", col: 1, row: 4, pre: ["grammar"], status: "planned",
+    blurb: "The first-year writing course: writing as a process, the thesis-driven academic essay, paragraphs that develop one idea, and reading closely to write about texts.",
+    topics: ["The writing process: invention, drafting, revision","The rhetorical situation: audience, purpose, context","Thesis statements","Paragraph unity and development","Introductions and conclusions","Organisation and transitions","Narrative and descriptive writing","Expository writing: definition, comparison, cause and effect","Summary and paraphrase","Peer review and revision"] },
+  "comp-2": { subject: "english", name: "Composition II", icon: "§", level: "College ENGL 102 · argument and research", col: 2, row: 3, pre: ["comp-1"], status: "planned",
+    blurb: "Argument and research: claims, reasons and evidence, finding and evaluating sources, integrating them fairly, and documenting them in MLA and APA style.",
+    topics: ["Claims, reasons and evidence","The Toulmin model of argument","Appeals: ethos, pathos, logos","Logical fallacies","Counterargument and rebuttal","Research questions and search strategies","Evaluating sources","Quoting, paraphrasing and synthesis","Avoiding plagiarism","MLA and APA documentation","The researched argument essay"] },
+  "creative-writing": { subject: "english", name: "Introduction to Creative Writing", icon: "✒", level: "College ENGL 2xx · introductory workshop", col: 2, row: 1, pre: ["comp-1"], status: "planned",
+    blurb: "The craft of fiction, poetry and creative nonfiction, learned by reading published work closely and writing and revising your own in a workshop.",
+    topics: ["Reading as a writer","Image and concrete detail","Character","Point of view","Dialogue","Scene and summary","Plot and structure","Line, image and form in poetry","Creative nonfiction and the personal essay","The workshop and revision"] },
+  "intro-lit": { subject: "english", name: "Introduction to Literature", icon: "“ ”", level: "College ENGL 2xx · literary analysis", col: 2, row: 5, pre: ["comp-1"], status: "planned",
+    blurb: "How to read and write about fiction, poetry and drama: the elements of each genre, close reading, interpretation and the literary-analysis essay.",
+    topics: ["What literature is and how to read it","Plot and narrative structure","Character and characterisation","Setting","Point of view and the narrator","Theme","Symbol, imagery and figurative language","Tone and irony","Poetry: speaker, diction, sound and form","Meter and rhyme","Drama: dialogue, staging and conflict","Close reading","The literary analysis essay"] },
+  "linguistics": { subject: "english", name: "Introduction to English Linguistics", icon: "/ə/", level: "College ENGL/LING 2xx", col: 2, row: 7, pre: ["grammar"], status: "planned",
+    blurb: "The scientific study of English: its sounds, word structure, sentence structure and meaning, and how it varies between speakers, places and situations.",
+    topics: ["Language as a system","Phonetics: the sounds of English and the IPA","Phonology","Morphology: how words are built","Syntax and constituent structure","Semantics","Pragmatics","Language acquisition","Dialects and variation","Sociolinguistics"] },
+  "brit-lit-1": { subject: "english", name: "British Literature I", icon: "Þ", level: "College ENGL 2xx · survey to 1798", col: 3, row: 0, pre: ["intro-lit"], status: "planned",
+    blurb: "From Old English to the end of the eighteenth century: Beowulf, Chaucer, the Renaissance, Milton and the Restoration and eighteenth century.",
+    topics: ["Old English literature and Beowulf","Middle English and the romance","Chaucer's Canterbury Tales","Medieval drama","The English Renaissance and the sonnet","Spenser and Marlowe","Metaphysical poets: Donne and Herbert","Milton's Paradise Lost","Restoration literature","Satire: Swift and Pope","The rise of the novel"] },
+  "brit-lit-2": { subject: "english", name: "British Literature II", icon: "Br II", level: "College ENGL 2xx · survey 1798 to now", col: 3, row: 2, pre: ["intro-lit"], status: "planned",
+    blurb: "From the Romantics to the present: Wordsworth and Keats, the Victorian novel and poem, modernism, and postwar and postcolonial writing.",
+    topics: ["Romanticism: Wordsworth and Coleridge","The second generation: Byron, Shelley, Keats","Jane Austen and the novel of manners","The Victorian novel: Dickens, the Brontës, Eliot","Victorian poetry: Tennyson and Browning","Late Victorians and the fin de siècle","Modernism: Woolf, Joyce, Eliot","Poetry of the World Wars","Postwar British writing","Postcolonial literature in English"] },
+  "am-lit-1": { subject: "english", name: "American Literature I", icon: "Am I", level: "College ENGL 2xx · survey to 1865", col: 3, row: 4, pre: ["intro-lit"], status: "planned",
+    blurb: "From Native American oral traditions and colonial writing to the Civil War: Puritans, the Revolution, the American Renaissance and the slave narrative.",
+    topics: ["Native American oral traditions","Exploration and colonial writing","Puritan literature","Literature of the Revolution","Early American fiction","Transcendentalism: Emerson and Thoreau","Hawthorne and Poe","Melville","The slave narrative: Douglass and Jacobs","Whitman and Dickinson"] },
+  "am-lit-2": { subject: "english", name: "American Literature II", icon: "Am II", level: "College ENGL 2xx · survey 1865 to now", col: 3, row: 6, pre: ["intro-lit"], status: "planned",
+    blurb: "From Reconstruction to the present: realism and naturalism, the Harlem Renaissance, modernism, and contemporary American writing in all its voices.",
+    topics: ["Realism: Twain and James","Regionalism and naturalism","Women writers of the late nineteenth century","The Harlem Renaissance","American modernism: Fitzgerald, Hemingway, Faulkner","Modernist poetry","Drama: O'Neill, Williams, Miller","Postwar fiction and the Beats","The Civil Rights era and the Black Arts Movement","Contemporary and multiethnic American literature"] },
+  "world-lit": { subject: "english", name: "World Literature", icon: "◎", level: "College ENGL 2xx · survey", col: 3, row: 8, pre: ["intro-lit"], status: "planned",
+    blurb: "Major works from many traditions, read in English translation: ancient epics, classical drama, sacred and philosophical texts, and the modern world novel.",
+    topics: ["The Epic of Gilgamesh","Homer: the Iliad and the Odyssey","Greek tragedy","Ancient India: the Mahabharata and Ramayana","Classical Chinese poetry","Dante's Divine Comedy","The Tale of Genji","Don Quixote","The modern world novel","Literature in translation"] },
+  "shakespeare": { subject: "english", name: "Shakespeare", icon: "W.S.", level: "College ENGL 3xx", col: 4, row: 1, pre: ["brit-lit-1"], status: "planned",
+    blurb: "A close study of Shakespeare's comedies, histories, tragedies and romances, his sonnets, his language and verse, and his theatre in performance.",
+    topics: ["Shakespeare's life and the Elizabethan stage","Blank verse and Shakespeare's language","The comedies","The histories","The great tragedies","The problem plays","The romances","The sonnets","Shakespeare in performance and adaptation"] },
+  "lit-theory": { subject: "english", name: "Literary Theory & Criticism", icon: "Crit", level: "College ENGL 3xx", col: 4, row: 4, pre: ["intro-lit","comp-2"], status: "planned",
+    blurb: "The major ways of reading: from Plato and Aristotle through formalism, structuralism and deconstruction to feminist, Marxist, postcolonial and ecocritical approaches.",
+    topics: ["Classical criticism: Plato and Aristotle","Formalism and New Criticism","Structuralism","Poststructuralism and deconstruction","Psychoanalytic criticism","Marxist criticism","Feminist and gender criticism","Reader-response theory","New Historicism and cultural studies","Postcolonial criticism","Critical race theory","Ecocriticism"] },
+  "rhetoric": { subject: "english", name: "Advanced Composition & Rhetoric", icon: "Rhet", level: "College ENGL 3xx", col: 4, row: 6, pre: ["comp-2"], status: "planned",
+    blurb: "Rhetoric as an art and a theory: the classical canons, style at the level of the sentence, and writing for real audiences in many genres.",
+    topics: ["Classical rhetoric: Aristotle, Cicero, Quintilian","The five canons","Kairos and the rhetorical situation","Style: clarity, cohesion and emphasis","Sentence rhetoric and schemes","Tropes and figures","Rhetorical analysis","Genre and discourse communities","Visual and digital rhetoric","Writing for public audiences"] },
+  "hist-english": { subject: "english", name: "History of the English Language", icon: "OE→", level: "College ENGL 3xx", col: 4, row: 8, pre: ["linguistics","brit-lit-1"], status: "planned",
+    blurb: "How English became English: its Indo-European roots, Old and Middle English, the Great Vowel Shift, standardisation, and English as a world language.",
+    topics: ["Indo-European and Germanic origins","Old English: sounds, inflections and vocabulary","The Norman Conquest and Middle English","Chaucer's English","The Great Vowel Shift","Early Modern English","Dictionaries, grammars and standardisation","American English","World Englishes"] },
+  "drama": { subject: "english", name: "Drama", icon: "Act", level: "College ENGL 4xx", col: 5, row: 0, pre: ["shakespeare"], status: "planned",
+    blurb: "Plays as literature and as performance, from Greek tragedy and Renaissance theatre to modern and contemporary drama.",
+    topics: ["Aristotle's Poetics and tragedy","Greek and Roman theatre","Medieval and Renaissance theatre","Restoration and eighteenth-century comedy","Realism: Ibsen and Chekhov","Modern drama","Theatre of the Absurd","Contemporary drama","Reading a play for performance"] },
+  "poetry": { subject: "english", name: "Poetry & Poetics", icon: "˘ ´", level: "College ENGL 4xx", col: 5, row: 2, pre: ["brit-lit-2","lit-theory"], status: "planned",
+    blurb: "How poems work: meter and prosody, fixed forms and free verse, figurative language, and the history of poetic movements in English.",
+    topics: ["Prosody and scansion","Accentual-syllabic meter","Fixed forms: sonnet, villanelle, sestina","Free verse","Figurative language","The lyric","Narrative and dramatic poetry","Romantic and Victorian poetics","Modernist poetics","Contemporary poetry"] },
+  "novel": { subject: "english", name: "The Novel", icon: "Ch. 1", level: "College ENGL 4xx", col: 5, row: 4, pre: ["lit-theory"], status: "planned",
+    blurb: "The history and theory of the novel: its rise in the eighteenth century, realism, modernist experiment, and the contemporary novel.",
+    topics: ["The rise of the novel","Narrative theory: story and discourse","Free indirect discourse","The realist novel","The Gothic novel","The modernist novel","The postmodern novel","Genre fiction and the literary novel","The contemporary novel"] },
+  "cw-workshop": { subject: "english", name: "Advanced Creative Writing Workshop", icon: "Draft", level: "College ENGL 3xx–4xx", col: 5, row: 6, pre: ["creative-writing","rhetoric"], status: "planned",
+    blurb: "A workshop in one genre (fiction, poetry or creative nonfiction): longer projects, sustained revision, and preparing work for publication.",
+    topics: ["Developing a project","Voice and style","Structure in longer work","Advanced revision","Line editing","The writer's notebook and reading list","Submitting work for publication","The portfolio"] },
+  "senior-seminar": { subject: "english", name: "Senior Seminar", icon: "Thesis", level: "College ENGL 4xx · capstone", col: 6, row: 4, pre: ["lit-theory","novel","rhetoric"], status: "planned",
+    blurb: "The capstone: a sustained research project on a literary or rhetorical question, from proposal and annotated bibliography to a seminar paper presented to peers.",
+    topics: ["Choosing a research question","The research proposal","The annotated bibliography","Entering a critical conversation","Drafting the seminar paper","Revision and peer review","Presenting research"] }
+});
+
+/* Grammar & Usage. `planned` nodes show the rest of the tree (dashed) until their pages are written. */
+DB.trees["grammar"] = {
+  eras: [
+    { name: "Words", from: 0, to: 1 },
+    { name: "The Simple Sentence", from: 2, to: 3 },
+    { name: "Clauses & Sentences", from: 4, to: 5 },
+    { name: "Usage & Mechanics", from: 6, to: 8 }
+  ],
+  nodes: [
+    { id: "eng-parts-of-speech", col: 0, row: 4, icon: "N V", chips: ["noun","verb","adj.","adv."], pre: [] }
+  ],
+  planned: [
+    { id: "eng-nouns-pronouns", label: "Nouns & Pronouns", col: 1, row: 1, icon: "N", chips: ["number","case"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-verbs", label: "Verbs: Tense, Aspect & Mood", col: 1, row: 3, icon: "V", chips: ["tense","aspect"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-modifiers", label: "Adjectives & Adverbs", col: 1, row: 5, icon: "Adj", chips: ["-er","-est","-ly"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-function-words", label: "Prepositions & Conjunctions", col: 1, row: 7, icon: "P C", chips: ["in","and","because"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-subject-predicate", label: "Subject & Predicate", col: 2, row: 3, icon: "S|P", chips: ["S","P"], pre: ["eng-nouns-pronouns","eng-verbs"] },
+    { id: "eng-agreement", label: "Subject–Verb Agreement", col: 3, row: 0, icon: "S=V", chips: ["is","are"], pre: ["eng-subject-predicate"] },
+    { id: "eng-patterns", label: "Complements & Sentence Patterns", col: 3, row: 2, icon: "SVO", chips: ["DO","IO","SC"], pre: ["eng-subject-predicate"] },
+    { id: "eng-phrases", label: "Phrases", col: 3, row: 5, icon: "NP", chips: ["NP","VP","PP"], pre: ["eng-subject-predicate","eng-modifiers","eng-function-words"] },
+    { id: "eng-voice", label: "Active & Passive Voice", col: 4, row: 0, icon: "be+en", chips: ["active","passive"], pre: ["eng-patterns"] },
+    { id: "eng-pronoun-usage", label: "Pronoun Case & Reference", col: 4, row: 2, icon: "I/me", chips: ["who","whom"], pre: ["eng-agreement","eng-nouns-pronouns"] },
+    { id: "eng-clauses", label: "Independent & Dependent Clauses", col: 4, row: 4, icon: "[IC]", chips: ["IC","DC"], pre: ["eng-patterns","eng-phrases"] },
+    { id: "eng-verbals", label: "Verbals: Gerunds, Participles & Infinitives", col: 4, row: 6, icon: "-ing", chips: ["to go","going"], pre: ["eng-phrases"] },
+    { id: "eng-sentence-types", label: "Simple, Compound & Complex Sentences", col: 5, row: 3, icon: "S+S", chips: ["CS","CX"], pre: ["eng-clauses"] },
+    { id: "eng-subordinate", label: "Relative, Noun & Adverb Clauses", col: 5, row: 5, icon: "who…", chips: ["who","that","when"], pre: ["eng-clauses"] },
+    { id: "eng-fragments", label: "Fragments, Run-ons & Comma Splices", col: 6, row: 2, icon: "‖", chips: ["frag","CS"], pre: ["eng-sentence-types"] },
+    { id: "eng-parallelism", label: "Parallelism", col: 6, row: 4, icon: "= =", chips: ["A, B, C"], pre: ["eng-sentence-types","eng-verbals"] },
+    { id: "eng-modifier-placement", label: "Misplaced & Dangling Modifiers", col: 6, row: 6, icon: "↷", chips: ["dangling"], pre: ["eng-verbals","eng-subordinate"] },
+    { id: "eng-commas", label: "Commas", col: 7, row: 3, icon: ",", chips: ["FANBOYS","intro"], pre: ["eng-fragments","eng-subordinate"] },
+    { id: "eng-punctuation", label: "Semicolons, Colons, Dashes & Apostrophes", col: 8, row: 2, icon: "; : —", chips: [";",":","’"], pre: ["eng-commas"] },
+    { id: "eng-style", label: "Concision & Sentence Variety", col: 8, row: 5, icon: "Style", chips: ["concise","vary"], pre: ["eng-parallelism","eng-modifier-placement","eng-commas"] }
+  ]
+};
+
+/* Parts-of-speech tags used in English story passages. The traditional eight, coloured in five
+   groups: naming words (c1), verbs (c2), noun modifiers (c3), adverbs (c4), connectors and exclamations (c5).
+   Articles count as adjectives in the traditional eight; they keep their own tag so pages can say "article". */
+DB.posTags = {
+  n:  { name: "Noun", c: "c1", test: "Fits the frame “the ___” and can usually be made plural or possessive: truth, truths, truth’s. Proper nouns (names) are capitalised." },
+  pr: { name: "Pronoun", c: "c1", test: "Stands in for a whole noun phrase. Personal pronouns change form for case: I, me, my." },
+  v:  { name: "Verb", c: "c2", test: "Heads the predicate and can be marked for tense: is → was, give → gave. Auxiliaries (be, have, will, would, must) are verbs too." },
+  aj: { name: "Adjective", c: "c3", test: "Modifies a noun. Fits “a ___ thing” and “very ___”, and most compare: young, younger, youngest." },
+  ar: { name: "Article", c: "c3", test: "a, an, the: mark a noun as indefinite or definite. The traditional eight count articles as adjectives (modern grammars: determiners)." },
+  av: { name: "Adverb", c: "c4", test: "Modifies a verb, an adjective, another adverb or a whole clause. Answers how, when, where, how often or how much." },
+  p:  { name: "Preposition", c: "c5", test: "Links a noun phrase (its object) to the rest of the sentence: in Tuckahoe, of a wife." },
+  cj: { name: "Conjunction", c: "c5", test: "Joins words, phrases or clauses. Coordinating: and, but, or. Subordinating: that, because, although." },
+  ij: { name: "Interjection", c: "c5", test: "An exclamation that stands outside the grammar of the sentence: Bah! Oh! Alas!" }
+};
+/* Story token strings: "word_tag" separated by spaces; bare punctuation; "*" after the tag = italic in
+   the source; "#key" after the tag = use notes[key]; "¶" = paragraph break. Mirrors detok() in tools/mathcheck.py. */
+DB.parseStory = tokens => {
+  const out = []; let prev = "";
+  tokens.trim().split(/\s+/).forEach(t => {
+    if (t === "¶") { out.push({ br: true }); prev = "\n"; return; }
+    const m = t.match(/^(.*?)_([a-z]+)(\*?)(?:#([a-z0-9]+))?$/);
+    const w = (m ? m[1] : t).replace(/~/g, " ");
+    const glue = prev === "" || prev === "\n" || /[“—‘]$/.test(prev) || /^([,.;:!?’”—)]|’[a-z]|n’t)/.test(w);
+    out.push({ w, tag: m ? m[2] : null, it: !!(m && m[3]), key: m ? (m[4] || w.toLowerCase().replace(/[’']s$/, "")) : null, glue });
+    prev = w;
+  });
+  return out;
+};
+DB.storyText = tokens => DB.parseStory(tokens).map(x => x.br ? "\n" : (x.glue ? "" : " ") + x.w).join("");
