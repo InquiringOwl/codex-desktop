@@ -22,7 +22,7 @@ Mechanics ≈ OpenStax *University Physics Volume 1*, ch. 1–11 and 13 (Physics
   - unlocks: mech-sigfigs
   - lab + colours: dimension balancer: candidate formulas for a pendulum period or fall time, exponents of [L], [M], [T] shown as bars on each side; consistent formula green c5; L cyan c2, M pink c3, T violet c4, verdict amber c1. Second mode: order-of-magnitude (Fermi) estimate builder.
 - **mech-vectors** — Scalars & Vectors: Graphical Addition
-  - prerequisites: mech-units · math: pa-coordinate, pa-pythagorean, geometry:Points, lines, planes and angles
+  - prerequisites: mech-units · math: pa-coordinate, pa-pythagorean, g-angles
   - unlocks: mech-components, mech-displacement
   - lab + colours: drag two arrow tips; tip-to-tail sum and parallelogram; subtraction as adding −B; A cyan c2, B pink c3, resultant amber c1, −B violet c4.
 - **mech-sigfigs** — Significant Figures, Precision & Uncertainty
@@ -166,7 +166,7 @@ Mechanics ≈ OpenStax *University Physics Volume 1*, ch. 1–11 and 13 (Physics
   - unlocks: mech-rot-inertia, mech-torque
   - lab + colours: spinning wheel with ω₀ and α sliders; θ, ω, α and a point's tangential speed v = rω; angle cyan c2, angular velocity pink c3, angular acceleration amber c1, tangential speed violet c4.
 - **mech-rot-inertia** — Moment of Inertia & Rotational Kinetic Energy
-  - prerequisites: mech-rot-kinematics, mech-kinetic · math: geometry:Area and volume of plane and solid figures, calculus-1:Antiderivatives and the definite integral
+  - prerequisites: mech-rot-kinematics, mech-kinetic · math: g-volume, calculus-1:Antiderivatives and the definite integral
   - unlocks: mech-rot-dynamics
   - lab + colours: shapes (hoop, disk, sphere, rod about centre/end) with I formulas; beads sliding along a rod change I; parallel-axis theorem; mass distribution cyan c2, axis pink c3, I amber c1, rotational KE violet c4.
 - **mech-torque** — Torque

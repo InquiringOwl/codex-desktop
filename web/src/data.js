@@ -125,6 +125,55 @@ DB.trees["algebra-1"] = {
   ]
 };
 
+DB.trees["geometry"] = {
+  eras: [
+    { name: "Foundations & Proof", from: 0, to: 2 },
+    { name: "Lines, Triangles & Congruence", from: 3, to: 6 },
+    { name: "Similarity, Circles & Right Triangles", from: 7, to: 9 },
+    { name: "Trigonometry & Measurement", from: 10, to: 12 }
+  ],
+  nodes: [
+    { id: "g-basics", col: 0, row: 3, icon: "•—", chips: ["point","line","plane"], pre: ["pa-coordinate"] },
+    { id: "g-logic", col: 0, row: 7, icon: "p→q", chips: ["conv.","contra."], pre: ["a1-compound"] },
+    { id: "g-segments", col: 1, row: 1, icon: "|AB|", chips: ["d","M"], pre: ["g-basics","pa-pythagorean","a1-radicals"] },
+    { id: "g-angles", col: 1, row: 4, icon: "∠", chips: ["acute","obtuse"], pre: ["g-basics"] },
+    { id: "g-reasoning", col: 1, row: 7, icon: "∴", chips: ["conj.","syllog."], pre: ["g-logic"] },
+    { id: "g-constructions", col: 2, row: 0, icon: "⌒", chips: ["copy","bisect"], pre: ["g-segments","g-angles"] },
+    { id: "g-angle-pairs", col: 2, row: 4, icon: "✕", chips: ["comp","supp","vert."], pre: ["g-angles","a1-multi-step"] },
+    { id: "g-proofs", col: 2, row: 7, icon: "⊢", chips: ["stmt","reason"], pre: ["g-reasoning","g-segments","g-angles"] },
+    { id: "g-parallel", col: 3, row: 4, icon: "∥", chips: ["corr.","alt. int."], pre: ["g-angle-pairs","g-proofs"] },
+    { id: "g-transformations", col: 3, row: 8, icon: "↻", chips: ["T","r","R"], pre: ["g-segments","g-angles","pa-coordinate"] },
+    { id: "g-triangle-angles", col: 4, row: 4, icon: "180°", chips: ["Σ=180","ext."], pre: ["g-parallel"] },
+    { id: "g-symmetry", col: 4, row: 9, icon: "⟲", chips: ["glide","order"], pre: ["g-transformations"] },
+    { id: "g-polygons", col: 5, row: 2, icon: "⬡", chips: ["(n−2)180","360°"], pre: ["g-triangle-angles"] },
+    { id: "g-congruence", col: 5, row: 5, icon: "≅", chips: ["SSS","SAS","ASA"], pre: ["g-triangle-angles","g-transformations","g-proofs"] },
+    { id: "g-dilations", col: 5, row: 8, icon: "×k", chips: ["k","centre"], pre: ["g-transformations","proportions"] },
+    { id: "g-quadrilaterals", col: 6, row: 1, icon: "▱", chips: ["▱","◇","□"], pre: ["g-polygons","g-congruence","g-parallel"] },
+    { id: "g-isosceles", col: 6, row: 3, icon: "△", chips: ["base ∠s"], pre: ["g-congruence"] },
+    { id: "g-bisectors", col: 6, row: 5, icon: "⊙", chips: ["circum.","in.","centroid"], pre: ["g-congruence","g-constructions"] },
+    { id: "g-tri-inequality", col: 6, row: 6, icon: "a+b>c", chips: ["a+b>c","hinge"], pre: ["g-congruence","a1-compound"] },
+    { id: "g-similarity", col: 6, row: 8, icon: "∼", chips: ["k","P ∝ k"], pre: ["g-dilations","g-polygons","pa-similar"] },
+    { id: "g-coord-proofs", col: 7, row: 0, icon: "(x,y)⊢", chips: ["slope","dist"], pre: ["g-quadrilaterals","g-segments","a1-par-perp"] },
+    { id: "g-area-polygons", col: 7, row: 1, icon: "½bh", chips: ["bh","½(b₁+b₂)h"], pre: ["g-quadrilaterals","pa-formulas"] },
+    { id: "g-circles", col: 7, row: 3, icon: "◠", chips: ["arc°","minor","major"], pre: ["g-isosceles","g-polygons"] },
+    { id: "g-similar-triangles", col: 7, row: 7, icon: "△∼△", chips: ["AA","SAS∼"], pre: ["g-similarity","g-congruence"] },
+    { id: "g-solids", col: 8, row: 0, icon: "⬢", chips: ["V−E+F","net"], pre: ["g-polygons","g-area-polygons"] },
+    { id: "g-circle-equations", col: 8, row: 2, icon: "(x−h)²", chips: ["(h,k)","r"], pre: ["g-circles","g-segments","a1-quad-sqrt"] },
+    { id: "g-inscribed", col: 8, row: 4, icon: "∠◯", chips: ["½ arc","90°"], pre: ["g-circles","g-isosceles"] },
+    { id: "g-pythagorean", col: 8, row: 6, icon: "a²+b²", chips: ["converse","acute/obtuse"], pre: ["g-similar-triangles","pa-pythagorean"] },
+    { id: "g-geo-mean", col: 8, row: 7, icon: "√ab", chips: ["h²=pq"], pre: ["g-similar-triangles"] },
+    { id: "g-proportionality", col: 8, row: 8, icon: "∥÷", chips: ["split","bisector"], pre: ["g-similar-triangles"] },
+    { id: "g-chords-tangents", col: 9, row: 3, icon: "⌒|", chips: ["⊥ radius","equal tangents"], pre: ["g-circles","g-pythagorean","g-congruence"] },
+    { id: "g-special-right", col: 9, row: 6, icon: "1:1:√2", chips: ["45-45-90","30-60-90"], pre: ["g-pythagorean","g-isosceles","a1-radicals"] },
+    { id: "g-circle-measure", col: 10, row: 1, icon: "πr²", chips: ["2πr","sector"], pre: ["g-area-polygons","g-special-right","g-circles"] },
+    { id: "g-circle-segments", col: 10, row: 3, icon: "PA·PB", chips: ["power","½(a±b)"], pre: ["g-chords-tangents","g-inscribed","g-similar-triangles"] },
+    { id: "g-trig-ratios", col: 10, row: 6, icon: "sin", chips: ["SOH","CAH","TOA"], pre: ["g-special-right","g-similar-triangles"] },
+    { id: "g-surface-area", col: 11, row: 0, icon: "SA", chips: ["L+2B","πrℓ"], pre: ["g-solids","g-circle-measure","g-pythagorean"] },
+    { id: "g-volume", col: 11, row: 2, icon: "V=Bh", chips: ["Bh","⅓Bh","⁴⁄₃πr³"], pre: ["g-solids","g-circle-measure"] },
+    { id: "g-similar-solids", col: 12, row: 1, icon: "k²,k³", chips: ["k","k²","k³"], pre: ["g-surface-area","g-volume","g-similarity"] }
+  ]
+};
+
 /* Fields of mathematics (sidebar + field map).
    status: "charted" (tree built) or "planned". */
 DB.fieldGroups = [
@@ -145,9 +194,9 @@ DB.fields = {
   "algebra-1": { name: "Algebra I", icon: "y=mx+b", level: "Grade 9 · college elementary algebra", col: 2, row: 3, pre: ["pre-algebra"], status: "charted",
     blurb: "Linear relationships, systems of equations, polynomials and a first look at quadratics. This is where modelling a situation with an equation becomes routine.",
     topics: ["Multi-step linear equations and literal equations","Slope, intercepts and forms of a line","Graphing linear functions","Systems of linear equations (substitution, elimination)","Linear inequalities and systems of inequalities","Polynomial operations","Factoring (GCF, trinomials, difference of squares)","Quadratic equations: factoring, square roots, quadratic formula","Radicals and rational exponents","Function notation, domain and range"] },
-  "geometry": { name: "Geometry", icon: "△", level: "Grade 10 · Euclidean geometry", col: 3, row: 2, pre: ["algebra-1"], status: "planned",
+  "geometry": { name: "Geometry", icon: "△", level: "Grade 10 · college-prep Euclidean geometry", col: 3, row: 2, pre: ["algebra-1"], status: "charted",
     blurb: "Shape, size and position, built from axioms with deductive proof. Congruence, similarity, circles and measurement.",
-    topics: ["Points, lines, planes and angles","Deductive reasoning and two-column proofs","Parallel lines and transversals","Triangle congruence (SSS, SAS, ASA, AAS, HL)","Similarity and scale factor","Right triangles and special right triangles","Circles: arcs, chords, tangents, inscribed angles","Area and volume of plane and solid figures","Coordinate geometry and transformations","Constructions with compass and straightedge"] },
+    topics: [] },
   "algebra-2": { name: "Algebra II", icon: "f(x)", level: "Grade 11 · college intermediate algebra", col: 4, row: 3, pre: ["algebra-1","geometry"], status: "planned",
     blurb: "A wider family of functions: quadratics in depth, polynomials, rational, radical, exponential and logarithmic functions, plus complex numbers and sequences.",
     topics: ["Quadratic functions and completing the square","Complex numbers","Polynomial division, Remainder and Factor Theorems","Rational expressions and equations","Radical equations","Exponential functions and growth/decay","Logarithms and their laws","Sequences and series (arithmetic, geometric)","Systems in three variables and matrices intro","Conic sections"] },
@@ -210,7 +259,7 @@ DB.fieldEras = [
 
 /* Other Dictionary subjects (future) */
 DB.subjects = [
-  { id: "mathematics", name: "Mathematics", glyph: "∑", status: "open", note: "21 fields · Arithmetic, Pre-Algebra and Algebra I charted" },
+  { id: "mathematics", name: "Mathematics", glyph: "∑", status: "open", note: "21 fields · Arithmetic, Pre-Algebra, Algebra I and Geometry charted" },
   { id: "physics", name: "Physics", glyph: "⚛", status: "open", note: "17 fields · Mechanics charted" },
   { id: "chemistry", name: "Chemistry", glyph: "⌬", status: "locked", note: "Not yet charted" },
   { id: "biology", name: "Biology", glyph: "❦", status: "locked", note: "Not yet charted" },
@@ -306,7 +355,7 @@ DB.trees["mechanics"] = {
   nodes: [
     { id: "mech-units", col: 0, row: 3, icon: "SI", chips: ["m","kg","s"], pre: [], math: ["units","sci-notation","a1-exponents"] },
     { id: "mech-dimensions", col: 1, row: 2, icon: "[L]", chips: ["[L]","[M]","[T]"], pre: ["mech-units"], math: ["pa-exponent-laws","a1-literal","proportions"] },
-    { id: "mech-vectors", col: 1, row: 5, icon: "→", chips: ["A+B","|A|"], pre: ["mech-units"], math: ["pa-coordinate","pa-pythagorean","geometry:Points, lines, planes and angles"] },
+    { id: "mech-vectors", col: 1, row: 5, icon: "→", chips: ["A+B","|A|"], pre: ["mech-units"], math: ["pa-coordinate","pa-pythagorean","g-angles"] },
     { id: "mech-sigfigs", col: 2, row: 2, icon: "±", chips: ["3 s.f.","±δ"], pre: ["mech-dimensions"], math: ["rounding","sci-notation"] },
     { id: "mech-components", col: 2, row: 5, icon: "î ĵ", chips: ["Ax","Ay","θ"], pre: ["mech-vectors"], math: ["pa-pythagorean","trigonometry:Right-triangle ratios (SOH-CAH-TOA)","trigonometry:Inverse trigonometric functions","trigonometry:Vectors in the plane"] },
     { id: "mech-vector-products", col: 3, row: 6, icon: "A×B", chips: ["A·B","A×B"], pre: ["mech-components"], math: ["trigonometry:Right-triangle ratios (SOH-CAH-TOA)","precalculus:Matrices and determinants","calculus-3:Vectors, dot and cross products"] },
@@ -340,7 +389,7 @@ DB.trees["mechanics"] = {
     { id: "mech-energy-cons", col: 19, row: 2, icon: "E", chips: ["K+U","ΔE=0"], pre: ["mech-potential"], math: ["a1-radicals","a1-sys-sub"] },
     { id: "mech-energy-diagrams", col: 20, row: 2, icon: "U(x)", chips: ["U(x)","−dU/dx"], pre: ["mech-energy-cons"], math: ["a1-quad-graphs","calculus-1:Curve sketching and the Mean Value Theorem"] },
     { id: "mech-rot-kinematics", col: 21, row: 3, icon: "ω", chips: ["θ","ω","α"], pre: ["mech-circular"], math: ["trigonometry:Radian and degree measure","calculus-1:Definition of the derivative"] },
-    { id: "mech-rot-inertia", col: 22, row: 2, icon: "I", chips: ["Σmr²","½Iω²"], pre: ["mech-rot-kinematics","mech-kinetic"], math: ["geometry:Area and volume of plane and solid figures","calculus-1:Antiderivatives and the definite integral"] },
+    { id: "mech-rot-inertia", col: 22, row: 2, icon: "I", chips: ["Σmr²","½Iω²"], pre: ["mech-rot-kinematics","mech-kinetic"], math: ["g-volume","calculus-1:Antiderivatives and the definite integral"] },
     { id: "mech-torque", col: 22, row: 4, icon: "τ", chips: ["r×F","N·m"], pre: ["mech-rot-kinematics","mech-vector-products","mech-newton-2"], math: ["trigonometry:Right-triangle ratios (SOH-CAH-TOA)","calculus-3:Vectors, dot and cross products"] },
     { id: "mech-rot-dynamics", col: 23, row: 3, icon: "Iα", chips: ["τ=Iα"], pre: ["mech-rot-inertia","mech-torque"], math: ["a1-literal","a1-sys-elim"] },
     { id: "mech-equilibrium", col: 23, row: 5, icon: "⚖", chips: ["ΣF=0","Στ=0"], pre: ["mech-torque","mech-center-mass"], math: ["a1-sys-elim","trigonometry:Right-triangle ratios (SOH-CAH-TOA)"] },

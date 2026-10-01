@@ -71,7 +71,7 @@ ARITH["mech-rot-inertia"] = {
     "mech-rot-dynamics": "The rotational second law Στ = Iα uses the moment of inertia in the place mass holds in ΣF = ma."
   },
   mathWhy: {
-    "geometry:Area and volume of plane and solid figures": `Finding a body's mass from its density and volume (<span class="m"><i>M</i> = ρπ<i>R</i><sup>2</sup><i>h</i></span> for a disk), and splitting a disk into thin rings of area <span class="m">2π<i>r</i> d<i>r</i></span> to build the integral for <i>I</i>.`,
+    "g-volume": `Finding a body's mass from its density and volume (<span class="m"><i>M</i> = ρπ<i>R</i><sup>2</sup><i>h</i></span> for a disk), and splitting a disk into thin rings of area <span class="m">2π<i>r</i> d<i>r</i></span> to build the integral for <i>I</i>.`,
     "calculus-1:Antiderivatives and the definite integral": `The definition <span class="m"><i>I</i> = ∫ <i>r</i><sup>2</sup> d<i>m</i></span> is a definite integral, as in <span class="m">∫<sub>0</sub><sup><i>L</i></sup> <i>x</i><sup>2</sup>(<i>M</i>/<i>L</i>) d<i>x</i> = ⅓<i>ML</i><sup>2</sup></span>. Co-requisite: the table values and sums over point masses need only algebra; the integral derives them.`
   },
   beyond: [

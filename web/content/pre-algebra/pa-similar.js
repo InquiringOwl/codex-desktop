@@ -66,7 +66,9 @@ ARITH["pa-similar"] = {
     "pa-one-step": "After writing the proportion, finding the missing side is a one-step equation such as 2.4h = 25.2.",
     "proportions": "Corresponding sides of similar figures form equal ratios, and solving for a missing side is solving a proportion."
   },
-  unlocksWhy: {},
+  unlocksWhy: {
+    "g-similarity": "Similar figures and scale drawings become the formal definition of similar polygons, with equal angles and proportional sides."
+  },
   beyond: [
     { field: "Geometry", why: "Triangle similarity theorems (AA, SAS, SSS) and proofs with proportional sides build directly on this topic." },
     { field: "Trigonometry", why: "The trigonometric ratios are defined from similar right triangles." },

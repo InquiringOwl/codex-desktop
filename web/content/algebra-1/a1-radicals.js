@@ -68,7 +68,9 @@ ARITH["a1-radicals"] = {
   unlocksWhy: {
     "a1-rational-exp": "Radicals are rewritten as fractional powers, √x = x^(1/2), and simplified with exponent rules.",
     "a1-radical-ops": "Adding, multiplying and rationalizing radicals all start by writing each radical in simplified form.",
-    "a1-quad-sqrt": "Solving x² = k gives ±√k, and the answer is written in simplified radical form."
+    "a1-quad-sqrt": "Solving x² = k gives ±√k, and the answer is written in simplified radical form.",
+    "g-segments": "Distances between grid points are square roots, written in simplified form such as √45 = 3√5.",
+    "g-special-right": "The side ratios 1 : 1 : √2 and 1 : √3 : 2 are simplified radicals, and answers are rationalized and simplified the same way."
   },
   beyond: [
     { field: "Algebra II", why: "Complex numbers start from √−1 = i, and radical equations and functions extend these rules." },

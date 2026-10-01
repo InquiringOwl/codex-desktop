@@ -64,7 +64,9 @@ ARITH["pa-coordinate"] = {
     "number-line": "Each axis is a number line, so plotting a coordinate is locating a number on a number line."
   },
   unlocksWhy: {
-    "pa-relations": "A relation is a set of ordered pairs, and its graph is those points plotted in the coordinate plane."
+    "pa-relations": "A relation is a set of ordered pairs, and its graph is those points plotted in the coordinate plane.",
+    "g-basics": "Points, lines and planes are modelled with coordinates, which is how lines are drawn and points are tested for collinearity.",
+    "g-transformations": "Translations, reflections and rotations are written as coordinate rules such as (x, y) ↦ (−y, x)."
   },
   beyond: [
     { field: "Algebra I", why: "Graphing lines, systems of equations and quadratics all take place in the coordinate plane." },

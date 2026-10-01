@@ -1,4 +1,4 @@
-# Pre-Algebra and Algebra I tree spec
+# Pre-Algebra, Algebra I and Geometry tree spec
 
 Ids are unique across all fields. Arithmetic ids (e.g. order-ops, fraction-ops) are topics that already exist in the Arithmetic tree.
 
@@ -241,3 +241,161 @@ Ids are unique across all fields. Arithmetic ids (e.g. order-ops, fraction-ops) 
   - prerequisites: a1-quad-graphs (Graphing Quadratic Functions)
   - unlocks: (none in charted trees)
   - lab + colours: projectile h(t) = −16t² + v₀t + h₀ (feet) or −4.9t² (metres) with animated ball, max height and time aloft; second mode: maximise area of a fenced rectangle; maximum amber c1, curve cyan c2, ground hits pink c3.
+
+### GEOMETRY tree (38 topics)
+Level: the college-prep Euclidean geometry course (Grade 10; what college placement assumes). Axiomatic order with SMSG/Moise-style postulates (Ruler, Protractor, Segment and Angle Addition), standard terminology as in Jurgensen *Geometry* and the Common Core HS-G standards. Ids start with `g-`.
+
+- **g-basics** — Points, Lines & Planes
+  - prerequisites: pa-coordinate (The Coordinate Plane, pre-algebra)
+  - unlocks: g-segments, g-angles
+  - lab + colours: drawing of a plane in perspective with draggable points A, B, C (and D off the plane); shows the unique line through two points, whether points are collinear or coplanar, and two planes meeting in a line; points amber c1, lines cyan c2, intersection pink c3, planes violet c4.
+- **g-logic** — Conditional Statements & Logic
+  - prerequisites: a1-compound (Compound Inequalities & Interval Notation, algebra-1)
+  - unlocks: g-reasoning
+  - lab + colours: pick a preset conditional (geometric and everyday); shows the converse, inverse and contrapositive with truth values, an Euler diagram of p inside q, a counterexample when a statement is false, and the biconditional when both directions hold; hypothesis p cyan c2, conclusion q pink c3, truth value amber c1, counterexample violet c4.
+- **g-segments** — Segments, Distance & Midpoints
+  - prerequisites: g-basics (Points, Lines & Planes), pa-pythagorean (The Pythagorean Theorem, pre-algebra), a1-radicals (Simplifying Square Roots & Radicals, algebra-1)
+  - unlocks: g-constructions, g-proofs, g-transformations, g-coord-proofs, g-circle-equations
+  - lab + colours: coordinate plane with draggable A and B (snap to integers); right-triangle legs Δx and Δy, distance as an exact simplified radical and a decimal, midpoint, and segment addition AP + PB = AB for a third draggable point P on the segment; A cyan c2, B pink c3, distance amber c1, legs violet c4, midpoint green c5.
+- **g-angles** — Angles & Angle Measure
+  - prerequisites: g-basics (Points, Lines & Planes)
+  - unlocks: g-constructions, g-angle-pairs, g-proofs, g-transformations
+  - lab + colours: protractor with two draggable rays from a vertex; live measure and classification (acute, right, obtuse, straight, reflex shown as its 360° complement), an interior ray for the Angle Addition Postulate, and an angle-bisector toggle; rays cyan c2, measure amber c1, second (added) angle pink c3, bisector violet c4.
+- **g-reasoning** — Inductive & Deductive Reasoning
+  - prerequisites: g-logic (Conditional Statements & Logic)
+  - unlocks: g-proofs
+  - lab + colours: mode 1 inductive: points on a circle joined by every chord, counting regions 1, 2, 4, 8, 16 then 31 (the conjecture 2ⁿ⁻¹ fails at n = 6); mode 2 deductive: build a chain with the Law of Detachment and the Law of Syllogism from preset premises, flagging invalid forms (affirming the conclusion); premises cyan c2, conjecture pink c3, counterexample violet c4, valid conclusion green c5, current step amber c1.
+- **g-constructions** — Compass & Straightedge Constructions
+  - prerequisites: g-segments (Segments, Distance & Midpoints), g-angles (Angles & Angle Measure)
+  - unlocks: g-bisectors
+  - lab + colours: construction stepper with Play / Step / Reset: copy a segment, copy an angle, perpendicular bisector, angle bisector, perpendicular through a point, parallel through a point, equilateral triangle (Euclid I.1); the given figure is draggable; given violet c4, compass arcs cyan c2, straightedge lines pink c3, result amber c1.
+- **g-angle-pairs** — Angle Pair Relationships
+  - prerequisites: g-angles (Angles & Angle Measure), a1-multi-step (Multi-Step Linear Equations, algebra-1)
+  - unlocks: g-parallel
+  - lab + colours: two intersecting lines, drag to rotate one; vertical angles stay equal and linear pairs sum to 180°; complementary mode with a right angle split by a ray; algebra mode: angles labelled with expressions such as (3x + 10)° and (5x − 30)° solved step by step; angle 1 cyan c2, angle 2 pink c3, sum amber c1, vertical partner violet c4.
+- **g-proofs** — Two-Column Proofs
+  - prerequisites: g-reasoning (Inductive & Deductive Reasoning), g-segments (Segments, Distance & Midpoints), g-angles (Angles & Angle Measure)
+  - unlocks: g-parallel, g-congruence
+  - lab + colours: proof stepper over preset proofs (an algebraic proof of 2(x − 3) = 8, segment addition AB = CD ⇒ AC = BD, the Vertical Angles Theorem, the Congruent Supplements Theorem): a figure above, statements and reasons revealed line by line, earlier lines used by the current step highlighted; given cyan c2, current step amber c1, reason violet c4, proved statement green c5.
+- **g-parallel** — Parallel Lines & Transversals
+  - prerequisites: g-angle-pairs (Angle Pair Relationships), g-proofs (Two-Column Proofs)
+  - unlocks: g-triangle-angles, g-quadrilaterals
+  - lab + colours: two lines cut by a transversal; slider for the transversal angle and a toggle to tilt one line off parallel; pick a pair type (corresponding, alternate interior, alternate exterior, same-side interior) to highlight both angles with measures; when not parallel the pair is unequal and the lines' meeting point is shown; transversal violet c4, first angle cyan c2, partner pink c3, relationship amber c1.
+- **g-transformations** — Rigid Motions: Translations, Reflections & Rotations
+  - prerequisites: g-segments (Segments, Distance & Midpoints), g-angles (Angles & Angle Measure), pa-coordinate (The Coordinate Plane, pre-algebra)
+  - unlocks: g-symmetry, g-congruence, g-dilations
+  - lab + colours: triangle with integer vertices on a grid; modes translate (vector ⟨a, b⟩ sliders), reflect (x-axis, y-axis, y = x, y = −x) and rotate (90°, 180°, 270° about the origin); image labelled A′B′C′ with the coordinate rule and a check that side lengths are preserved; preimage cyan c2, image pink c3, rule/vector amber c1, mirror line or centre violet c4.
+- **g-triangle-angles** — Triangle Angle Sum & Exterior Angles
+  - prerequisites: g-parallel (Parallel Lines & Transversals)
+  - unlocks: g-polygons, g-congruence
+  - lab + colours: triangle with draggable vertices; a line through the apex parallel to the base shows the two alternate interior angles that prove the 180° sum; exterior angle at one vertex equals the sum of the two remote interior angles; ∠A cyan c2, ∠B pink c3, ∠C violet c4, exterior angle amber c1.
+- **g-symmetry** — Compositions of Transformations & Symmetry
+  - prerequisites: g-transformations (Rigid Motions: Translations, Reflections & Rotations)
+  - unlocks: (none in charted trees)
+  - lab + colours: mode 1: reflect a flag in two lines (draggable); parallel lines compose to a translation of twice their distance, intersecting lines to a rotation of twice their angle; mode 2: glide reflection; mode 3: regular polygon (n slider) with its lines of symmetry and rotational order n; first mirror cyan c2, second mirror pink c3, resulting motion amber c1, figure violet c4.
+- **g-polygons** — Polygons & Angle Sums
+  - prerequisites: g-triangle-angles (Triangle Angle Sum & Exterior Angles)
+  - unlocks: g-quadrilaterals, g-similarity, g-circles, g-solids
+  - lab + colours: slider n = 3…12; a convex polygon triangulated from one vertex into n − 2 triangles; interior angle sum (n − 2)·180°, each angle of the regular n-gon, and the exterior angles walked around once to show they total 360°; triangles violet c4, interior sum amber c1, exterior angles cyan c2, n pink c3.
+- **g-congruence** — Triangle Congruence (SSS, SAS, ASA, AAS, HL)
+  - prerequisites: g-triangle-angles (Triangle Angle Sum & Exterior Angles), g-transformations (Rigid Motions: Translations, Reflections & Rotations), g-proofs (Two-Column Proofs)
+  - unlocks: g-quadrilaterals, g-isosceles, g-bisectors, g-tri-inequality, g-similar-triangles, g-chords-tangents
+  - lab + colours: choose a criterion (SSS, SAS, ASA, AAS, HL, and the failing SSA and AAA); the given parts are fixed and the lab shows whether they determine one triangle (for SSA, the two possible triangles of the ambiguous case; for AAA, different sizes); a rigid-motion animation maps one congruent triangle onto the other with the correspondence; sides cyan c2, angles pink c3, determined triangle green c5, second possible triangle violet c4, correspondence amber c1.
+- **g-dilations** — Dilations
+  - prerequisites: g-transformations (Rigid Motions: Translations, Reflections & Rotations), proportions (Proportions, arithmetic)
+  - unlocks: g-similarity
+  - lab + colours: figure and centre of dilation draggable; scale-factor slider k from −2 to 3 (including ½ and ⅓); rays from the centre through each vertex to its image; image lengths = |k| × original, angles unchanged, lines map to parallel lines, k < 0 lands on the opposite side; centre violet c4, preimage cyan c2, image pink c3, k amber c1.
+- **g-quadrilaterals** — Parallelograms & Special Quadrilaterals
+  - prerequisites: g-polygons (Polygons & Angle Sums), g-congruence (Triangle Congruence (SSS, SAS, ASA, AAS, HL)), g-parallel (Parallel Lines & Transversals)
+  - unlocks: g-coord-proofs, g-area-polygons
+  - lab + colours: draggable quadrilateral with preset snaps; live tests (opposite sides parallel / congruent, diagonals bisect each other, perpendicular, congruent; one pair of parallel sides; two pairs of adjacent congruent sides) and its place in the hierarchy quadrilateral → trapezoid / kite → parallelogram → rhombus / rectangle → square; sides cyan c2, diagonals violet c4, properties amber c1, classification green c5.
+- **g-isosceles** — Isosceles & Equilateral Triangles
+  - prerequisites: g-congruence (Triangle Congruence (SSS, SAS, ASA, AAS, HL))
+  - unlocks: g-circles, g-inscribed, g-special-right
+  - lab + colours: triangle with draggable apex; when the legs are equal the base angles are equal (and the converse), the bisector of the vertex angle is the perpendicular bisector of the base (fold line), equilateral as the special case with three 60° angles; legs cyan c2, base pink c3, base angles amber c1, axis violet c4.
+- **g-bisectors** — Bisectors, Medians, Altitudes & Triangle Centres
+  - prerequisites: g-congruence (Triangle Congruence (SSS, SAS, ASA, AAS, HL)), g-constructions (Compass & Straightedge Constructions)
+  - unlocks: (none in charted trees)
+  - lab + colours: draggable triangle; modes circumcentre (perpendicular bisectors and circumscribed circle, outside for obtuse triangles), incentre (angle bisectors and inscribed circle), centroid (medians, 2 : 1 ratio shown), orthocentre (altitudes, extended when obtuse); toggle for the Euler line; the three lines cyan c2, centre amber c1, circle pink c3, Euler line violet c4.
+- **g-tri-inequality** — Triangle Inequalities
+  - prerequisites: g-congruence (Triangle Congruence (SSS, SAS, ASA, AAS, HL)), a1-compound (Compound Inequalities & Interval Notation, algebra-1)
+  - unlocks: (none in charted trees)
+  - lab + colours: three side sliders; two arms swing from the ends of side c and either meet (triangle) or fail to (degenerate when a + b = c); the allowed range |a − b| < c < a + b shown on a number line; the longest side is opposite the largest angle; Hinge Theorem mode with two fixed sides and an opening angle; sides cyan c2 / pink c3 / violet c4, allowed range amber c1.
+- **g-similarity** — Similar Polygons & Scale Factor
+  - prerequisites: g-dilations (Dilations), g-polygons (Polygons & Angle Sums), pa-similar (Similar Figures & Scale Drawings, pre-algebra)
+  - unlocks: g-similar-triangles, g-similar-solids
+  - lab + colours: a polygon and a scaled copy (slider k, presets); corresponding sides with their equal ratios, corresponding angles equal, perimeter ratio k, area ratio k² previewed; a non-similar distortion toggle (stretch one direction) shows equal angles alone do not make rectangles similar; original cyan c2, image pink c3, scale factor amber c1, area ratio violet c4.
+- **g-coord-proofs** — Coordinate Geometry & Coordinate Proofs
+  - prerequisites: g-quadrilaterals (Parallelograms & Special Quadrilaterals), g-segments (Segments, Distance & Midpoints), a1-par-perp (Parallel & Perpendicular Lines, algebra-1)
+  - unlocks: (none in charted trees)
+  - lab + colours: quadrilateral with draggable integer vertices; computes every side's slope and length and both diagonals' midpoints and slopes, then states which classifications are proved (parallelogram, rectangle, rhombus, square, trapezoid); second mode: partition a segment in a ratio m : n; vertices cyan c2, slopes pink c3, lengths violet c4, conclusion green c5, current check amber c1.
+- **g-area-polygons** — Area of Triangles & Quadrilaterals
+  - prerequisites: g-quadrilaterals (Parallelograms & Special Quadrilaterals), pa-formulas (Formulas & Geometry Applications, pre-algebra)
+  - unlocks: g-solids, g-circle-measure
+  - lab + colours: modes: parallelogram cut and slid into a rectangle, triangle as half a parallelogram, trapezoid doubled into a parallelogram, kite/rhombus as ½d₁d₂; a shear slider keeps base and height fixed so the area stays the same; base cyan c2, height pink c3, area amber c1, moved piece violet c4.
+- **g-circles** — Circles, Arcs & Central Angles
+  - prerequisites: g-isosceles (Isosceles & Equilateral Triangles), g-polygons (Polygons & Angle Sums)
+  - unlocks: g-circle-equations, g-inscribed, g-chords-tangents, g-circle-measure
+  - lab + colours: circle with two draggable points on it; central angle, minor arc measure, major arc 360° minus it, semicircle when they are diametrically opposite; a third point for the Arc Addition Postulate; congruent chords ↔ congruent arcs; radius cyan c2, central angle amber c1, minor arc pink c3, major arc violet c4.
+- **g-similar-triangles** — Similar Triangles (AA, SSS∼, SAS∼)
+  - prerequisites: g-similarity (Similar Polygons & Scale Factor), g-congruence (Triangle Congruence (SSS, SAS, ASA, AAS, HL))
+  - unlocks: g-pythagorean, g-geo-mean, g-proportionality, g-circle-segments, g-trig-ratios
+  - lab + colours: two triangles, choose AA, SSS∼ or SAS∼; adjust the second triangle and see when the criterion holds and the side ratios agree; indirect-measurement mode (shadow of a pole and a tree, or a mirror on the ground) solved by a proportion; angles cyan c2, sides pink c3, ratio amber c1, correspondence violet c4.
+- **g-solids** — Solids, Nets & Cross-Sections
+  - prerequisites: g-polygons (Polygons & Angle Sums), g-area-polygons (Area of Triangles & Quadrilaterals)
+  - unlocks: g-surface-area, g-volume
+  - lab + colours: rotating wireframe solid (cube, rectangular and triangular prism, square pyramid, tetrahedron, octahedron, cylinder, cone) drawn in simple perspective; counts V, E, F with Euler's formula V − E + F = 2 for polyhedra; a slicing-plane slider shows the cross-section shape; toggle to unfold into a net; vertices amber c1, edges cyan c2, faces violet c4, cross-section pink c3.
+- **g-circle-equations** — Equations of Circles
+  - prerequisites: g-circles (Circles, Arcs & Central Angles), g-segments (Segments, Distance & Midpoints), a1-quad-sqrt (Square Root Property & Completing the Square, algebra-1)
+  - unlocks: (none in charted trees)
+  - lab + colours: sliders h, k, r; circle on a grid with its centre and a draggable point on it, the distance-formula triangle showing (x − h)² + (y − k)² = r²; converter mode turns preset general-form equations into standard form by completing the square, including the cases r² = 0 (a point) and r² < 0 (no graph); centre amber c1, radius cyan c2, point pink c3, completed-square terms violet c4.
+- **g-inscribed** — Inscribed Angles & Cyclic Quadrilaterals
+  - prerequisites: g-circles (Circles, Arcs & Central Angles), g-isosceles (Isosceles & Equilateral Triangles)
+  - unlocks: g-circle-segments
+  - lab + colours: circle with a fixed arc and a draggable vertex on the circle; the inscribed angle stays half the intercepted arc and half the central angle; Thales mode (diameter gives 90°); cyclic-quadrilateral mode with opposite angles summing to 180°; tangent–chord angle mode; inscribed angle amber c1, central angle cyan c2, intercepted arc pink c3, quadrilateral violet c4.
+- **g-pythagorean** — The Pythagorean Theorem & Its Converse
+  - prerequisites: g-similar-triangles (Similar Triangles (AA, SSS∼, SAS∼)), pa-pythagorean (The Pythagorean Theorem, pre-algebra)
+  - unlocks: g-chords-tangents, g-special-right, g-surface-area
+  - lab + colours: proof mode 1: four copies of the right triangle rearranged inside a square of side a + b (animated); proof mode 2: altitude to the hypotenuse splits the triangle into two similar ones; classifier mode: three side sliders, compare c² with a² + b² to call the triangle acute, right or obtuse (or not a triangle); Pythagorean-triple presets; legs cyan c2 and pink c3, hypotenuse amber c1, altitude violet c4.
+- **g-geo-mean** — Geometric Mean & Altitudes of Right Triangles
+  - prerequisites: g-similar-triangles (Similar Triangles (AA, SSS∼, SAS∼))
+  - unlocks: (none in charted trees)
+  - lab + colours: right triangle with the altitude to the hypotenuse; drag the right-angle vertex along a semicircle so the foot splits the hypotenuse into p and q; live h = √(pq), a² = pc and b² = qc with squares drawn on them; the three similar triangles pulled apart and re-oriented; segment p cyan c2, segment q pink c3, altitude amber c1, legs violet c4.
+- **g-proportionality** — Triangle Proportionality & the Angle Bisector Theorem
+  - prerequisites: g-similar-triangles (Similar Triangles (AA, SSS∼, SAS∼))
+  - unlocks: (none in charted trees)
+  - lab + colours: triangle with a draggable segment kept parallel to the base: the upper and lower parts of both sides stay in the same ratio (Side-Splitter Theorem), midsegment at ½; mode 2: three parallel lines cut two transversals proportionally; mode 3: an angle bisector divides the opposite side in the ratio of the adjacent sides; parallel segment cyan c2, upper parts pink c3, lower parts violet c4, ratio amber c1.
+- **g-chords-tangents** — Chords & Tangents
+  - prerequisites: g-circles (Circles, Arcs & Central Angles), g-pythagorean (The Pythagorean Theorem & Its Converse), g-congruence (Triangle Congruence (SSS, SAS, ASA, AAS, HL))
+  - unlocks: g-circle-segments
+  - lab + colours: mode chords: a draggable chord, the perpendicular from the centre bisects it, the right triangle d² + (half-chord)² = r², equal chords equidistant from the centre; mode tangents: tangent ⊥ radius at the point of tangency, two tangents from an external point are equal, distance computed with the Pythagorean Theorem; radius cyan c2, chord pink c3, tangent amber c1, distance from centre violet c4.
+- **g-special-right** — Special Right Triangles
+  - prerequisites: g-pythagorean (The Pythagorean Theorem & Its Converse), g-isosceles (Isosceles & Equilateral Triangles), a1-radicals (Simplifying Square Roots & Radicals, algebra-1)
+  - unlocks: g-circle-measure, g-trig-ratios
+  - lab + colours: mode 45°-45°-90° drawn as half a square, mode 30°-60°-90° as half an equilateral triangle; a slider or entry for any one side gives the other two as exact simplified radicals and decimals; short leg cyan c2, long leg pink c3, hypotenuse amber c1, parent shape violet c4.
+- **g-circle-measure** — Circumference, Arc Length & Area of Circles
+  - prerequisites: g-area-polygons (Area of Triangles & Quadrilaterals), g-special-right (Special Right Triangles), g-circles (Circles, Arcs & Central Angles)
+  - unlocks: g-surface-area, g-volume
+  - lab + colours: mode π: regular n-gon inscribed in a circle (n slider 3…96), perimeter ÷ diameter and area ½aP approaching π and πr²; mode sector: central-angle slider giving arc length (θ/360)·2πr and sector area (θ/360)·πr², with the radian measure s/r alongside; mode regular polygon area with apothem; radius cyan c2, arc pink c3, sector/area amber c1, polygon violet c4.
+- **g-circle-segments** — Secants, Tangents & Segment Lengths
+  - prerequisites: g-chords-tangents (Chords & Tangents), g-inscribed (Inscribed Angles & Cyclic Quadrilaterals), g-similar-triangles (Similar Triangles (AA, SSS∼, SAS∼))
+  - unlocks: (none in charted trees)
+  - lab + colours: draggable point P inside, on or outside a circle with two lines through it; shows intersecting chords (a·b = c·d), secant–secant and tangent–secant products (power of a point, equal for both lines), and the angle at P as half the sum (inside) or half the difference (outside) of the intercepted arcs; P amber c1, first line cyan c2, second line pink c3, arcs violet c4.
+- **g-trig-ratios** — Right-Triangle Trigonometry
+  - prerequisites: g-special-right (Special Right Triangles), g-similar-triangles (Similar Triangles (AA, SSS∼, SAS∼))
+  - unlocks: (none in charted trees)
+  - lab + colours: right triangle with an angle slider θ and a size slider; opposite, adjacent and hypotenuse labelled relative to θ (switch to the other acute angle to see them swap); sin, cos, tan stay fixed as the triangle is scaled; solve mode with presets (angle of elevation, ramp, ladder) finding a side or an angle with inverse ratios; θ amber c1, opposite pink c3, adjacent cyan c2, hypotenuse violet c4.
+- **g-surface-area** — Surface Area of Solids
+  - prerequisites: g-solids (Solids, Nets & Cross-Sections), g-circle-measure (Circumference, Arc Length & Area of Circles), g-pythagorean (The Pythagorean Theorem & Its Converse)
+  - unlocks: g-similar-solids
+  - lab + colours: choose a prism, cylinder, regular pyramid, cone or sphere with dimension sliders; the net unfolds with each face's area labelled; slant height from the Pythagorean Theorem for pyramids and cones; lateral area, base area and total; lateral faces cyan c2, bases pink c3, total amber c1, slant height violet c4.
+- **g-volume** — Volume & Cavalieri's Principle
+  - prerequisites: g-solids (Solids, Nets & Cross-Sections), g-circle-measure (Circumference, Arc Length & Area of Circles)
+  - unlocks: g-similar-solids
+  - lab + colours: mode Cavalieri: a stack of thin slices sheared sideways keeps the same volume; mode one-third: a pyramid or cone fills a third of the prism or cylinder with the same base and height (pour animation); mode sphere: Archimedes' comparison, at every height the slice of the hemisphere equals the slice of the cylinder minus the cone; base area cyan c2, height pink c3, volume amber c1, slice violet c4.
+- **g-similar-solids** — Similar Solids: Area & Volume Ratios
+  - prerequisites: g-surface-area (Surface Area of Solids), g-volume (Volume & Cavalieri's Principle), g-similarity (Similar Polygons & Scale Factor)
+  - unlocks: (none in charted trees)
+  - lab + colours: a solid built of unit cubes scaled by k (slider 1…5, also ½); live ratios: lengths k, surface areas k², volumes k³, plotted together; square–cube law presets (scaling an animal or a beam: weight grows as k³, strength as k²); length cyan c2, area pink c3, volume violet c4, scale factor amber c1.
+
+Cross-field unlocks added by Geometry (add `unlocksWhy` text in those topics): pa-coordinate → g-basics, g-transformations; a1-compound → g-logic, g-tri-inequality; pa-pythagorean → g-segments, g-pythagorean; a1-radicals → g-segments, g-special-right; a1-multi-step → g-angle-pairs; proportions → g-dilations; pa-similar → g-similarity; a1-par-perp → g-coord-proofs; pa-formulas → g-area-polygons; a1-quad-sqrt → g-circle-equations

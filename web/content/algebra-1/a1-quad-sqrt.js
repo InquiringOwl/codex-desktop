@@ -67,7 +67,8 @@ ARITH["a1-quad-sqrt"] = {
     "a1-radicals": "Solutions come out as square roots, which must be simplified, such as √54 = 3√6."
   },
   unlocksWhy: {
-    "a1-quad-formula": "The quadratic formula is completing the square carried out once on the general equation ax² + bx + c = 0."
+    "a1-quad-formula": "The quadratic formula is completing the square carried out once on the general equation ax² + bx + c = 0.",
+    "g-circle-equations": "Completing the square in both x and y turns x² + y² + Dx + Ey + F = 0 into (x − h)² + (y − k)² = r²."
   },
   beyond: [
     { field: "Algebra II", why: "Completing the square gives vertex form of parabolas and is used to solve quadratics with complex solutions." },

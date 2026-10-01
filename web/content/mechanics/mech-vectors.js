@@ -75,7 +75,7 @@ ARITH["mech-vectors"] = {
   mathWhy: {
     "pa-coordinate": `Scale drawings are made on a grid: placing <span class="m"><b>A</b></span> from the origin and <span class="m"><b>B</b></span> from its tip is plotting points in the coordinate plane.`,
     "pa-pythagorean": `When two vectors are perpendicular, the resultant is the hypotenuse: <span class="m"><i>R</i> = √<span style="text-decoration:overline"><i>A</i><sup>2</sup> + <i>B</i><sup>2</sup></span></span>, as in the 120 m and 50.0 m legs giving 130 m.`,
-    "geometry:Points, lines, planes and angles": `Directions are angles measured from a reference line, and the parallelogram rule relies on parallel lines and opposite sides of equal length.`
+    "g-angles": `Directions are angles measured from a reference line, and the parallelogram rule relies on parallel lines and opposite sides of equal length.`
   },
   beyond: [
     { field: "Electricity & Magnetism", why: "Electric and magnetic fields and forces are vectors that add by superposition from many charges." },

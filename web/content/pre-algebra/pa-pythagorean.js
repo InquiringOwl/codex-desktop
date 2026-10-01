@@ -66,7 +66,10 @@ ARITH["pa-pythagorean"] = {
     "pa-formulas": "The theorem is a formula relating areas of squares on the sides, and finding a missing side is solving for one variable.",
     "roots": "After finding c² or a², you take the principal square root to get the length."
   },
-  unlocksWhy: {},
+  unlocksWhy: {
+    "g-segments": "The distance formula is the Pythagorean Theorem applied to the horizontal and vertical legs Δx and Δy.",
+    "g-pythagorean": "Geometry proves the theorem and its converse, then uses c² compared with a² + b² to classify triangles as acute, right or obtuse."
+  },
   beyond: [
     { field: "Geometry", why: "The distance formula, special right triangles and the equation of a circle are consequences of the theorem." },
     { field: "Trigonometry", why: "The identity sin²θ + cos²θ = 1 is the Pythagorean Theorem on a unit circle." },

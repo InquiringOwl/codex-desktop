@@ -65,7 +65,9 @@ ARITH["a1-par-perp"] = {
   prereqWhy: {
     "a1-line-forms": "You need to find a slope from any form of a line and write a new line from a point and a slope in point-slope form."
   },
-  unlocksWhy: {},
+  unlocksWhy: {
+    "g-coord-proofs": "Equal slopes prove sides parallel and negative-reciprocal slopes prove them perpendicular in coordinate proofs."
+  },
   beyond: [
     { field: "Geometry", why: "Coordinate proofs of properties like the diagonals of a rhombus being perpendicular rely on the slope tests." },
     { field: "Calculus I", why: "The normal line to a curve at a point has slope −1/f′(a), the negative reciprocal of the tangent slope." },

@@ -69,7 +69,9 @@ ARITH["a1-compound"] = {
   },
   unlocksWhy: {
     "a1-abs-ineq": "An absolute value inequality becomes a compound inequality: |x| &lt; k becomes an AND, and |x| &gt; k becomes an OR.",
-    "a1-sys-ineq": "A system of inequalities in two variables is the two-dimensional version of AND, the region where both hold."
+    "a1-sys-ineq": "A system of inequalities in two variables is the two-dimensional version of AND, the region where both hold.",
+    "g-logic": "AND and OR statements and their truth values are the start of conditional statements, negations and counterexamples.",
+    "g-tri-inequality": "The possible third side of a triangle is the compound inequality |a − b| &lt; c &lt; a + b."
   },
   beyond: [
     { field: "Precalculus", why: "Domains, ranges and the solutions of polynomial and rational inequalities are written as unions of intervals." },

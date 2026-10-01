@@ -5,3 +5,4 @@ dist-web/
 *.log
 __pycache__/
 .sync/
+.snap/

@@ -72,7 +72,8 @@ ARITH["a1-multi-step"] = {
     "a1-literal": "Solving a formula for one letter uses the same sequence of steps with letters in place of numbers.",
     "a1-compound": "Each part of a compound inequality is solved with the same steps, with the extra rule for multiplying by a negative.",
     "a1-abs-eq": "An absolute value equation splits into two linear equations, each solved as a multi-step equation.",
-    "a1-radical-eq": "After squaring both sides, many radical equations reduce to a linear equation that is solved this way."
+    "a1-radical-eq": "After squaring both sides, many radical equations reduce to a linear equation that is solved this way.",
+    "g-angle-pairs": "Angle relationships such as vertical or supplementary angles become linear equations like (3x + 10) + (5x − 30) = 180."
   },
   beyond: [
     { field: "Algebra II", why: "Rational and logarithmic equations are turned into linear or quadratic equations and then solved with these steps." },

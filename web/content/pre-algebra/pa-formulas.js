@@ -67,7 +67,8 @@ ARITH["pa-formulas"] = {
   },
   unlocksWhy: {
     "pa-pythagorean": "The Pythagorean Theorem is another geometry formula, used with areas of squares on the sides of a right triangle.",
-    "a1-literal": "Literal equations rearrange these same formulas to isolate a chosen variable, such as w = (P − 2l)/2."
+    "a1-literal": "Literal equations rearrange these same formulas to isolate a chosen variable, such as w = (P − 2l)/2.",
+    "g-area-polygons": "The rectangle and triangle area formulas are derived and extended there to parallelograms, trapezoids and kites."
   },
   beyond: [
     { field: "Geometry", why: "Area and volume formulas for polygons, prisms, pyramids, cones and spheres are derived and proved there." },

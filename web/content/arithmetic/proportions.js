@@ -67,7 +67,8 @@ ARITH["proportions"] = {
     "fraction-ops": "Cross-multiplying and simplifying the result are fraction operations."
   },
   unlocksWhy: {
-    "units": "Each conversion factor is a proportion between equal amounts in two units, and dimensional analysis chains them together."
+    "units": "Each conversion factor is a proportion between equal amounts in two units, and dimensional analysis chains them together.",
+    "g-dilations": "A dilation multiplies every distance from the centre by the same scale factor k, so image and preimage lengths form one proportion."
   },
   beyond: [
     { field: "Algebra I", why: "Direct variation y = kx is a linear function through the origin with slope k." },

@@ -4,9 +4,9 @@ Read this first in every session. Keep it short and current: update it in the sa
 
 ## What Codex is
 A desktop knowledge console (Electron) that maps subjects as Civ V-style skill trees. Menu → Dictionary → a subject (Mathematics, Physics) → its Field map → a field's tree → topic pages (dossier + interactive lab).
-- **Mathematics** charted: Arithmetic (30), Pre-Algebra (22), Algebra I (37). Next, in order: Geometry, Algebra II, Trigonometry, Precalculus, Calculus.
+- **Mathematics** charted: Arithmetic (30), Pre-Algebra (22), Algebra I (37), Geometry (38). Next, in order: Algebra II, Trigonometry, Precalculus, Calculus.
 - **Physics** (calculus-based college sequence, 17 fields) charted: Mechanics (45, ≈ OpenStax *University Physics Vol. 1* ch. 1–11, 13; first node `mech-units`). Next: Waves & Fluids, Thermodynamics, Electricity & Magnetism. Each physics node lists the math it needs (`math`, informational, never locks) with `mathWhy` text, shown under Learning path → Mathematics you need; fields list `math` fields. Spec: `web/TREE-SPEC-PHYSICS.md`, brief `web/CONTENT-BRIEF-3.md`.
-- Standard: **college-level accuracy**, standard college order and terminology (Pre-Algebra ≈ OpenStax *Prealgebra 2e*, Algebra I ≈ OpenStax *Elementary Algebra 2e*).
+- Standard: **college-level accuracy**, standard college order and terminology (Pre-Algebra ≈ OpenStax *Prealgebra 2e*, Algebra I ≈ OpenStax *Elementary Algebra 2e*, Geometry ≈ Jurgensen *Geometry* / Common Core HS-G, axiomatic order).
 - Look: EVE Online-inspired. Palette amber `#F2B84B` (c1), cyan `#5CC8E0` (c2), pink `#F07CA0` (c3), violet `#B49BFF` (c4), green `#7BD88F` (c5). Fonts STIX Two Text, IBM Plex Sans/Mono, Saira Semi Condensed (bundled in `app/fonts`).
 
 ## Where things are
@@ -17,7 +17,7 @@ A desktop knowledge console (Electron) that maps subjects as Civ V-style skill t
 | `checks/<field>/<id>.py` | Saved sympy checks for that topic's formal claims, worked example and practice (first line: `# content:` stamp) |
 | `web/labs/*.js`, `web/src/labs1-3.js` | Labs, `L["id"] = k => {…}` using `web/src/labkit.js` |
 | `web/src/app.js`, `style.css` | Menus, trees, topic pages, routing (`#menu`, `#dict`, `#field-map`, `#field-map-physics`, `#field-<id>`, `#<topic-id>`) |
-| `web/CONTENT-BRIEF.md` (+ `-2`, `-3` physics) | Dossier schema, markup and style rules. **Follow these for any content.** |
+| `web/CONTENT-BRIEF.md` (+ `-2`, `-3` physics, `-4` geometry) | Dossier schema, markup and style rules. **Follow these for any content.** Geometry adds `.ov` (segment overline) and `table.proof` (two-column proofs) in `style.css`. |
 | `web/LAB-BRIEF.md`, `web/TREE-SPEC.md`, `web/TREE-SPEC-PHYSICS.md` | Lab rules; per-topic prereqs, unlocks, lab idea and colour keys |
 | `main.js`, `preload.js`, `updater-mac.js` | Electron shell, `codex://` scheme, update wiring (Mac self-updater; Win/Linux electron-updater; checks at launch + every 4 h) |
 | `tools/` | `build-web.js`, `validate.js`, `mathcheck.py`, `smoke.js`, `snap.js`, `release.js`, `dump-content.js` (see Commands) |
@@ -32,7 +32,9 @@ Content rules that bite: `legend.desc`, `prereqWhy`, `unlocksWhy`, `eyebrow` and
 - `node tools/smoke.js` (`ONLY=id,id` for a subset): headless Chromium visits every screen at desktop and phone width and fails on any JS error. ~2 min for all.
 - `node tools/snap.js <hash…>` (`CLICK=1`, `W=400 H=860`): screenshots for visual review.
 - `npm run check`: build + validate + mathcheck + smoke. **Run before every commit that touches `web/`.**
-- The device shell can't download Playwright's Chromium. For smoke/snap, tar the repo (no node_modules/.git) into `.sync/` (git-ignored), stage it to the cloud container and run there (Chromium preinstalled), then bring changed files back.
+- The device shell can't download Playwright's Chromium. For smoke/snap, tar the repo (no node_modules/.git) into `.sync/` (git-ignored), stage it to the cloud container and run there (Chromium preinstalled), then bring changed files back. Build, validate and mathcheck run fine on the device.
+- Don't run `git status` (or other git commands) from the device shell: it can leave `.git/index.lock`, which that shell can't delete.
+- Two sessions working on the same folder at once diverged once (Physics was released from one while Geometry was built in another). Before starting a field, check GitHub for newer commits (`curl -s https://api.github.com/repos/InquiringOwl/codex-desktop/commits?per_page=3`) and work on one field per session.
 - One-time setup on a new machine: `npm install && npx playwright install chromium && python3 -m pip install --user sympy`. Playwright is a dev dependency, not bundled into the app.
 
 ## Release (auto-update reaches every installed copy)
@@ -54,6 +56,7 @@ The Release workflow runs the Check workflow first; if it fails, nothing is publ
 - The cloud container can't reach api.github.com. Check CI status from device_bash: `curl -s https://api.github.com/repos/InquiringOwl/codex-desktop/actions/runs?per_page=3`.
 
 ## Known leftovers
+- Geometry labs: angle labels in very small SSS∼ triangles can touch a side; ⌢ (arc) renders small in STIX; long heroes wrap on phones (g-trig-ratios).
 - Mechanics labs: kepler "perihelion" label touches the ellipse; rot-dynamics stage has empty space below the pulley; some circular-motion labels cross the dashed line.
 - Some point labels crossed by lines (a1-par-perp, a1-line-forms); a1-poly-mult readout scrolls on desktop; some readouts reveal answers before the stepper reaches them.
 - Arithmetic topics lack `unlocksWhy` text for their Pre-Algebra/Algebra I unlocks (`validate.js --warnings`).
