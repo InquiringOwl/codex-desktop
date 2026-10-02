@@ -64,7 +64,7 @@ def detok(tokens):
         if t == '¶':
             out += '\n'; continue
         w = re.sub(r'_[a-z]+\*?(#[a-z0-9]+)?$', '', t).replace('~', ' ')
-        glue = out == '' or out.endswith('\n') or out.endswith(('“', '—', '‘')) or re.match(r'^([,.;:!?’”—)]|’[a-z]|n’t)', w)
+        glue = out == '' or out.endswith('\n') or out.endswith(('“', '—', '‘', '(')) or re.match(r'^([,.;:!?’”—)]|’[a-z]|n’t)', w)
         out += ('' if glue else ' ') + w
     return out
 

@@ -1,0 +1,35 @@
+module.exports = ({ logic, test, eq }) => {
+  const I = logic.items, F = t => I.find(x => logic.label(x).startsWith(t));
+  const K = t => logic.classify(F(t));
+  eq("gerund subject", K("Swimming").name, "Gerund (noun)");
+  eq("gerund after a preposition (Jane Eyre)", K("There was").kind, "gerund");
+  eq("gerund after linking is", K("Her job").kind, "gerund");
+  eq("progressive is not a verbal", K("She is teaching").name, "Progressive verb (finite)");
+  eq("possessive + gerund", K("I appreciate").kind, "gerund");
+  eq("stop + gerund", K("We stopped resting").kind, "gerund");
+  eq("stop + infinitive", K("We stopped to").name, "Infinitive used as an adverb");
+  eq("present participle", K("The girl").name, "Present participle (adjective)");
+  eq("perfect participle", K("Having").kind, "participle");
+  eq("past participle", K("Exhausted").name, "Past participle (adjective)");
+  eq("passive verb", K("The letter").name, "Passive verb (finite)");
+  eq("perfect verb", K("The guests").name, "Perfect verb (finite)");
+  eq("infinitive subject", K("To finish").name, "Infinitive used as a noun");
+  eq("infinitive object", K("She wants").name, "Infinitive used as a noun");
+  eq("adjectival infinitive", K("He needs").name, "Infinitive used as an adjective");
+  eq("adverbial infinitive", K("She saved").name, "Infinitive used as an adverb");
+  eq("bare after make", K("The coach").name, "Bare infinitive");
+  eq("bare after let", K("Let").name, "Bare infinitive");
+  eq("phrase names", [logic.phraseName("ing", "gerund"), logic.phraseName("ing", "participle"), logic.phraseName("to", "infinitive")], ["gerund phrase", "participial phrase", "infinitive phrase"]);
+  I.forEach((it, i) => {
+    const c = logic.classify(it), T = logic.tests(it), n = logic.label(it);
+    test(`item ${i} classifies`, !!c && !!logic.KIND[c.kind], n);
+    test(`item ${i} last test decides, earlier fail`, T[T.length - 1].pass && T.slice(0, -1).every(t => !t.pass), n);
+    test(`item ${i} exactly one verbal word span`, (it.s.match(/_v\b/g) || []).length >= 1 && (it.form !== "to" || /\bto_v\b/i.test(it.s)), n);
+    test(`item ${i} sentence ends with a full stop`, /[.]$/.test(n) && /^[A-Z]/.test(n), n);
+    test(`item ${i} has a job`, it.job.length > 5);
+    T.filter(t => t.pass && t.rewrite).forEach(t => test(`item ${i} rewrite is a sentence`, /^[A-Z].*[.]$/.test(t.rewrite), t.rewrite));
+    test(`item ${i} -ing form spelled -ing`, it.form !== "ing" || /ing_v/.test(it.s));
+    test(`item ${i} label fits select`, n.length <= 34 || n.lastIndexOf(" ", 32) > 10);
+  });
+  ["gerund", "participle", "infinitive", "verb"].forEach(k => test(`quiz has ${k} items`, I.some(it => logic.classify(it).kind === k)));
+};

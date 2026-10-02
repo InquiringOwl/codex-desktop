@@ -58,11 +58,11 @@ L["eng-parts-of-speech"] = k => {
       k.setRO(x ? `<div><h2>Selected word</h2><div class="ro-big" style="margin-top:8px"><span class="${P[x.tag].c}">${esc(x.w)}</span></div></div>
         <div class="ro-rows"><div class="row"><span class="v ${P[x.tag].c}">${esc(tagName(x.tag))}</span><span class="lbl">${esc(P[x.tag].test)}</span></div></div>
         <div class="landmark${note ? " hit" : ""}"><div class="big">${note ? "In this sentence" : "Why this class"}</div><div class="note">${esc(note || "Its form and its position in this sentence are those of a " + tagName(x.tag).toLowerCase() + ".")}</div></div>
-        <p class="narr">An amber box means this word has a note for this sentence: it changes class or needs a closer look.</p>`
+`
       : `<div><h2>Words by class</h2><div class="ro-big" style="margin-top:8px"><span class="num">${parsed[story].filter(x => x.tag).length}</span> words</div></div>
         <div class="ro-rows">${Object.keys(P).filter(t => counts[t]).map(t => `<div class="row"><span class="${P[t].c}">${esc(tagName(t))}</span> <span class="v ${P[t].c}">${counts[t]}</span></div>`).join("")}</div>
-        <div class="landmark"><div class="big">Click any word</div><div class="note">The readout names its part of speech, the test that proves it, and any note on how it works in this sentence.</div></div>
-        <p class="narr">Use Colour to pick out one class at a time. Which class does this writer lean on?</p>`);
+        <div class="landmark"><div class="big">Click any word</div><div class="note">The readout names its part of speech and the test that proves it. Use Colour to pick out one class at a time.</div></div>
+`);
     } else if (mode === "jobs") {
       const list = JOBS[word], cur = list[job];
       dom.innerHTML = `<div class="pos-src">One word, many jobs: <i>${esc(word)}</i></div><div class="pos-jobs">${list.map(([s, t], i) =>

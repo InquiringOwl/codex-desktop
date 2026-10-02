@@ -202,9 +202,13 @@ for (const [id, t] of Object.entries(T)) {
     else if (st.year > new Date().getFullYear() - 96) warn(W, `${S}: ${st.book} (${st.year}) may still be under copyright; quote only public-domain works`);
     if (!(DB.scenes || {})[st.scene]) err(W, `${S}.scene "${st.scene}" is not in DB.scenes (web/art/)`);
     checkHtml(W, `${S}.note`, st.note);
-    if (!Array.isArray(st.focus) || !st.focus.length || st.focus.some(f => !DB.posTags[f])) err(W, `${S}.focus must list tags from DB.posTags`);
+    // tags: parts of speech by default (every word tagged), or the story's own tag set (untagged words allowed)
+    const own = st.tags !== undefined, TG = own ? st.tags : DB.posTags;
+    if (own) { if (!TG || typeof TG !== 'object' || !Object.keys(TG).length) err(W, `${S}.tags must be {tag: {name, c}}`);
+      else for (const [k, v] of Object.entries(TG)) { if (!/^[a-z]+$/.test(k)) err(W, `${S}.tags key "${k}" must be lower-case letters`); if (!v || !v.name || !/^c[1-5]$/.test(v.c)) err(W, `${S}.tags["${k}"] needs name and c (c1–c5)`); if (v && v.test !== undefined) checkText(W, `${S}.tags["${k}"].test`, v.test); } }
+    if (!Array.isArray(st.focus) || !st.focus.length || st.focus.some(f => !(TG || {})[f])) err(W, `${S}.focus must list tags from ${own ? 'its tags' : 'DB.posTags'}`);
     const toks = DB.parseStory(st.tokens), keys = new Set(toks.filter(x => x.tag).map(x => x.key));
-    toks.forEach(x => { if (x.tag && !DB.posTags[x.tag]) err(W, `${S}: unknown tag "_${x.tag}" on "${x.w}"`); if (!x.tag && !x.br && /[A-Za-z0-9]/.test(x.w)) err(W, `${S}: word "${x.w}" has no _tag`); });
+    toks.forEach(x => { if (x.tag && !(TG || {})[x.tag]) err(W, `${S}: unknown tag "_${x.tag}" on "${x.w}"`); if (!own && !x.tag && !x.br && /[A-Za-z0-9]/.test(x.w)) err(W, `${S}: word "${x.w}" has no _tag`); });
     if (st.focus && !st.focus.some(f => toks.some(x => x.tag === f))) err(W, `${S}: no word has a focus tag`);
     for (const k of Object.keys(st.notes || {})) { if (!keys.has(k)) err(W, `${S}.notes["${k}"] matches no word`); checkText(W, `${S}.notes["${k}"]`, st.notes[k]); }
   });

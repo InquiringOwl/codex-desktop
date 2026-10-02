@@ -4,7 +4,8 @@
 //   overflow   the page is wider than the screen
 //   clipped    text cut off by a box that hides overflow, or spilling past the screen edge
 //   canvas     canvas text drawn partly outside the canvas, or under the mode buttons
-//   overlap    two canvas labels drawn on top of each other (measured from every fillText call)
+//   overlap    two canvas labels drawn on top of each other (measured from every fillText call), or two
+//              text elements in a DOM lab's stage on top of each other
 //   readout    the readout panel needs scrolling on desktop
 //   console    JavaScript errors or console errors/warnings
 //   leak       an answer the lab declared with k.guard([...]) (kit-math) is visible (readout, stage text or canvas)
@@ -54,6 +55,19 @@ const INSPECT = () => {
       if (!c) continue;
       const q = c.getBoundingClientRect();
       if (b.right > q.right + 1 || b.left < q.left - 1 || b.bottom > q.bottom + 1 || b.top < q.top - 1) { const k = 'clip' + txt; if (!seen.has(k)) { seen.add(k); out.push(`clipped: "${txt.slice(0, 40)}" (${name(el)}) is cut off by ${name(c)}`); } }
+    }
+  }
+  // DOM labs (English): text elements in the stage drawn on top of each other (compares line boxes,
+  // so a phrase that wraps onto two lines is not mistaken for an overlap)
+  const st = document.getElementById('stage');
+  if (st) {
+    const leaves = [...st.querySelectorAll('*')].filter(e => !e.closest('.modes') && e.offsetParent && [...e.childNodes].some(n => n.nodeType === 3 && n.textContent.trim()))
+      .map(e => ({ e, rs: [...e.getClientRects()].filter(r => r.width > 2 && r.height > 2) })).filter(x => x.rs.length);
+    for (let i = 0; i < leaves.length && i < 400; i++) for (let j = i + 1; j < leaves.length && j < 400; j++) {
+      const a = leaves[i], b = leaves[j]; if (a.e.contains(b.e) || b.e.contains(a.e)) continue;
+      const hit = a.rs.some(ra => b.rs.some(rb => { const w = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left), h = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
+        return w > 1 && h > 1 && w * h > 0.25 * Math.min(ra.width * ra.height, rb.width * rb.height); }));
+      if (hit) out.push(`overlap: stage text "${a.e.textContent.trim().slice(0, 24)}" and "${b.e.textContent.trim().slice(0, 24)}" overlap`);
     }
   }
   const ro = document.getElementById('readout');

@@ -200,7 +200,7 @@ function buildNav(nav, w){
             if (term && !t.title.toLowerCase().includes(term)) return;
             const st = stateOf(n.id);
             const sub = h("button", { type: "button", class: "item sub" + (st === "mastered" ? " mastered" : "") + (S.topic === n.id ? " sel" : ""), onclick: () => { w.classList.remove("navopen"); go({ view: "math", field: id, topic: n.id }); } },
-              `<span class="ic">${n.icon}</span><span class="nm">${esc(t.title)}</span><span class="st">${st === "mastered" ? "✓" : ""}</span>`);
+              `<span class="ic"${[...n.icon].length > 3 ? ' style="font-size:8px;letter-spacing:-.03em"' : [...n.icon].length > 2 ? ' style="font-size:9.5px"' : ""}>${n.icon}</span><span class="nm">${esc(t.title)}</span><span class="st">${st === "mastered" ? "✓" : ""}</span>`);
             body.appendChild(sub);
           });
         }
@@ -395,10 +395,11 @@ function renderDossier(main){
 }
 
 /* ---------- story panels (English topics) ---------- */
-// A story: { title, book, author, year, kind, where, scene, focus: [tags], tokens, notes, note }.
-// Focus words are coloured by part of speech; the art comes from DB.scenes.
+// A story: { title, book, author, year, kind, where, scene, focus: [tags], tokens, notes, note, tags? }.
+// Focus words are coloured by their tag: parts of speech (DB.posTags) unless the story defines its own
+// `tags` (subject/predicate, clause types, comma rules …). The art comes from DB.scenes.
 function storyPassage(st){
-  const P = DB.posTags, focus = new Set(st.focus || []);
+  const P = st.tags || DB.posTags, focus = new Set(st.focus || []);
   let html = "<p>";
   DB.parseStory(st.tokens).forEach(x => {
     if (x.br) { html += "</p><p>"; return; }
@@ -409,7 +410,7 @@ function storyPassage(st){
   return html + "</p>";
 }
 function storyPanel(st){
-  const P = DB.posTags, art = (DB.scenes || {})[st.scene] || "";
+  const P = st.tags || DB.posTags, art = (DB.scenes || {})[st.scene] || "";
   const keys = [...new Set((st.focus || []).map(f => P[f].c + "|" + P[f].name))].map(k => { const [c, n] = k.split("|"); return `<span class="sk ${c}">${esc(n)}</span>`; }).join("");
   return `<article class="story">
     <header class="story-h"><h3>${esc(st.title)}</h3></header>
@@ -436,7 +437,7 @@ function renderTopic(main){
   const ORDER = ORDERS[f], idx = ORDER.indexOf(id), prev = ORDER[idx - 1], next = ORDER[idx + 1];
   const pg = h("div", { class: "topic" });
   const voiceTxt = { young: "Written for young learners, with the formal version alongside", mixed: "Plain explanation with the formal version alongside", plain: "Stated plainly, adult level" }[t.voice] || "";
-  const link = pid => { const s = stateOf(pid), tp = T[pid] || { title: pid, short: "" }, other = NODE[pid].field !== f ? ` <span style="font-weight:400;color:var(--faint)">· ${esc(DB.fields[NODE[pid].field].name)}</span>` : ""; return `<button type="button" class="plink" data-t="${pid}" data-st="${s}"><span class="o">${NODE[pid].icon}</span><span><b>${esc(tp.title)}${other}</b><span>${t.prereqWhy?.[pid] || t.unlocksWhy?.[pid] || esc(tp.short)}</span></span></button>`; };
+  const link = pid => { const s = stateOf(pid), tp = T[pid] || { title: pid, short: "" }, other = NODE[pid].field !== f ? ` <span style="font-weight:400;color:var(--faint)">· ${esc(DB.fields[NODE[pid].field].name)}</span>` : ""; return `<button type="button" class="plink" data-t="${pid}" data-st="${s}"><span class="o"${[...NODE[pid].icon].length > 3 ? ' style="font-size:10px;letter-spacing:-.02em"' : ""}>${NODE[pid].icon}</span><span><b>${esc(tp.title)}${other}</b><span>${t.prereqWhy?.[pid] || t.unlocksWhy?.[pid] || esc(tp.short)}</span></span></button>`; };
   const mathLink = m => { const r = mathRef(m); if (!r) return "";
     const why = (t.mathWhy && t.mathWhy[m]) || "";
     if (r.id) { const tp = T[r.id] || { title: r.id, short: "" }; return `<button type="button" class="plink" data-t="${r.id}" data-st="${stateOf(r.id)}"><span class="o">${NODE[r.id].icon}</span><span><b>${esc(tp.title)} <span style="font-weight:400;color:var(--faint)">· ${esc(DB.fields[NODE[r.id].field].name)}</span></b><span>${why || esc(tp.short)}</span></span></button>`; }

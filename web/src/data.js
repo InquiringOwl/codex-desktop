@@ -270,7 +270,7 @@ DB.subjects = [
   { id: "chemistry", group: "stem", name: "Chemistry", glyph: "⌬", status: "locked", note: "Not yet charted" },
   { id: "biology", group: "stem", name: "Biology", glyph: "❦", status: "locked", note: "Not yet charted" },
   { id: "computer-science", group: "stem", name: "Computer Science", glyph: "λ", status: "locked", note: "Not yet charted" },
-  { id: "english", group: "humanities", name: "English", glyph: "¶", status: "open", note: "20 fields · Grammar & Usage begun" },
+  { id: "english", group: "humanities", name: "English", glyph: "¶", status: "open", note: "20 fields · Grammar & Usage charted" },
   { id: "music-theory", group: "humanities", name: "Music Theory", glyph: "♪", status: "locked", note: "Not yet charted" },
   { id: "visual-arts", group: "humanities", name: "Visual Arts", glyph: "◈", status: "locked", note: "Not yet charted" },
   { id: "philosophy", group: "humanities", name: "Philosophy", glyph: "Φ", status: "locked", note: "Not yet charted" },
@@ -492,7 +492,7 @@ Object.assign(DB.fields, {
     topics: ["Choosing a research question","The research proposal","The annotated bibliography","Entering a critical conversation","Drafting the seminar paper","Revision and peer review","Presenting research"] }
 });
 
-/* Grammar & Usage. `planned` nodes show the rest of the tree (dashed) until their pages are written. */
+/* Grammar & Usage. A tree may also list `planned` nodes ({id,label,col,row,icon,chips,pre}), drawn dashed until written. */
 DB.trees["grammar"] = {
   eras: [
     { name: "Words", from: 0, to: 1 },
@@ -501,29 +501,27 @@ DB.trees["grammar"] = {
     { name: "Usage & Mechanics", from: 6, to: 8 }
   ],
   nodes: [
-    { id: "eng-parts-of-speech", col: 0, row: 4, icon: "N V", chips: ["noun","verb","adj.","adv."], pre: [] }
-  ],
-  planned: [
-    { id: "eng-nouns-pronouns", label: "Nouns & Pronouns", col: 1, row: 1, icon: "N", chips: ["number","case"], pre: ["eng-parts-of-speech"] },
-    { id: "eng-verbs", label: "Verbs: Tense, Aspect & Mood", col: 1, row: 3, icon: "V", chips: ["tense","aspect"], pre: ["eng-parts-of-speech"] },
-    { id: "eng-modifiers", label: "Adjectives & Adverbs", col: 1, row: 5, icon: "Adj", chips: ["-er","-est","-ly"], pre: ["eng-parts-of-speech"] },
-    { id: "eng-function-words", label: "Prepositions & Conjunctions", col: 1, row: 7, icon: "P C", chips: ["in","and","because"], pre: ["eng-parts-of-speech"] },
-    { id: "eng-subject-predicate", label: "Subject & Predicate", col: 2, row: 3, icon: "S|P", chips: ["S","P"], pre: ["eng-nouns-pronouns","eng-verbs"] },
-    { id: "eng-agreement", label: "Subject–Verb Agreement", col: 3, row: 0, icon: "S=V", chips: ["is","are"], pre: ["eng-subject-predicate"] },
-    { id: "eng-patterns", label: "Complements & Sentence Patterns", col: 3, row: 2, icon: "SVO", chips: ["DO","IO","SC"], pre: ["eng-subject-predicate"] },
-    { id: "eng-phrases", label: "Phrases", col: 3, row: 5, icon: "NP", chips: ["NP","VP","PP"], pre: ["eng-subject-predicate","eng-modifiers","eng-function-words"] },
-    { id: "eng-voice", label: "Active & Passive Voice", col: 4, row: 0, icon: "be+en", chips: ["active","passive"], pre: ["eng-patterns"] },
-    { id: "eng-pronoun-usage", label: "Pronoun Case & Reference", col: 4, row: 2, icon: "I/me", chips: ["who","whom"], pre: ["eng-agreement","eng-nouns-pronouns"] },
-    { id: "eng-clauses", label: "Independent & Dependent Clauses", col: 4, row: 4, icon: "[IC]", chips: ["IC","DC"], pre: ["eng-patterns","eng-phrases"] },
-    { id: "eng-verbals", label: "Verbals: Gerunds, Participles & Infinitives", col: 4, row: 6, icon: "-ing", chips: ["to go","going"], pre: ["eng-phrases"] },
-    { id: "eng-sentence-types", label: "Simple, Compound & Complex Sentences", col: 5, row: 3, icon: "S+S", chips: ["CS","CX"], pre: ["eng-clauses"] },
-    { id: "eng-subordinate", label: "Relative, Noun & Adverb Clauses", col: 5, row: 5, icon: "who…", chips: ["who","that","when"], pre: ["eng-clauses"] },
-    { id: "eng-fragments", label: "Fragments, Run-ons & Comma Splices", col: 6, row: 2, icon: "‖", chips: ["frag","CS"], pre: ["eng-sentence-types"] },
-    { id: "eng-parallelism", label: "Parallelism", col: 6, row: 4, icon: "= =", chips: ["A, B, C"], pre: ["eng-sentence-types","eng-verbals"] },
-    { id: "eng-modifier-placement", label: "Misplaced & Dangling Modifiers", col: 6, row: 6, icon: "↷", chips: ["dangling"], pre: ["eng-verbals","eng-subordinate"] },
-    { id: "eng-commas", label: "Commas", col: 7, row: 3, icon: ",", chips: ["FANBOYS","intro"], pre: ["eng-fragments","eng-subordinate"] },
-    { id: "eng-punctuation", label: "Semicolons, Colons, Dashes & Apostrophes", col: 8, row: 2, icon: "; : —", chips: [";",":","’"], pre: ["eng-commas"] },
-    { id: "eng-style", label: "Concision & Sentence Variety", col: 8, row: 5, icon: "Style", chips: ["concise","vary"], pre: ["eng-parallelism","eng-modifier-placement","eng-commas"] }
+    { id: "eng-parts-of-speech", col: 0, row: 4, icon: "N V", chips: ["noun","verb","adj.","adv."], pre: [] },
+    { id: "eng-nouns-pronouns", col: 1, row: 1, icon: "N", chips: ["number","case"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-verbs", col: 1, row: 3, icon: "V", chips: ["tense","aspect"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-modifiers", col: 1, row: 5, icon: "Adj", chips: ["-er","-est","-ly"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-function-words", col: 1, row: 7, icon: "P C", chips: ["in","and","because"], pre: ["eng-parts-of-speech"] },
+    { id: "eng-subject-predicate", col: 2, row: 3, icon: "S|P", chips: ["S","P"], pre: ["eng-nouns-pronouns","eng-verbs"] },
+    { id: "eng-agreement", col: 3, row: 0, icon: "S=V", chips: ["is","are"], pre: ["eng-subject-predicate"] },
+    { id: "eng-patterns", col: 3, row: 2, icon: "SVO", chips: ["DO","IO","SC"], pre: ["eng-subject-predicate"] },
+    { id: "eng-phrases", col: 3, row: 5, icon: "NP", chips: ["NP","VP","PP"], pre: ["eng-subject-predicate","eng-modifiers","eng-function-words"] },
+    { id: "eng-voice", col: 4, row: 0, icon: "be+en", chips: ["active","passive"], pre: ["eng-patterns"] },
+    { id: "eng-pronoun-usage", col: 4, row: 2, icon: "I/me", chips: ["who","whom"], pre: ["eng-agreement","eng-nouns-pronouns"] },
+    { id: "eng-clauses", col: 4, row: 4, icon: "[IC]", chips: ["IC","DC"], pre: ["eng-patterns","eng-phrases"] },
+    { id: "eng-verbals", col: 4, row: 6, icon: "-ing", chips: ["to go","going"], pre: ["eng-phrases"] },
+    { id: "eng-sentence-types", col: 5, row: 3, icon: "S+S", chips: ["CS","CX"], pre: ["eng-clauses"] },
+    { id: "eng-subordinate", col: 5, row: 5, icon: "who…", chips: ["who","that","when"], pre: ["eng-clauses"] },
+    { id: "eng-fragments", col: 6, row: 2, icon: "‖", chips: ["frag","CS"], pre: ["eng-sentence-types"] },
+    { id: "eng-parallelism", col: 6, row: 4, icon: "= =", chips: ["A, B, C"], pre: ["eng-sentence-types","eng-verbals"] },
+    { id: "eng-modifier-placement", col: 6, row: 6, icon: "↷", chips: ["dangling"], pre: ["eng-verbals","eng-subordinate"] },
+    { id: "eng-commas", col: 7, row: 3, icon: ",", chips: ["FANBOYS","intro"], pre: ["eng-fragments","eng-subordinate"] },
+    { id: "eng-punctuation", col: 8, row: 2, icon: "; : —", chips: [";",":","’"], pre: ["eng-commas"] },
+    { id: "eng-style", col: 8, row: 5, icon: "Style", chips: ["concise","vary"], pre: ["eng-parallelism","eng-modifier-placement","eng-commas"] }
   ]
 };
 
@@ -549,7 +547,7 @@ DB.parseStory = tokens => {
     if (t === "¶") { out.push({ br: true }); prev = "\n"; return; }
     const m = t.match(/^(.*?)_([a-z]+)(\*?)(?:#([a-z0-9]+))?$/);
     const w = (m ? m[1] : t).replace(/~/g, " ");
-    const glue = prev === "" || prev === "\n" || /[“—‘]$/.test(prev) || /^([,.;:!?’”—)]|’[a-z]|n’t)/.test(w);
+    const glue = prev === "" || prev === "\n" || /[“—‘(]$/.test(prev) || /^([,.;:!?’”—)]|’[a-z]|n’t)/.test(w);
     out.push({ w, tag: m ? m[2] : null, it: !!(m && m[3]), key: m ? (m[4] || w.toLowerCase().replace(/[’']s$/, "")) : null, glue });
     prev = w;
   });

@@ -65,7 +65,12 @@ ARITH["eng-parts-of-speech"] = {
     { name: "Law", use: "Statutory interpretation often turns on how a word or modifier functions in a sentence." }
   ],
   prereqWhy: {},
-  unlocksWhy: {},
+  unlocksWhy: {
+    "eng-nouns-pronouns": "Takes the first two classes further: kinds of nouns, plurals and possessives, and every type of pronoun with its cases.",
+    "eng-verbs": "Takes the verb further: its five forms, the twelve tense–aspect combinations, auxiliaries and mood.",
+    "eng-modifiers": "Takes adjectives and adverbs further: comparison, the order of adjectives, and choosing between <i>good</i> and <i>well</i>.",
+    "eng-function-words": "Takes the connectors further: kinds of prepositions and conjunctions, and how each joins and punctuates."
+  },
   beyond: [
     { field: "Composition I", why: "Revising sentences, and every handbook rule for commas, agreement and modifiers, is stated in terms of the parts of speech." },
     { field: "Introduction to Literature", why: "Close reading starts with diction: noticing which nouns, verbs and modifiers a writer chooses and why." },

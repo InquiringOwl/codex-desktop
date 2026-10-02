@@ -5,6 +5,8 @@
 //   eq(got, want, 'what')                                deep equality (JSON), with a readable message
 //   ok(cond, 'what')                                     any true/false fact
 // Keep lab rules (spelling, scoring, which answers are right) in DOM-free functions so they can be tested here.
+// English labs keep their rules on EngLab.logic["<topic-id>"] (web/labs/_englab.js); their tests are
+// checks/labs/<topic-id>.test.js, exporting ({ logic, DB, T, EngLab, test, eq }) => { test(name, cond); eq(name, got, want); }.
 // Run:  node tools/labtest.js            all test files
 //       node tools/labtest.js music      files whose name contains "music"
 const fs = require('fs'), path = require('path'), vm = require('vm');
@@ -23,6 +25,29 @@ for (const f of files) {
   catch (e) { fails.push(`${f}: crashed while loading: ${e.message}`); continue; }
   for (const [name, fn] of tests) { current = name; try { fn(); pass++; } catch (e) { fails.push(`${f} › ${name}: ${e.message}`); } }
 }
+
+// ---- English labs: checks/labs/<id>.test.js against EngLab.logic[id] ----
+const edir = path.join(R, 'checks', 'labs');
+const etests = fs.existsSync(edir) ? fs.readdirSync(edir).filter(f => f.endsWith('.test.js')).map(f => f.replace(/\.test\.js$/, '')).filter(id => !want.length || want.some(w => id.includes(w))) : [];
+if (etests.length) {
+  const { files: bfiles } = require('./build-web.js');
+  const ectx = vm.createContext({ console, Math, JSON, Date, Set, Map, Array, Object, String, Number, RegExp, Error }); ectx.window = ectx; ectx.LABS = {};
+  const eload = f => vm.runInContext(fs.readFileSync(path.join(R, f), 'utf8'), ectx, { filename: f });
+  for (const f of bfiles.filter(f => /^web\/src\/data(-[a-z0-9-]+)?\.js$/.test(f) || f.startsWith('web/art/') || f.startsWith('web/content/'))) eload(f);
+  for (const f of bfiles.filter(f => /^web\/labs\/(_englab|eng-[^/]+)\.js$/.test(f))) { try { eload(f); } catch (e) { fails.push(`${f}: could not load without a browser (${e.message})`); } }
+  const E = ectx.EngLab || { logic: {} };
+  for (const id of etests) {
+    const logic = E.logic[id];
+    if (!logic) { fails.push(`checks/labs/${id}.test.js: EngLab.logic["${id}"] is not defined by any lab file`); continue; }
+    let n = 0; const before = fails.length;
+    const t = (name, cond, detail) => { checks++; n++; if (!cond) fails.push(`checks/labs/${id}.test.js › ${name}${detail ? ' (' + detail + ')' : ''}`); };
+    const e = (name, got, w) => { const a = JSON.stringify(got), b = JSON.stringify(w); t(name, a === b, `got ${a}, want ${b}`); };
+    try { require(path.join(edir, id + '.test.js'))({ logic, DB: ectx.DB, T: ectx.ARITH, EngLab: E, test: t, eq: e }); }
+    catch (err) { fails.push(`checks/labs/${id}.test.js: crashed: ${err.message}`); }
+    if (fails.length === before) pass++;
+  }
+  for (const id of Object.keys(E.logic)) if (!etests.includes(id) && (!want.length || want.some(w => id.includes(w)))) fails.push(`${id}: has EngLab.logic but no checks/labs/${id}.test.js`);
+}
 fails.forEach(x => console.log('FAIL ' + x));
-console.log(`${files.length} test file(s): ${pass} test(s) passed, ${checks} check(s), ${fails.length} failure(s)`);
+console.log(`${files.length + etests.length} test file(s): ${pass} test(s) passed, ${checks} check(s), ${fails.length} failure(s)`);
 process.exit(fails.length ? 1 : 0);

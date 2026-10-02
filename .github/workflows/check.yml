@@ -2,7 +2,8 @@
 # 1. build-web.js  - every source file must parse
 # 2. validate.js   - trees, field map, topic dossiers, HTML markup, lab coverage
 # 3. mathcheck.py - re-computes every number on every topic page with sympy (checks/<field>/<id>.py)
-# 4. smoke.js      - headless Chromium opens every screen at desktop and phone width; any JS error fails
+# 4. labtest.js    - logic tests for lab rules (tests/*.test.js; English: checks/labs/<id>.test.js), no browser
+# 5. smoke.js      - headless Chromium opens every screen at desktop and phone width; any JS error fails
 name: Check
 on:
   push:
