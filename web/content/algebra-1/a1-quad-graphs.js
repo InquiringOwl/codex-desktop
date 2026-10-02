@@ -68,6 +68,7 @@ ARITH["a1-quad-graphs"] = {
     "a1-functions": "A parabola is the graph of a function, so evaluating f(x) and stating the domain and range are needed to describe it."
   },
   unlocksWhy: {
+    "a2-transformations": "The parabola <span class=\"m\"><i>y</i> = <i>x</i><sup>2</sup></span> and its vertex are the first parent graph whose shifts, stretches and reflections you have already seen.",
     "a1-quad-apps": "Maximum height, maximum area and maximum revenue problems are answered by finding the vertex of a parabola."
   },
   beyond: [

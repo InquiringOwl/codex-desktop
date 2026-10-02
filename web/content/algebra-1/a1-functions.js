@@ -67,6 +67,7 @@ ARITH["a1-functions"] = {
     "pa-linear-graphs": "Reading domain and range from a graph, and evaluating f(a) as a height on the graph, starts with graphing lines."
   },
   unlocksWhy: {
+    "a2-func-ops": "Adding, multiplying, dividing and composing functions all start from function notation, evaluating <span class=\"m\"><i>f</i>(<i>a</i>)</span> and finding a domain.",
     "a1-slope-forms": "A linear function f(x) = mx + b is the slope-intercept form written in function notation.",
     "a1-piecewise": "A piecewise function uses different formulas on different parts of the domain.",
     "a1-exp-functions": "Exponential models are written f(x) = a·bˣ, with domain ℝ and range determined by a and b.",

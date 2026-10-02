@@ -70,6 +70,7 @@ ARITH["a1-exp-functions"] = {
     "percent-apps": "Compound interest and percent change are the everyday form of exponential growth, and turning a rate into the factor 1 + r comes from there."
   },
   unlocksWhy: {
+    "a2-exp-func": "Algebra II starts from <span class=\"m\"><i>y</i> = <i>a</i><i>b</i><sup><i>x</i></sup></span>, with its initial value and growth or decay factor, then adds shifts and the base <span class=\"m\"><i>e</i></span>.",
     "a1-sequences": "A geometric sequence is an exponential function evaluated at whole numbers, with the common ratio playing the role of b."
   },
   beyond: [

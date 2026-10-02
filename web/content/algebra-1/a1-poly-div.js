@@ -66,7 +66,10 @@ ARITH["a1-poly-div"] = {
   prereqWhy: {
     "a1-poly-mult": "Each step multiplies a quotient term by the whole divisor, and the answer is checked by multiplying back out."
   },
-  unlocksWhy: {},
+  unlocksWhy: {
+    "a2-synthetic": "Synthetic division is the long-division algorithm with the powers of <i>x</i> left out, so each column repeats a step of long division.",
+    "a2-rational-asym": "The quotient of polynomial long division is the slant asymptote of a rational function, and the remainder shows how the graph approaches it."
+  },
   beyond: [
     { field: "Algebra II", why: "The remainder and factor theorems use division to find zeros and factor higher-degree polynomials." },
     { field: "Precalculus", why: "Dividing numerator by denominator gives the slant asymptote of a rational function." },

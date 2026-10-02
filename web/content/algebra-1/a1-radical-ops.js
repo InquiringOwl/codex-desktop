@@ -66,6 +66,7 @@ ARITH["a1-radical-ops"] = {
     "a1-poly-mult": "Products of radical sums use FOIL and the special products, especially the conjugate pattern (a + b)(a − b) = a² − b²."
   },
   unlocksWhy: {
+    "a2-complex": "Writing <span class=\"m\">√(−<i>b</i>) = <i>i</i>√<i>b</i></span> ends with simplifying <span class=\"m\">√<i>b</i></span>, using the product rule for radicals.",
     "a1-radical-eq": "Solving radical equations requires isolating a radical, squaring binomials that contain radicals, and checking answers by radical arithmetic."
   },
   beyond: [

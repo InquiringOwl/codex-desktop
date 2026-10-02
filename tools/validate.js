@@ -80,7 +80,7 @@ for (const [field, tree] of Object.entries(DB.trees)) {
     if (!n.label || !n.icon || !Array.isArray(n.chips) || !Array.isArray(n.pre)) err(W, `"${n.id}" needs label, icon, chips[] and pre[]`);
     const cell = `${n.col},${n.row}`; if (cells.has(cell)) err(W, `"${n.id}" shares col/row ${cell}`); cells.add(cell);
     if (!tree.eras.some(e => n.col >= e.from && n.col <= e.to)) err(W, `"${n.id}" col ${n.col} is outside every era`);
-    for (const p of n.pre || []) { if (!here[p]) err(W, `"${n.id}" prerequisite "${p}" is not in this tree`); else if (here[p].col >= n.col) err(W, `"${n.id}" prerequisite "${p}" is not to its left`); }
+    for (const p of n.pre || []) { if (!here[p]) { if (!node[p]) err(W, `"${n.id}" prerequisite "${p}" is neither in this tree nor a written topic of another field`); } else if (here[p].col >= n.col) err(W, `"${n.id}" prerequisite "${p}" is not to its left`); }
   }
   for (const n of tree.nodes) for (const p of n.pre || []) if (pl.some(x => x.id === p)) err(`tree ${field} / ${n.id}`, `written node depends on planned node "${p}"`);
 }
@@ -185,7 +185,9 @@ for (const [id, t] of Object.entries(T)) {
   const pw = t.prereqWhy || {}, uw = t.unlocksWhy || {};
   const unlocks = Object.values(node).filter(m => (m.pre || []).includes(id)).map(m => m.id);
   for (const k of Object.keys(pw)) if (!n.pre.includes(k)) err(W, `prereqWhy["${k}"] but "${k}" is not a prerequisite`);
-  for (const k of Object.keys(uw)) if (!unlocks.includes(k)) err(W, `unlocksWhy["${k}"] but "${k}" does not list this topic as a prerequisite`);
+  // unlocksWhy may already name planned nodes that list this topic (written ahead, shown once the node is written)
+  const plannedUnlocks = Object.values(DB.trees).flatMap(tr => tr.planned || []).filter(m => (m.pre || []).includes(id)).map(m => m.id);
+  for (const k of Object.keys(uw)) if (!unlocks.includes(k) && !plannedUnlocks.includes(k)) err(W, `unlocksWhy["${k}"] but "${k}" does not list this topic as a prerequisite`);
   for (const k of n.pre) if (!pw[k]) warn(W, `no prereqWhy for "${k}"`);
   for (const k of unlocks) if (!uw[k]) warn(W, `no unlocksWhy for "${k}"`);
   for (const [k, v] of Object.entries({ ...pw, ...uw })) checkHtml(W, `why["${k}"]`, v);

@@ -101,7 +101,7 @@ DB.trees["music-fundamentals"] = {
     { id: "mus-intervals", label: "Intervals: Size & Quality", col: 4, row: 4, icon: "M3", chips: ["P5","M3","m6"], pre: ["mus-major-scales","mus-key-sigs"] },
     { id: "mus-modes", label: "Modes & Other Scales", col: 5, row: 0, icon: "Dor", chips: ["Dorian","penta"], pre: ["mus-minor"] },
     { id: "mus-interval-inversion", label: "Inversion, Compound Intervals & Consonance", col: 5, row: 3, icon: "M3↔m6", chips: ["9","12"], pre: ["mus-intervals"], math: ["modular"] },
-    { id: "mus-tuning", label: "Tuning & Temperament", col: 5, row: 5, icon: "¹²√2", chips: ["3:2","cents"], pre: ["mus-sound","mus-intervals"], math: ["ratios","a1-rational-exp","algebra-2:Logarithms and their laws"], physics: ["waves:Beats and resonance in pipes and strings"] },
+    { id: "mus-tuning", label: "Tuning & Temperament", col: 5, row: 5, icon: "¹²√2", chips: ["3:2","cents"], pre: ["mus-sound","mus-intervals"], math: ["ratios","a1-rational-exp","a2-log-props"], physics: ["waves:Beats and resonance in pipes and strings"] },
     { id: "mus-triads", label: "Triads", col: 6, row: 2, icon: "135", chips: ["M","m","°","+"], pre: ["mus-intervals"] },
     { id: "mus-melody", label: "Melody: Contour, Motive & Phrase", col: 6, row: 6, icon: "∿♪", chips: ["step","leap"], pre: ["mus-intervals","mus-syncopation"] },
     { id: "mus-triad-inversion", label: "Triad Inversion & Figured Bass", col: 7, row: 1, icon: "6/4", chips: ["5/3","6","6/4"], pre: ["mus-triads"] },

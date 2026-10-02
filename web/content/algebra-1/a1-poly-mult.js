@@ -67,6 +67,10 @@ ARITH["a1-poly-mult"] = {
     "a1-poly-add": "The last step of every product is combining like terms, which is exactly adding polynomials."
   },
   unlocksWhy: {
+    "a2-func-ops": "Products such as <span class=\"m\">(<i>f</i><i>g</i>)(<i>x</i>)</span> and compositions such as <span class=\"m\">(<i>x</i> + 1)<sup>2</sup></span> are expanded by multiplying polynomials.",
+    "a2-complex-ops": "Multiplying <span class=\"m\">(<i>a</i> + <i>b</i>i)(<i>c</i> + <i>d</i>i)</span> is FOIL on two binomials, and a conjugate pair multiplies like a sum and difference.",
+    "a2-poly-graphs": "Finding the leading term of a factored polynomial, or expanding it to standard form, is polynomial multiplication.",
+    "a2-binomial": "Expanding <span class=\"m\">(<i>a</i> + <i>b</i>)<sup><i>n</i></sup></span> is repeated polynomial multiplication, and the binomial theorem predicts the result.",
     "a1-poly-div": "Division is checked by multiplying the quotient by the divisor and adding the remainder.",
     "a1-factor-gcf": "Factoring undoes multiplication, and every factoring answer is checked by multiplying back out.",
     "a1-radical-ops": "Products like (2 + √5)(3 − √5) and conjugate pairs are multiplied exactly like binomials."

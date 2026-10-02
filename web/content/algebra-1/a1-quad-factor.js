@@ -64,6 +64,8 @@ ARITH["a1-quad-factor"] = {
     "a1-factor-tri": "The method only works once you can factor a trinomial ax² + bx + c into two binomials."
   },
   unlocksWhy: {
+    "a2-quad-form-eq": "After the substitution, the quadratic in <i>u</i> is usually solved by factoring a trinomial.",
+    "a2-zeros-mult": "Reading the zeros and their multiplicities needs the polynomial in factored form, and factoring quadratics and common factors gets it there.",
     "a1-quad-sqrt": "Many quadratics do not factor over the integers, and the square root property and completing the square solve those."
   },
   beyond: [

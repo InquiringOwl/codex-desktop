@@ -68,6 +68,7 @@ ARITH["a1-compound"] = {
     "pa-solve-ineq": "You need to solve a single linear inequality, including reversing the sign for a negative multiplier, before combining two."
   },
   unlocksWhy: {
+    "a2-poly-ineq": "The solution of a polynomial inequality is a union or intersection of intervals, written with the same AND and OR logic and interval notation as a compound inequality.",
     "a1-abs-ineq": "An absolute value inequality becomes a compound inequality: |x| &lt; k becomes an AND, and |x| &gt; k becomes an OR.",
     "a1-sys-ineq": "A system of inequalities in two variables is the two-dimensional version of AND, the region where both hold.",
     "g-logic": "AND and OR statements and their truth values are the start of conditional statements, negations and counterexamples.",

@@ -67,7 +67,9 @@ ARITH["a1-sequences"] = {
     "a1-exp-functions": "A geometric sequence is an exponential function restricted to whole numbers, so its formula and growth behaviour come from there.",
     "pa-sequences": "The idea of a common difference and the arithmetic nth-term formula were introduced in pre-algebra and are extended here with sums and geometric sequences."
   },
-  unlocksWhy: {},
+  unlocksWhy: {
+    "a2-sequences": "Arithmetic and geometric sequences are the first examples of the explicit and recursive rules that Algebra II generalises and sums with sigma notation."
+  },
   beyond: [
     { field: "Algebra II", why: "Sigma notation, recursive formulas and infinite geometric series are developed from these two sequence types." },
     { field: "Precalculus", why: "Mathematical induction is usually introduced by proving the arithmetic and geometric sum formulas." },

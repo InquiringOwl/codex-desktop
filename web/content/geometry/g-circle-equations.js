@@ -72,7 +72,9 @@ ARITH["g-circle-equations"] = {
     "g-segments": "The Distance Formula from the centre (h, k) to a point (x, y), set equal to r and squared, is the standard form.",
     "a1-quad-sqrt": "Completing the square in x and in y turns general form into standard form, and the square root property gives r from r²."
   },
-  unlocksWhy: {},
+  unlocksWhy: {
+    "a2-conic-sections": "The circle <span class=\"m\">(<i>x</i> − <i>h</i>)<sup>2</sup> + (<i>y</i> − <i>k</i>)<sup>2</sup> = <i>r</i><sup>2</sup></span> is the first conic, and expanding it gives the general form with equal <span class=\"m\"><i>x</i><sup>2</sup></span> and <span class=\"m\"><i>y</i><sup>2</sup></span> coefficients."
+  },
   beyond: [
     { field: "Algebra II", why: "Circles are the first conic section; parabolas, ellipses and hyperbolas are brought to standard form by the same completing of the square." },
     { field: "Precalculus", why: "The parametric equations x = h + r cos t, y = k + r sin t and the unit circle x² + y² = 1 underlie trigonometric functions." },

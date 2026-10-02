@@ -8,6 +8,7 @@
 //              text elements in a DOM lab's stage on top of each other
 //   readout    the readout panel needs scrolling on desktop
 //   console    JavaScript errors or console errors/warnings
+//   (states: each mode as it opens, after pressing the first two control buttons, and after pressing Step/Next up to 8×)
 //   leak       an answer the lab declared with k.guard([...]) (kit-math) is visible (readout, stage text or canvas)
 //              when a mode first opens, before any step or control has been used
 // Run:  node tools/layoutcheck.js <topic-id> [<id>…]      (no ids: every topic; slower)
@@ -72,6 +73,7 @@ const INSPECT = () => {
   }
   const ro = document.getElementById('readout');
   if (ro && vw > 900 && ro.scrollHeight > ro.clientHeight + 4) out.push(`readout: needs scrolling (${ro.scrollHeight}px of content in ${ro.clientHeight}px)`);
+  if (ro && vw > 900) for (const el of ro.querySelectorAll('*')) { const cs = getComputedStyle(el); if (/(auto|scroll)/.test(cs.overflowX) && el.scrollWidth > el.clientWidth + 2) { out.push(`readout: "${el.textContent.trim().slice(0, 30)}" scrolls sideways (${el.scrollWidth}px in ${el.clientWidth}px)`); break; } }
   const modes = [...document.querySelectorAll('.stage .modes button')].map(b => b.getBoundingClientRect());
   for (const cv of document.querySelectorAll('.stage canvas')) {
     if (!cv.clientWidth || !cv.offsetParent) continue;            // hidden canvas (another mode is showing)
@@ -131,6 +133,10 @@ const LEAK = () => {
         for (const b of (await p.$$('#controls button')).slice(0, 2)) { try { await b.click({ timeout: 800 }); } catch (e) {} await p.waitForTimeout(250); }
         await p.waitForTimeout(400);
         add(tag + ' after controls', await p.evaluate(INSPECT));
+        // later states: press Step/Next up to 8 times (stepper labs), then inspect the final state
+        let stepped = 0;
+        for (let i = 0; i < 8; i++) { const btns = await p.$$('#controls button'); let hit = null; for (const b of btns) { const t = ((await b.textContent()) || '').trim(); if (/^(step|next)\b/i.test(t) && await b.isVisible()) { hit = b; break; } } if (!hit) break; try { await hit.click({ timeout: 800 }); stepped++; } catch (e) { break; } await p.waitForTimeout(120); }
+        if (stepped) { await p.waitForTimeout(350); add(tag + ' after steps', await p.evaluate(INSPECT)); }
       }
       const lines = [...[...report].map(([x, tags]) => `${x}  [${tags.length > 3 ? tags.length + ' states' : tags.join('; ')}]`), ...new Set(errs)];
       total += lines.length;

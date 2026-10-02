@@ -75,7 +75,7 @@ ARITH["mech-kepler"] = {
   unlocksWhy: {},
   mathWhy: {
     "a1-rational-exp": `The third law is solved with rational exponents: <span class="m"><i>a</i> = <i>T</i><sup>2/3</sup></span> and <span class="m"><i>T</i> = <i>a</i><sup>3/2</sup></span> (in years and AU), as in <span class="m">(75.3)<sup>2/3</sup> = 17.8</span> for Halley's Comet.`,
-    "algebra-2:Conic sections": `The first law needs the ellipse: foci, semi-major and semi-minor axes, eccentricity <span class="m"><i>e</i> = <i>c</i>/<i>a</i></span>, and <span class="m"><i>b</i> = <i>a</i>√<span style="text-decoration:overline">1 − <i>e</i><sup>2</sup></span></span>; escape paths are the parabola and hyperbola of the same family.`
+    "a2-ellipses": `The first law needs the ellipse: foci, semi-major and semi-minor axes, eccentricity <span class="m"><i>e</i> = <i>c</i>/<i>a</i></span>, and <span class="m"><i>b</i> = <i>a</i>√<span style="text-decoration:overline">1 − <i>e</i><sup>2</sup></span></span>; escape paths are the parabola and hyperbola of the same family.`
   },
   beyond: [
     { field: "Classical Mechanics", why: "The Kepler problem is solved exactly with the effective potential and conserved energy and angular momentum; it is the model two-body problem." },

@@ -407,7 +407,7 @@ DB.trees["mechanics"] = {
     { id: "mech-ang-momentum", col: 24, row: 4, icon: "L", chips: ["Iω","r×p"], pre: ["mech-rot-dynamics","mech-momentum-cons"], math: ["a1-literal","calculus-3:Vectors, dot and cross products"] },
     { id: "mech-gravitation", col: 25, row: 3, icon: "G", chips: ["Gm₁m₂/r²"], pre: ["mech-newton-3","mech-centripetal"], math: ["sci-notation","a1-radicals","a1-rational-exp"] },
     { id: "mech-orbits", col: 26, row: 3, icon: "⊙", chips: ["−GMm/r","vesc"], pre: ["mech-gravitation","mech-energy-cons"], math: ["a1-radicals","calculus-1:Antiderivatives and the definite integral"] },
-    { id: "mech-kepler", col: 27, row: 3, icon: "T²", chips: ["T²∝a³"], pre: ["mech-orbits","mech-ang-momentum"], math: ["a1-rational-exp","algebra-2:Conic sections"] }
+    { id: "mech-kepler", col: 27, row: 3, icon: "T²", chips: ["T²∝a³"], pre: ["mech-orbits","mech-ang-momentum"], math: ["a1-rational-exp","a2-ellipses"] }
   ]
 };
 

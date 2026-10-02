@@ -137,8 +137,10 @@ def yint(f, var=None):
 
 
 def ends(f, var=None):
+    # x → −∞ via x = −T, T → ∞ (sympy 1.14 gets limit(2**x, x, -oo) wrong)
     var = _sym(f, var)
-    return sp.limit(f, var, -sp.oo), sp.limit(f, var, sp.oo)
+    T = sp.Symbol('T_end', positive=True)
+    return sp.limit(sp.sympify(f).subs(var, -T), T, sp.oo), sp.limit(f, var, sp.oo)
 
 
 def hasym(f, var=None):
@@ -299,7 +301,7 @@ if __name__ == '__main__':      # self-test: python3 checks/_lib/algebra.py
     assert holes(f) == [(2, sp.Rational(4, 5))] and vas(f) == [-3] and zeros(f) == [-2] and hasym(f) == 1 and yint(f) == sp.Rational(2, 3)
     assert domain_excluded(f) == [-3, 2] and side(f, -3) == (sp.oo, -sp.oo)
     assert slant((x**2 + 1) / x) == x and vas(1 / x**2) == [0] and holes(x / x**2) == []
-    assert ends(-2 * x**3) == (sp.oo, -sp.oo)
+    assert ends(-2 * x**3) == (sp.oo, -sp.oo) and ends(2**x) == (0, sp.oo) and ends(sp.Rational(1, 2)**x) == (sp.oo, 0)
     g = inverse(2 * x + 3); assert equivalent(g, (x - 3) / 2) and inverse_ok(2 * x + 3, g, [0, 1, 5])
     assert inverse_ok(x**2, sp.sqrt(x), [0, 1, 4]) and not inverse_ok(x**2, -sp.sqrt(x), [1, 4])
     assert equivalent(transform(x**2, a=2, h=3, k=-1), 2 * (x - 3)**2 - 1)

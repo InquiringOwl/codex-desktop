@@ -157,6 +157,8 @@ Z.val = a => { a = Z(a); return { re: Q.val(a.re), im: Q.val(a.im) }; };
 /* Radicals and exact quadratic roots */
 // √n = s√t with t square-free (n ≥ 0 integer).  sqrtParts(72) = [6, 2]
 function sqrtParts(n){ if (n < 0) throw new Error("MathRules.sqrtParts: negative"); let s = 1, t = n; for (let f = 2; f * f <= t; f++) while (t % (f * f) === 0) { t /= f * f; s *= f; } return [s, t]; }
+// √q for a rational q ≥ 0, exactly: sqrtQ(Q(9, 8)) = {s: 3/4, t: 2} (√(9/8) = (3/4)√2)
+function sqrtQ(q){ q = Q(q); const [s0, t] = sqrtParts(q.n * q.d); return { s: Q(s0, q.d), t }; }
 // Roots of a x² + b x + c = 0 (rational a ≠ 0, b, c): x = p ± s√t, times i when imag.
 // kind: "two rational" | "double" | "two irrational" | "complex"
 function quadRoots(a, b, c){
@@ -349,13 +351,18 @@ function rootsStr(R, html){
   const part = (Q.eq(R.s, 1) && R.t === 1 ? "" : radStr(R.s, R.t, html)) + (R.imag ? i : "");
   return (R.p.n === 0 ? "±" : F(R.p) + " ± ") + (part || "1");
 }
+// Linear factor for a zero r: factorStr(3) = "x − 3", factorStr(Q(-1, 2)) = "x + 1/2", {integer: true} → "2x + 1"; {html} italic x.
+function factorStr(r, o = {}){ r = Q(r); const v = o.html ? "<i>x</i>" : (o.v || "x");
+  if (r.n === 0) return v;
+  if (o.integer && r.d !== 1) return `${r.d}${v} ${r.n < 0 ? "+" : "−"} ${Math.abs(r.n)}`;
+  return `${v} ${r.n < 0 ? "+" : "−"} ${o.html ? qH(Q.abs(r)) : qT(Q.abs(r))}`; }
 // Reveal guard for step-by-step work: entries after index k become null (render as placeholders), so nothing
 // ahead of the stepper is ever in the DOM.
 const reveal = (lines, k) => lines.map((l, i) => (i <= k ? l : null));
 
-W.MathRules = { Q, Poly, Z, gcd: gcdI, lcm: lcmI, divisors, sqrtParts, quadRoots, rational, transform, transformPoint, compose, invert, isOneToOne,
+W.MathRules = { Q, Poly, Z, gcd: gcdI, lcm: lcmI, divisors, sqrtParts, sqrtQ, quadRoots, rational, transform, transformPoint, compose, invert, isOneToOne,
   logb, logExact, compound, continuous, arith, geom, sigma, nCr, pascalRow, binomialPoly, binomialTerm, conic, conicGeneral,
-  zeros, intersect, niceStep, ticks, placeLabels, sg, fmtN, qT, qH, supT, polyT, polyH, polyStr, zT, zH, radStr, rootsStr, reveal, MI };
+  zeros, intersect, niceStep, ticks, placeLabels, sg, fmtN, qT, qH, supT, polyT, polyH, polyStr, zT, zH, radStr, rootsStr, factorStr, reveal, MI };
 
 /* ---------------- 2. MathKit: drawing on top of the lab kit ---------------- */
 const CSS = `.mk-ol{border-top:1px solid currentColor;padding-top:1px;margin-left:1px}
@@ -382,6 +389,32 @@ function attach(k){
   // any of them visible when the mode first opens. Call again with [] or new answers when the mode changes.
   k.guard = list => { k.stage.dataset.answers = JSON.stringify(list || []); };
 
+  // One hint at a time: k.hint(text) replaces the previous hint ("" removes it), so switching modes doesn't pile them up.
+  k.hint = t => { k.stage.querySelectorAll(".hintc").forEach(e => e.remove()); if (t) { const e = document.createElement("div"); e.className = "hintc"; e.textContent = t; k.stage.appendChild(e); } };
+
+  // Split the stage between a DOM panel (steps, tables) and the canvas plot, below the mode buttons.
+  // Wide (≥ minWide px): panel on the `side` ("left" | "right", width frac); narrow: panel on top (height hfrac).
+  // Returns the plot padding {l, r, t, b} to pass as k.plane({pad}); o.full → panel takes the whole stage (returns null);
+  // o.off → hides the panel and returns default padding. Call every frame (cheap: only restyles on change).
+  k.split = (c, host, o = {}) => {
+    const mb = k.stage.querySelector(".modes"), top = mb ? mb.offsetTop + mb.offsetHeight + 4 : 8, set = css => { if (host.__css !== css) { host.style.cssText = css; host.__css = css; } };
+    if (o.off) { set("display:none"); return { l: 40, r: 16, t: 16, b: 30 }; }
+    const wide = c.w >= (o.minWide || 600); host.classList.toggle("narrow", !wide);
+    if (o.full) { set(`display:block;left:0;right:0;top:${top}px;bottom:0;width:auto;height:auto;padding:0;overflow:auto`); return null; }
+    if (wide) { const dw = Math.round(c.w * (o.frac || .46)), left = o.side !== "right";
+      set(`display:block;top:${top}px;bottom:0;${left ? "left:0;right:auto" : "left:auto;right:0"};width:${dw}px;height:auto;padding:4px 10px 10px;overflow:auto`);
+      return left ? { l: dw + 34, r: 16, t: top + 12, b: 30 } : { l: 40, r: dw + 12, t: top + 12, b: 30 }; }
+    const dh = Math.round((c.h - top) * (o.hfrac || .48));
+    set(`display:block;top:${top}px;left:0;right:0;height:${dh}px;width:auto;padding:4px 10px 6px;overflow:auto`);
+    return { l: 38, r: 14, t: top + dh + 10, b: 26 };
+  };
+
+  // Controls per mode: k.group("graph", () => { k.slider(…); k.button(…); }) records the controls that block adds;
+  // k.showGroup("graph") shows only that group's controls (controls made outside any group always show).
+  const groups = {};
+  k.group = (name, fn) => { const before = new Set(k.ctl.children); const r = fn(); (groups[name] = groups[name] || []).push(...[...k.ctl.children].filter(e => !before.has(e))); return r; };
+  k.showGroup = name => { for (const [g, els] of Object.entries(groups)) els.forEach(e => { e.style.display = g === name ? "" : "none"; }); };
+
   // Eased window: k.smooth(view, {ymin, ymax}, dt) moves numeric fields toward the target (instant with reduced motion).
   k.smooth = (cur, target, dt, rate = 6) => { for (const key in target) cur[key] = k.reduce || cur[key] === undefined ? target[key] : cur[key] + (target[key] - cur[key]) * Math.min(1, dt * rate); return cur; };
 
@@ -398,7 +431,20 @@ function attach(k){
   k.plane = (c, o = {}) => {
     // keep the plot (tick labels, axis names) below the mode buttons when the stage has them
     const mb = k.stage.querySelector(".modes"); if (mb && o.modes !== false) { const top = mb.offsetTop + mb.offsetHeight + 6; o = Object.assign({}, o, { pad: Object.assign({ l: 40, r: 16, t: 16, b: 30 }, o.pad || {}) }); o.pad.t = Math.max(o.pad.t, top); }
-    const P = k.plot(c, o), d = c.d, g = c.g; P.pts = []; P.boxes = (o.avoid || []).slice();
+    const P = k.plot(c, o), d = c.d, g = c.g;
+    // boxes and curve samples are shared by every plane drawn on this canvas in the same frame (reset by c.begin),
+    // so labels in one panel avoid the axes and curves of another
+    if (!c.__mkWrap) { const b0 = c.begin; c.begin = () => { c.__mk = { boxes: [], pts: [] }; b0(); }; c.__mkWrap = true; c.__mk = { boxes: [], pts: [] }; }
+    P.pts = c.__mk.pts; P.boxes = c.__mk.boxes; P.boxes.push(...(o.avoid || []));
+    // P.axes also registers its tick numbers and axis names as boxes, so P.labels keeps clear of them.
+    const axes0 = P.axes;
+    P.axes = (labels = true) => { axes0(labels); if (!labels) return;
+      const sx = o.xstep || niceStep(P.xmax - P.xmin), sy = o.ystep || niceStep(P.ymax - P.ymin), tf = `11px ${F.mono}`, nf = `italic 14px ${F.math}`;
+      const ax = Math.min(Math.max(0, P.ymin), P.ymax), ay = Math.min(Math.max(0, P.xmin), P.xmax), f = v => (Math.abs(v) < 1e-9 ? "0" : String(+v.toFixed(6))).replace("-", MI);
+      for (let x = Math.ceil(P.xmin / sx) * sx; x <= P.xmax + 1e-9; x += sx) { if (Math.abs(x) < 1e-9) continue; const w = d.width(f(x), tf), y = Math.min(P.top + P.height + 16, P.Y(ax) + 16); P.boxes.push({ x: P.X(x) - w / 2 - 2, y: y - 11, w: w + 4, h: 15 }); }
+      for (let y = Math.ceil(P.ymin / sy) * sy; y <= P.ymax + 1e-9; y += sy) { if (Math.abs(y) < 1e-9) continue; const w = d.width(f(y), tf), xr = Math.max(P.left - 6, P.X(ay) - 7); P.boxes.push({ x: xr - w - 2, y: P.Y(y) - 8, w: w + 4, h: 16 }); }
+      if (o.xlabel) { const w = d.width(o.xlabel, nf); P.boxes.push({ x: P.left + P.width - w - 2, y: P.Y(ax) - 24, w: w + 4, h: 19 }); }
+      if (o.ylabel) { const w = d.width(o.ylabel, nf); P.boxes.push({ x: P.X(ay) + 6, y: P.top - 3, w: w + 4, h: 19 }); } };
     const record = (x, y) => { if (x >= P.left && x <= P.left + P.width && y >= P.top && y <= P.top + P.height) P.pts.push([x, y]); };
     if (mb && o.modes !== false) { const r = mb.getBoundingClientRect(), s = c.cv.getBoundingClientRect(); P.boxes.push({ x: r.left - s.left - 4, y: r.top - s.top - 4, w: r.width + 8, h: r.height + 8 }); }
     // y = f(x) with breaks at given x values (vertical asymptotes / excluded points). opts: breaks, from, to, dash, w
@@ -408,6 +454,10 @@ function attach(k){
       for (let i = 0; i < cuts.length - 1; i++) { const a = i ? cuts[i] + eps : cuts[i], b = i < cuts.length - 2 ? cuts[i + 1] - eps : cuts[i + 1]; if (b > a) P.fn(f, color, opt.w || 2.5, a, b, opt.dash); }
       const N = 120; for (let i = 0; i <= N; i++) { const x = from + (to - from) * i / N, y = f(x); if (isFinite(y)) record(P.X(x), P.Y(y)); }
     };
+    // A point of y = f(x) inside the window (away from the edges), searched outward from the fraction `at` of
+    // [lo, hi]: an anchor for a curve's name label. Returns {x, y} or null.
+    P.onCurve = (f, at = 0.85, lo = -Infinity, hi = Infinity) => { lo = Math.max(lo, P.xmin); hi = Math.min(hi, P.xmax); const my = (P.ymax - P.ymin) * 0.08;
+      for (let i = 0; i <= 60; i++) { const sft = (i % 2 ? -1 : 1) * Math.ceil(i / 2) / 60, x = lo + (hi - lo) * Math.min(1, Math.max(0, at + sft)), y = f(x); if (isFinite(y) && y > P.ymin + my && y < P.ymax - my) return { x, y }; } return null; };
     P.vasym = (x, color = C.violet, w = 1.5) => { P.line(x, P.ymin, x, P.ymax, color, w, [6, 5]); for (let i = 0; i <= 20; i++) record(P.X(x), P.top + P.height * i / 20); };
     P.hasym = (y, color = C.violet, w = 1.5) => { P.line(P.xmin, y, P.xmax, y, color, w, [6, 5]); for (let i = 0; i <= 30; i++) record(P.left + P.width * i / 30, P.Y(y)); };
     P.asym = (f, color = C.violet, w = 1.5) => P.curve(f, color, { w, dash: [6, 5] });

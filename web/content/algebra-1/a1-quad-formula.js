@@ -66,6 +66,8 @@ ARITH["a1-quad-formula"] = {
     "a1-quad-sqrt": "The formula is derived by completing the square on ax² + bx + c = 0, and it relies on the square root property with ±."
   },
   unlocksWhy: {
+    "a2-quad-form-eq": "When the quadratic in <i>u</i> does not factor, the quadratic formula gives its roots and the discriminant counts them.",
+    "a2-quad-complex": "A negative discriminant in the quadratic formula gives a conjugate pair of complex solutions <span class=\"m\"><i>p</i> ± <i>q</i>i</span>.",
     "a1-quad-graphs": "The formula gives the x-intercepts of a parabola, and the discriminant says whether there are two, one or none."
   },
   beyond: [

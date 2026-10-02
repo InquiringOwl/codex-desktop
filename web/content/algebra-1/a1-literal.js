@@ -67,6 +67,8 @@ ARITH["a1-literal"] = {
     "pa-formulas": "You need to know common formulas and what each letter stands for before you rearrange them."
   },
   unlocksWhy: {
+    "a2-inverses": "Finding <span class=\"m\"><i>f</i><sup>−1</sup></span> means swapping <i>x</i> and <i>y</i> and then solving for <i>y</i>, which is a literal-equation rearrangement.",
+    "a2-variation": "Finding the constant <i>k</i> in a formula such as <span class=\"m\"><i>I</i> = <i>k</i>/<i>d</i><sup>2</sup></span> means solving a formula for one letter.",
     "a1-sys-sub": "Substitution starts by solving one equation of the system for one variable in terms of the other."
   },
   beyond: [

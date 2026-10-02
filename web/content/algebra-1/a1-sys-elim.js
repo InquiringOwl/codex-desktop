@@ -69,6 +69,7 @@ ARITH["a1-sys-elim"] = {
     "a1-sys-sub": "You need to know what a solution to a system means and how to back-substitute a found value, both learned with substitution."
   },
   unlocksWhy: {
+    "a2-sys-three": "Each step of a three-variable system is the two-variable elimination you already know: scale equations so a variable cancels, add, and solve.",
     "a1-sys-apps": "Word problems about mixtures, tickets, interest and motion usually give two equations in standard form, which elimination solves quickly."
   },
   beyond: [

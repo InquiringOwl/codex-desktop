@@ -69,6 +69,7 @@ ARITH["g-transformations"] = {
     "pa-coordinate": "Every coordinate rule works by changing signs and swapping x and y, so you need to plot points and read quadrants fluently."
   },
   unlocksWhy: {
+    "a2-transformations": "Translations, reflections and dilations of points in the plane are the same moves applied to whole function graphs.",
     "g-symmetry": "Composing two reflections produces a translation or a rotation, and a figure's symmetries are the rigid motions that map it onto itself.",
     "g-congruence": "Two figures are congruent exactly when a sequence of rigid motions maps one onto the other, which is what SSS, SAS and ASA guarantee.",
     "g-dilations": "A dilation is the next transformation: like a rigid motion it keeps angles, but it multiplies every length by the scale factor."

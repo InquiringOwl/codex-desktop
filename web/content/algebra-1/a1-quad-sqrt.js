@@ -67,6 +67,8 @@ ARITH["a1-quad-sqrt"] = {
     "a1-radicals": "Solutions come out as square roots, which must be simplified, such as √54 = 3√6."
   },
   unlocksWhy: {
+    "a2-quad-vertex": "Completing the square turns <span class=\"m\"><i>a</i><i>x</i><sup>2</sup> + <i>b</i><i>x</i> + <i>c</i></span> into vertex form <span class=\"m\"><i>a</i>(<i>x</i> − <i>h</i>)<sup>2</sup> + <i>k</i></span>.",
+    "a2-conic-sections": "Completing the square in <i>x</i> and <i>y</i> turns a general second-degree equation into the standard form of a conic.",
     "a1-quad-formula": "The quadratic formula is completing the square carried out once on the general equation ax² + bx + c = 0.",
     "g-circle-equations": "Completing the square in both x and y turns x² + y² + Dx + Ey + F = 0 into (x − h)² + (y − k)² = r²."
   },

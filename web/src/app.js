@@ -335,7 +335,7 @@ function renderFieldTree(main, f){
   // Planned nodes (TR.planned) show the rest of a partly written tree, dashed and not openable.
   const PL = TR.planned || [], PLAN = Object.fromEntries(PL.map(n => [n.id, n]));
   const nodes = FN.map(n => ({ ...n, pre: n.pre.filter(p => inTree.has(p)), ext: n.pre.filter(p => !inTree.has(p)), label: T[n.id]?.title || n.id, right: T[n.id] ? T[n.id].hours + " h" : "" }))
-    .concat(PL.map(n => ({ ...n, right: "Planned" })));
+    .concat(PL.map(n => ({ ...n, pre: n.pre.filter(p => inTree.has(p) || PLAN[p]), ext: n.pre.filter(p => !inTree.has(p) && !PLAN[p]), right: "Planned" })));
   const tree = buildTree(main, {
     nodes, eras: TR.eras, key: "tree-" + f, title: F.name, stateFn: id => PLAN[id] ? "planned" : stateOf(id),
     onOpen: id => { if (!PLAN[id]) go({ view: "math", field: f, topic: id }); },

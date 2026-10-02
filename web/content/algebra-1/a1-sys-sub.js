@@ -67,6 +67,7 @@ ARITH["a1-sys-sub"] = {
     "a1-literal": "The first step, solving an equation such as 2x + y = 7 for y, is rearranging a literal equation."
   },
   unlocksWhy: {
+    "a2-nonlinear-sys": "Substitution is the same method used on a line and a conic, replacing one variable in <span class=\"m\"><i>x</i><sup>2</sup></span> and <span class=\"m\"><i>y</i><sup>2</sup></span> equations.",
     "a1-sys-elim": "Elimination is the other standard method, and it still finishes by back-substituting the first value found."
   },
   beyond: [

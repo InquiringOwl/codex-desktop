@@ -68,7 +68,9 @@ ARITH["a1-piecewise"] = {
     "a1-functions": "You need function notation and domains, because a piecewise function assigns a formula to each part of the domain.",
     "a1-abs-eq": "The absolute value function's two pieces come from the definition of |x| used to solve absolute value equations."
   },
-  unlocksWhy: {},
+  unlocksWhy: {
+    "a2-transformations": "The V-shaped graph of <span class=\"m\">|<i>x</i>|</span> is one of the parent functions that Algebra II shifts, stretches and reflects."
+  },
   beyond: [
     { field: "Precalculus", why: "Transformations of |x|, step functions and piecewise definitions of functions are studied in detail." },
     { field: "Calculus I", why: "Piecewise functions are the main examples for one-sided limits, continuity and points where a derivative does not exist." },

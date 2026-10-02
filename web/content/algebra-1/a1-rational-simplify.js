@@ -65,6 +65,7 @@ ARITH["a1-rational-simplify"] = {
     "fraction-ops": "Multiplying, dividing and reducing rational expressions use exactly the same rules as numerical fractions."
   },
   unlocksWhy: {
+    "a2-rational-func": "Finding holes means factoring and cancelling common factors while keeping the excluded values, exactly the work of simplifying a rational expression.",
     "a1-rational-add": "Adding and subtracting rational expressions requires factoring denominators, building a common denominator and simplifying the result, all learned here."
   },
   beyond: [

@@ -66,6 +66,7 @@ ARITH["a1-factor-tri"] = {
     "a1-factor-gcf": "The ac method ends by factoring four terms by grouping, and every problem starts by taking out the GCF."
   },
   unlocksWhy: {
+    "a2-factor-theorem": "After synthetic division finds a rational root, the leftover quadratic quotient is factored as a trinomial, often with a leading coefficient other than 1.",
     "a1-factor-special": "Perfect-square trinomials and differences of squares are trinomials (or binomials) with a recognisable factor pattern.",
     "a1-quad-factor": "A quadratic equation is solved by factoring the trinomial and setting each factor equal to zero."
   },

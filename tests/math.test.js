@@ -56,7 +56,8 @@ test('complex numbers, exact', () => {
 });
 
 test('radicals and exact quadratic roots', () => {
-  eq(MR.sqrtParts(72), [6, 2], '√72'); eq(MR.sqrtParts(49), [7, 1], '√49'); eq(MR.sqrtParts(30), [1, 30], '√30');
+  eq(MR.sqrtParts(72), [6, 2], '√72'); const sq = MR.sqrtQ(Q(9, 8)); eq([S(sq.s), sq.t], ['3/4', 2], '√(9/8) = (3/4)√2'); eq([S(MR.sqrtQ(Q(25, 4)).s), MR.sqrtQ(Q(25, 4)).t], ['5/2', 1], '√(25/4)');
+  for (let n = 0; n < 40; n++) for (let dd = 1; dd < 12; dd++) { const r = MR.sqrtQ(Q(n, dd)); near(Q.val(r.s) * Math.sqrt(r.t), Math.sqrt(n / dd), 'sqrtQ ' + n + '/' + dd, 1e-12); } eq(MR.sqrtParts(49), [7, 1], '√49'); eq(MR.sqrtParts(30), [1, 30], '√30');
   const r1 = MR.quadRoots(1, -5, 6); eq(r1.kind, 'two rational'); eq(r1.exact.map(S), ['2', '3'], 'x²−5x+6');
   const r2 = MR.quadRoots(1, 2, -11); eq(r2.kind, 'two irrational'); eq([S(r2.p), S(r2.s), r2.t], ['-1', '2', 3], '−1 ± 2√3'); eq(MR.rootsStr(r2), '−1 ± 2√3', 'text');
   const r3 = MR.quadRoots(1, -4, 5); eq(r3.kind, 'complex'); eq(MR.rootsStr(r3), '2 ± i', '2 ± i');
@@ -125,6 +126,7 @@ test('ticks and label placement', () => {
 });
 
 test('reveal guard and formatters', () => {
+  eq([MR.factorStr(3), MR.factorStr(-2), MR.factorStr(Q(1, 2)), MR.factorStr(Q(-1, 2), { integer: true }), MR.factorStr(0)], ['x − 3', 'x + 2', 'x − 1/2', '2x + 1', 'x'], 'factorStr');
   eq(MR.reveal(['a', 'b', 'c'], 0), ['a', null, null], 'only the first step'); eq(MR.reveal(['a', 'b', 'c'], 2), ['a', 'b', 'c'], 'all');
   eq(MR.fmtN(-0.0001, 2), '0', 'no negative zero'); eq(MR.fmtN(-2.5, 1), '−2.5', 'unicode minus'); eq(MR.qT(Q(-3, 4)), '−3/4', 'qT'); eq(MR.radStr(Q(3), 2), '3√2', 'radStr'); eq(MR.radStr(Q(-1), 5), '−√5', '−√5');
   ok(MR.qH(Q(-1, 2)).includes('class="fr"'), 'qH fraction markup'); eq(MR.zH(Z(2, -1)), '<span class="m">2</span> − <i>i</i>', 'zH');

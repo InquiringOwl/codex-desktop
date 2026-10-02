@@ -67,6 +67,7 @@ ARITH["a1-rational-exp"] = {
     "a1-radicals": "Evaluating a^(m/n) means taking an nth root, and simplifying the result uses the radical rules you already know."
   },
   unlocksWhy: {
+    "a2-radical-func": "A radical function <span class=\"m\"><sup><i>n</i></sup>√<i>x</i></span> is the same as <span class=\"m\"><i>x</i><sup>1/<i>n</i></sup></span>, so rational exponents set up its graph and domain.",
     "a1-exp-functions": "Exponential functions like y = a·bˣ need bˣ to make sense at fractional x, such as half-lives and growth over part of a year."
   },
   beyond: [
