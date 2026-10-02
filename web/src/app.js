@@ -367,7 +367,7 @@ function renderFieldMap(main){
     nodes, eras: sm.eras, key: "map-" + S.subject, title: sm.name + " field map",
     stateFn: id => charted(id) ? "avail" : "planned",
     onOpen: id => go({ view: "math", field: id, topic: null }),
-    infoFn: id => { const f = DB.fields[id]; return `<div>${charted(id) ? '<span class="pill a">Charted</span>' : '<span class="pill l">Planned</span>'}</div><h4>${esc(f.name)}</h4><p>${esc(f.blurb)}</p><div class="req">${esc(f.level)}${f.pre.length ? "<br>Requires: " + f.pre.map(p => esc(DB.fields[p].name)).join(", ") : S.subject !== "mathematics" ? `<br>Starting field, no ${esc(sm.name)} prerequisites` : ""}${f.math && f.math.length ? "<br>Mathematics: " + f.math.map(p => esc(DB.fields[p].name)).join(", ") : ""}</div>`; }
+    infoFn: id => { const f = DB.fields[id]; return `<div>${charted(id) ? '<span class="pill a">Charted</span>' : '<span class="pill l">Planned</span>'}</div><h4>${esc(f.name)}</h4><p>${esc(f.blurb)}</p><div class="req">${esc(f.level)}${f.pre.length ? "<br>Requires: " + f.pre.map(p => esc(DB.fields[p].name)).join(", ") : S.subject !== "mathematics" ? `<br>Starting field, no ${esc(sm.name)} prerequisites` : ""}${f.math && f.math.length ? "<br>Mathematics: " + f.math.map(p => esc(DB.fields[p].name)).join(", ") : ""}${f.physics && f.physics.length ? "<br>Physics: " + f.physics.map(p => esc(DB.fields[p].name)).join(", ") : ""}</div>`; }
   });
 }
 
@@ -384,6 +384,7 @@ function renderDossier(main){
       <div style="display:grid;gap:16px;align-content:start">
         <div class="win"><div class="win-h"><span class="dot"></span>Study first</div><div class="in"><div class="linkrow">${f.pre.length ? f.pre.map(p => `<button type="button" class="lnk ${charted(p) ? "charted" : ""}" data-f="${p}">${esc(DB.fields[p].name)}</button>`).join("") : '<span class="empty">None</span>'}</div></div></div>
         ${f.math && f.math.length ? `<div class="win"><div class="win-h"><span class="dot"></span>Mathematics needed</div><div class="in"><div class="linkrow">${f.math.map(p => `<button type="button" class="lnk ${charted(p) ? "charted" : ""}" data-f="${p}">${esc(DB.fields[p].name)}</button>`).join("")}</div></div></div>` : ""}
+        ${f.physics && f.physics.length ? `<div class="win"><div class="win-h"><span class="dot"></span>Physics needed</div><div class="in"><div class="linkrow">${f.physics.map(p => `<button type="button" class="lnk ${charted(p) ? "charted" : ""}" data-f="${p}">${esc(DB.fields[p].name)}</button>`).join("")}</div></div></div>` : ""}
         <div class="win"><div class="win-h"><span class="dot"></span>Leads to</div><div class="in"><div class="linkrow">${next.length ? next.map(p => `<button type="button" class="lnk ${charted(p) ? "charted" : ""}" data-f="${p}">${esc(DB.fields[p].name)}</button>`).join("") : '<span class="empty">Capstone field in this map</span>'}</div></div></div>
         <div class="win"><div class="win-h"><span class="dot"></span>Status</div><div class="in"><p style="margin:0;color:var(--muted);font-size:14px">The topic tree for ${esc(f.name)} will be built with the same dossier format as the charted fields. The list on the left is the planned node set.</p></div></div>
       </div>
@@ -440,7 +441,7 @@ function renderTopic(main){
     const why = (t.mathWhy && t.mathWhy[m]) || "";
     if (r.id) { const tp = T[r.id] || { title: r.id, short: "" }; return `<button type="button" class="plink" data-t="${r.id}" data-st="${stateOf(r.id)}"><span class="o">${NODE[r.id].icon}</span><span><b>${esc(tp.title)} <span style="font-weight:400;color:var(--faint)">· ${esc(DB.fields[NODE[r.id].field].name)}</span></b><span>${why || esc(tp.short)}</span></span></button>`; }
     const F2 = DB.fields[r.field]; return `<button type="button" class="plink" data-f="${r.field}" data-st="planned"><span class="o">${F2.icon}</span><span><b>${esc(r.name)} <span style="font-weight:400;color:var(--faint)">· ${esc(F2.name)}${charted(r.field) ? "" : " (planned)"}</span></b><span>${why}</span></span></button>`; };
-  const mathList = (n.math || []).map(mathLink).filter(Boolean);
+  const mathList = (n.math || []).map(mathLink).filter(Boolean), physList = (n.physics || []).map(mathLink).filter(Boolean);
   pg.innerHTML = `
   <div class="topic-bar">
     <button type="button" class="btn-s navtoggle" id="navtoggle2">☰</button>
@@ -478,6 +479,7 @@ function renderTopic(main){
       </div>
       <div><h2>Learning path</h2><div class="path">
         ${mathList.length ? `<div class="win"><div class="win-h"><span class="dot"></span>Mathematics you need</div><div class="in">${mathList.join("")}</div></div>` : ""}
+        ${physList.length ? `<div class="win"><div class="win-h"><span class="dot"></span>Physics you need</div><div class="in">${physList.join("")}</div></div>` : ""}
         <div class="win"><div class="win-h"><span class="dot"></span>Master these first</div><div class="in">${n.pre.length ? n.pre.map(link).join("") : '<span class="empty">This is the starting point of the tree. Nothing is required first.</span>'}</div></div>
         <div class="win"><div class="win-h"><span class="dot"></span>This unlocks</div><div class="in">${n.post.length ? n.post.map(link).join("") : '<span class="empty">No later charted topic depends on this directly. It feeds the fields below.</span>'}</div></div>
         <div class="win"><div class="win-h"><span class="dot"></span>Vital in later fields</div><div class="in">${t.beyond.map(b => `<div class="plink" style="cursor:default"><span class="o">→</span><span><b>${esc(b.field)}</b><span>${esc(b.why)}</span></span></div>`).join("")}</div></div>

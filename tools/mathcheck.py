@@ -38,6 +38,7 @@ except ImportError:
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECKS = os.path.join(ROOT, 'checks')
+sys.path.insert(0, os.path.join(CHECKS, '_lib'))   # shared helpers for check files, e.g. `from music import *`
 
 
 def load_content():

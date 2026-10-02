@@ -5,7 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
-const { files, R } = require('./build-web.js');
+const { files, dataFiles, R } = require('./build-web.js');
 
 const errors = [], warnings = [];
 const err = (where, msg) => errors.push(`${where}: ${msg}`);
@@ -14,7 +14,6 @@ const warn = (where, msg) => warnings.push(`${where}: ${msg}`);
 // ---- load data + content (labs need a DOM, so they are scanned as text instead) ----
 const ctx = vm.createContext({ console, Math });
 ctx.window = ctx;
-const dataFiles = files.filter(f => f === 'web/src/data.js' || f.startsWith('web/art/') || f.startsWith('web/content/'));
 for (const f of dataFiles) {
   try { vm.runInContext(fs.readFileSync(path.join(R, f), 'utf8'), ctx, { filename: f }); }
   catch (e) { err(f, 'failed to load: ' + e.message); }
@@ -116,11 +115,13 @@ for (const [id, f] of Object.entries(DB.fields || {})) {
   if (!(SMs[sub].groups || []).some(g => g.ids.includes(id))) err(`field ${id}`, `not in any ${sub} group`);
   for (const p of f.pre || []) if (DB.fields[p] && (DB.fields[p].subject || 'mathematics') !== sub) err(`field ${id}`, `prerequisite "${p}" is in another subject (use math: for mathematics)`);
   for (const m of f.math || []) if (!DB.fields[m] || (DB.fields[m].subject || 'mathematics') !== 'mathematics') err(`field ${id}`, `math field "${m}" does not exist`);
+  for (const m of f.physics || []) if (!DB.fields[m] || DB.fields[m].subject !== 'physics') err(`field ${id}`, `physics field "${m}" does not exist`);
 }
 // node.math: a charted math topic id, or "field:Topic name" copied from that field's topics list
-const mathOk = m => { const i = m.indexOf(':'); if (i < 0) return !!node[m] && (DB.fields[node[m].field].subject || 'mathematics') === 'mathematics';
-  const f = DB.fields[m.slice(0, i)]; return !!f && (f.subject || 'mathematics') === 'mathematics' && (f.topics || []).includes(m.slice(i + 1)); };
-for (const n of Object.values(node)) for (const m of n.math || []) if (!mathOk(m)) err(`tree ${n.field} / ${n.id}`, `math "${m}" is not a charted math topic or a field:Topic from a planned field's topics list`);
+// node.physics: the same, for physics (used by subjects such as Music Theory that build on physics)
+const refOk = sub => m => { const i = m.indexOf(':'); if (i < 0) return !!node[m] && (DB.fields[node[m].field].subject || 'mathematics') === sub;
+  const f = DB.fields[m.slice(0, i)]; return !!f && (f.subject || 'mathematics') === sub && (f.topics || []).includes(m.slice(i + 1)); };
+for (const n of Object.values(node)) for (const sub of ['mathematics', 'physics']) for (const m of n[sub === 'mathematics' ? 'math' : 'physics'] || []) if (!refOk(sub)(m)) err(`tree ${n.field} / ${n.id}`, `${sub === 'mathematics' ? 'math' : 'physics'} "${m}" is not a charted ${sub} topic or a field:Topic from a planned field's topics list`);
 
 // ---- topic dossiers ----
 const RAW = ['hero', 'lede', 'plain', 'formal', 'why', 'origin'];  // rendered as HTML
@@ -189,8 +190,8 @@ for (const [id, t] of Object.entries(T)) {
   for (const k of unlocks) if (!uw[k]) warn(W, `no unlocksWhy for "${k}"`);
   for (const [k, v] of Object.entries({ ...pw, ...uw })) checkHtml(W, `why["${k}"]`, v);
   const mw = t.mathWhy || {};
-  for (const k of Object.keys(mw)) if (!(n.math || []).includes(k)) err(W, `mathWhy["${k}"] but it is not in the node's math list`);
-  for (const k of n.math || []) if (!mw[k]) warn(W, `no mathWhy for "${k}"`);
+  for (const k of Object.keys(mw)) if (![...(n.math || []), ...(n.physics || [])].includes(k)) err(W, `mathWhy["${k}"] but it is not in the node's math or physics list`);
+  for (const k of [...(n.math || []), ...(n.physics || [])]) if (!mw[k]) warn(W, `no mathWhy for "${k}"`);
   for (const [k, v] of Object.entries(mw)) checkHtml(W, `mathWhy["${k}"]`, v);
 
   // stories (English): passages built from tagged tokens, with original art from DB.scenes

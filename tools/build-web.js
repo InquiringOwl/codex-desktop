@@ -11,9 +11,14 @@ const css = read('web/src/style.css');
 const dir = d => fs.existsSync(path.join(R, d)) ? fs.readdirSync(path.join(R, d)).filter(f => f.endsWith('.js')).sort().map(f => d + '/' + f) : [];
 // Content is one file per topic: web/content/<field>/<topic-id>.js
 const tree = d => fs.existsSync(path.join(R, d)) ? fs.readdirSync(path.join(R, d), { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name)).flatMap(e => e.isDirectory() ? tree(d + '/' + e.name) : e.name.endsWith('.js') ? [d + '/' + e.name] : []) : [];
-// Order matters: data, story art (web/art), then every content file, then the lab toolkit and every lab file, then the app.
-const files = ['web/src/data.js', ...dir('web/art'), ...tree('web/content'), 'web/src/labkit.js',
+// Order matters: data (data.js, then each subject's web/src/data-<subject>.js), story art (web/art), every content file,
+// then the lab toolkit, subject kits (web/src/kit-<subject>.js), every lab file, then the app.
+const dataSrc = ['web/src/data.js', ...dir('web/src').filter(f => /\/data-[a-z0-9-]+\.js$/.test(f))];
+const files = [...dataSrc, ...dir('web/art'), ...tree('web/content'), 'web/src/labkit.js',
+  ...dir('web/src').filter(f => /\/kit-[a-z0-9-]+\.js$/.test(f)),
   ...dir('web/src').filter(f => /\/labs\d*\.js$/.test(f)), ...dir('web/labs'), 'web/src/app.js'];
+// Files that only define data (DB, ARITH, scenes): safe to run in Node for validate, dump-content and smoke.
+const dataFiles = files.filter(f => dataSrc.includes(f) || f.startsWith('web/art/') || f.startsWith('web/content/'));
 const vm = require('vm');
 function scripts({ lenient = false } = {}) {
   // One <script> per source file, so a problem in one file is easy to find.
@@ -65,7 +70,7 @@ ${css}
 </style>
 ${body}`;
 
-module.exports = { files, desktop, R };
+module.exports = { files, dataFiles, desktop, R };
 if (require.main !== module) return;
 fs.writeFileSync(path.join(R, 'app/index.html'), desktop);
 fs.mkdirSync(path.join(R, 'dist-web'), { recursive: true });

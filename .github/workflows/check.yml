@@ -23,6 +23,7 @@ jobs:
         with: { python-version: '3.12' }
       - run: pip install sympy==1.14.0
       - run: python3 tools/mathcheck.py
+      - run: node tools/labtest.js
       - name: Install Playwright only (skips downloading Electron)
         run: |
           npm install --prefix "$RUNNER_TEMP/pw" --no-save playwright@1.56.0

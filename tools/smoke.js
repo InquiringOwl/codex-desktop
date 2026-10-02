@@ -11,7 +11,7 @@ catch (e) {
   process.exit(1);
 }
 const path = require('path'), fs = require('fs'), os = require('os');
-const { desktop, R } = require('./build-web.js');
+const { desktop, dataFiles, R } = require('./build-web.js');
 
 (async () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'codex-smoke-'));
@@ -21,7 +21,7 @@ const { desktop, R } = require('./build-web.js');
     .replace(/<meta http-equiv="Content-Security-Policy"[^>]*>/, ''));
 
   const vm = require('vm'), ctx = vm.createContext({}); ctx.window = ctx;
-  vm.runInContext(fs.readFileSync(path.join(R, 'web/src/data.js'), 'utf8'), ctx);
+  for (const f of dataFiles.filter(f => f.startsWith('web/src/'))) vm.runInContext(fs.readFileSync(path.join(R, f), 'utf8'), ctx);
   const DB = ctx.DB;
   const fields = Object.keys(DB.trees);
   const topics = fields.flatMap(f => DB.trees[f].nodes.map(n => n.id));
