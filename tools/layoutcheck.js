@@ -7,8 +7,12 @@
 //   overlap    two canvas labels drawn on top of each other (measured from every fillText call)
 //   readout    the readout panel needs scrolling on desktop
 //   console    JavaScript errors or console errors/warnings
+//   leak       an answer the lab declared with k.guard([...]) (kit-math) is visible (readout, stage text or canvas)
+//              when a mode first opens, before any step or control has been used
 // Run:  node tools/layoutcheck.js <topic-id> [<id>…]      (no ids: every topic; slower)
-//       ONLY=desktop|phone  one width only.   exit code 1 if anything is reported.
+//       ONLY=desktop|phone  one width only.
+//       LABFILE=path/to/lab.js  inject a lab file after load (it may replace LABS[id] of any topic): prototype or
+//       kit-test a lab on an existing page before its own topic exists.   exit code 1 if anything is reported.
 let chromium;
 try { ({ chromium } = require('playwright')); }
 catch (e) { console.error('Layout check needs Playwright (npm install). In the cloud container Chromium is preinstalled.'); process.exit(1); }
@@ -56,6 +60,7 @@ const INSPECT = () => {
   if (ro && vw > 900 && ro.scrollHeight > ro.clientHeight + 4) out.push(`readout: needs scrolling (${ro.scrollHeight}px of content in ${ro.clientHeight}px)`);
   const modes = [...document.querySelectorAll('.stage .modes button')].map(b => b.getBoundingClientRect());
   for (const cv of document.querySelectorAll('.stage canvas')) {
+    if (!cv.clientWidth || !cv.offsetParent) continue;            // hidden canvas (another mode is showing)
     const T = (cv.__texts || []).filter(t => t.a > 0.05), W = cv.clientWidth, H = cv.clientHeight, cr = cv.getBoundingClientRect();
     for (const t of T) {
       if (t.x1 < -1 || t.y1 < -1 || t.x2 > W + 1 || t.y2 > H + 1) out.push(`canvas: label "${t.s.slice(0, 30)}" is drawn partly outside the canvas`);
@@ -70,6 +75,14 @@ const INSPECT = () => {
     }
   }
   return [...new Set(out)];
+};
+
+// Runs in the page right after a mode opens: answers declared on the stage (data-answers) must not be visible yet.
+const LEAK = () => {
+  const st = document.getElementById('stage'); if (!st || !st.dataset.answers) return [];
+  const norm = s => String(s).replace(/[\s\u00a0]+/g, '').replace(/[-\u2013]/g, '\u2212');
+  const shown = norm((document.getElementById('readout') || {}).innerText || '') + '|' + norm(st.innerText) + '|' + [...st.querySelectorAll('canvas')].filter(c => c.clientWidth && c.offsetParent).map(c => (c.__texts || []).filter(t => t.a > 0.05).map(t => norm(t.s)).join('|')).join('|');
+  return JSON.parse(st.dataset.answers).filter(a => shown.includes(norm(a))).map(a => `leak: answer "${a}" is visible before any step`);
 };
 
 (async () => {
@@ -90,6 +103,7 @@ const INSPECT = () => {
     p.on('pageerror', e => errs.push('console: page error: ' + e.message));
     p.on('console', m => { if (m.type() === 'error' || m.type() === 'warning') errs.push(`console: ${m.type()}: ${m.text()}`); });
     await p.goto('file://' + file + '#menu'); await p.waitForTimeout(400);
+    if (process.env.LABFILE) await p.addScriptTag({ path: path.resolve(process.env.LABFILE) });
     for (const id of ids) {
       errs = [];
       await p.evaluate(h => { location.hash = h; }, id); await p.waitForTimeout(700);
@@ -99,7 +113,7 @@ const INSPECT = () => {
         let modeName = '';
         if (nModes) { const b = (await p.$$('.stage .modes button'))[m]; modeName = (await b.textContent()).trim(); await b.click(); await p.waitForTimeout(350); }
         const tag = modeName ? `mode "${modeName}"` : 'default';
-        add(tag, await p.evaluate(INSPECT));
+        add(tag, [...await p.evaluate(INSPECT), ...await p.evaluate(LEAK)]);
         for (const b of (await p.$$('#controls button')).slice(0, 2)) { try { await b.click({ timeout: 800 }); } catch (e) {} await p.waitForTimeout(250); }
         await p.waitForTimeout(400);
         add(tag + ' after controls', await p.evaluate(INSPECT));
