@@ -87,6 +87,10 @@ class Run:
         def check(label, cond, detail=''):
             self._pass(label, bool(cond), detail or 'condition is false')
 
+        def text(label, got, expected):
+            # exact text comparison (program output, error messages); shows both sides when they differ
+            self._pass(label, got == expected, f'got {got!r}, page says {expected!r}')
+
         def same(label, got, expected):
             try:
                 if isinstance(got, (set, frozenset, list, tuple)) or isinstance(expected, (set, frozenset, list, tuple)):
@@ -133,7 +137,7 @@ class Run:
             got = detok(tokens)
             self._pass(label, got == source, f'passage differs from source:\n   page:   {got}\n   source: {source}')
 
-        return dict(check=check, same=same, solves=solves, near=near, skip=skip, quote=quote, detok=detok)
+        return dict(check=check, same=same, text=text, solves=solves, near=near, skip=skip, quote=quote, detok=detok)
 
 
 def main(argv):

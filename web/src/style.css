@@ -28,6 +28,11 @@ sub{font-size:.68em;vertical-align:-.25em;line-height:0}
 .fr>span:first-child{border-bottom:1px solid currentColor;padding:0 .15em}
 .fr>span{display:block}
 .display{font:400 18px/1.9 var(--math);background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:12px 16px;overflow-x:auto;white-space:nowrap;margin:10px 0}
+/* Computer Science: inline code and code blocks in page text (colours c1–c5 work inside) */
+code{font:400 .92em/1.4 var(--mono);color:var(--text);background:rgba(92,200,224,.07);border:1px solid var(--line);border-radius:3px;padding:0 4px;white-space:pre-wrap}
+pre.code{font:400 14px/1.6 var(--mono);color:var(--text);background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:4px;padding:10px 14px;margin:10px 0;overflow-x:auto;white-space:pre}
+pre.code code{background:none;border:0;padding:0;font-size:inherit}
+pre.code .out{color:var(--pink)}
 .display .dim,.dim{color:var(--faint)}
 .display .fr{font-size:.8em}
 .ov{text-decoration:overline;text-decoration-thickness:1px;text-underline-offset:0}
@@ -461,6 +466,8 @@ input[type=checkbox]{accent-color:var(--amber);width:16px;height:16px}
   .navtoggle{display:inline-flex!important}
   .crumbs{display:none}
   .topstat .meter{display:none}
+  pre.code{white-space:pre-wrap;overflow-wrap:anywhere}
+  .topstat{min-width:0;overflow:hidden} #stat-t{overflow:hidden;text-overflow:ellipsis;min-width:0}
   .info-card{display:none}
   .hint{display:none}
   .ex td:first-child{white-space:normal;width:auto;min-width:40%}

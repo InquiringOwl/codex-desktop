@@ -16,7 +16,7 @@ const tree = d => fs.existsSync(path.join(R, d)) ? fs.readdirSync(path.join(R, d
 const dataSrc = ['web/src/data.js', ...dir('web/src').filter(f => /\/data-[a-z0-9-]+\.js$/.test(f))];
 const files = [...dataSrc, ...dir('web/art'), ...tree('web/content'), 'web/src/labkit.js',
   ...dir('web/src').filter(f => /\/kit-[a-z0-9-]+\.js$/.test(f)),
-  ...dir('web/src').filter(f => /\/labs\d*\.js$/.test(f)), ...dir('web/labs'), 'web/src/app.js'];
+  ...dir('web/src').filter(f => /\/labs\d*\.js$/.test(f)), ...dir('web/traces'), ...dir('web/labs'), 'web/src/app.js'];
 // Files that only define data (DB, ARITH, scenes): safe to run in Node for validate, dump-content and smoke.
 const dataFiles = files.filter(f => dataSrc.includes(f) || f.startsWith('web/art/') || f.startsWith('web/content/'));
 const vm = require('vm');

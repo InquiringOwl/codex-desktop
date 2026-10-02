@@ -1,0 +1,40 @@
+# content: 76bb135c6ebd
+from cs import *
+check("traces", traces_current("cs-binary"))
+text("example", run("""
+n = 13
+b = bin(n)
+print(b)
+m = int("1101", 2)
+print(m)
+h = hex(255)
+print(h)
+print(0xFF, 0b11111111)
+"""), "0b1101\n13\n0xff\n255 255\n")
+text("practice[0]", run('print(int("101101", 2))'), "45\n")
+text("practice[1]", run('print(bin(37), hex(200))'), "0b100101 0xc8\n")
+text("practice[2]", run("""
+u = int("11111011", 2)
+print(u, u - 256)
+"""), "251 -5\n")
+check("practice[2] flip and add 1", format(((5 ^ 0xFF) + 1) & 0xFF, "08b") == "11111011" and format(5, "08b") == "00000101")
+text("practice[3]", run("""
+data = "café".encode()
+print(len("café"), len(data))
+print(data)
+"""), "4 5\nb'caf\\xc3\\xa9'\n")
+# formal
+check("formal: 1101 = 8+4+0+1 = 13", int("1101", 2) == 8 + 4 + 1 == 13)
+check("formal: 8-bit unsigned 0..255", 2 ** 8 - 1 == 255)
+check("formal: two's complement range -128..127", -(2 ** 7) == -128 and 2 ** 7 - 1 == 127)
+check("formal: -3 is 11111101", format(-3 & 0xFF, "08b") == "11111101" and format(3, "08b") == "00000011")
+check("formal: flip and add 1", format(((3 ^ 0xFF) + 1) & 0xFF, "08b") == "11111101")
+check("formal: bin(13)", value('bin(13)') == "'0b1101'")
+check("formal: hex(255)", value('hex(255)') == "'0xff'")
+check("formal: ord A", value('ord("A")') == "65")
+check("formal: é utf-8", value('"é".encode()') == "b'\\xc3\\xa9'")
+check("formal: encode default utf-8", "é".encode() == "é".encode("utf-8") and type("é".encode()) is bytes)
+check("formal: bin returns str", value('type(bin(13)).__name__') == "'str'")
+check("mistakes: len é", value('(len("é"), len("é".encode()))') == "(1, 2)")
+check("example: 255 = 15*16+15", 15 * 16 + 15 == 255)
+check("practice[1]: 200 = 12*16+8, 37=32+4+1", 12 * 16 + 8 == 200 and 32 + 4 + 1 == 37)
