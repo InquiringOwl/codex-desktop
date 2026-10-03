@@ -1,7 +1,7 @@
 # Tree spec: English
 
-Field map (`DB.subjectMaps.english`, fields in `DB.fields` with `subject: "english"`), 20 fields:
-- **Language & Writing**: Grammar & Usage → Composition I → Composition II, Intro to Creative Writing, Intro to Literature; Grammar → Intro to English Linguistics.
+Field map (`DB.subjectMaps.english`, fields in `DB.fields` with `subject: "english"`), 21 fields:
+- **Language & Writing**: Grammar & Usage → Composition I → Composition II, Intro to Creative Writing, Intro to Literature; Grammar → Intro to English Linguistics; Grammar → Vocabulary & Word Study (field `vocabulary`, its own spec `web/TREE-SPEC-VOCAB.md`, data `web/src/data-vocabulary.js`).
 - **Literature Surveys** (all ← Intro to Literature): British Lit I (to 1798), British Lit II (1798–now), American Lit I (to 1865), American Lit II (1865–now), World Literature.
 - **Upper-Division Core**: Shakespeare ← Brit I; Literary Theory & Criticism ← Intro Lit + Comp II; Advanced Composition & Rhetoric ← Comp II; History of the English Language ← Linguistics + Brit I.
 - **Specialisations & Capstone**: Drama ← Shakespeare; Poetry & Poetics ← Brit II + Theory; The Novel ← Theory; Advanced Creative Writing Workshop ← Creative Writing + Rhetoric; Senior Seminar ← Theory + Novel + Rhetoric.

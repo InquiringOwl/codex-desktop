@@ -14,11 +14,12 @@ const tree = d => fs.existsSync(path.join(R, d)) ? fs.readdirSync(path.join(R, d
 // Order matters: data (data.js, then each subject's web/src/data-<subject>.js), story art (web/art), every content file,
 // then the lab toolkit, subject kits (web/src/kit-<subject>.js), every lab file, then the app.
 const dataSrc = ['web/src/data.js', ...dir('web/src').filter(f => /\/data-[a-z0-9-]+\.js$/.test(f))];
-const files = [...dataSrc, ...dir('web/art'), ...tree('web/content'), 'web/src/labkit.js',
+// Glossary entries (web/glossary/<subject>.js) come right after the data files: they only call DB.addGlossary.
+const files = [...dataSrc, ...dir('web/glossary'), ...dir('web/art'), ...tree('web/content'), 'web/src/labkit.js',
   ...dir('web/src').filter(f => /\/kit-[a-z0-9-]+\.js$/.test(f)),
   ...dir('web/src').filter(f => /\/labs\d*\.js$/.test(f)), ...dir('web/traces'), ...dir('web/labs'), 'web/src/app.js'];
 // Files that only define data (DB, ARITH, scenes): safe to run in Node for validate, dump-content and smoke.
-const dataFiles = files.filter(f => dataSrc.includes(f) || f.startsWith('web/art/') || f.startsWith('web/content/'));
+const dataFiles = files.filter(f => dataSrc.includes(f) || f.startsWith('web/glossary/') || f.startsWith('web/art/') || f.startsWith('web/content/'));
 const vm = require('vm');
 function scripts({ lenient = false } = {}) {
   // One <script> per source file, so a problem in one file is easy to find.

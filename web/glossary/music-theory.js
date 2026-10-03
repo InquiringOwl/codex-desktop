@@ -1,0 +1,27 @@
+/* Glossary: Music Theory. Spec: web/GLOSSARY-SPEC.md. */
+DB.addGlossary("music-theory", [
+  { w: "root", field: "music-fundamentals", node: "mus-triads", pos: "n", ipa: "/rut/",
+    senses: ["The note a chord is built on and named after: C is the root of the C major triad C–E–G, whichever note is in the bass."], forms: ["roots"] },
+  { w: "degree", field: "music-fundamentals", node: "mus-major-scales", pos: "n", ipa: "/dɪˈɡri/",
+    senses: ["<b>Scale degree</b>: a note’s position in a scale, counted up from the tonic. In C major, G is scale degree 5."], forms: ["degrees"] },
+  { w: "interval", field: "music-fundamentals", node: "mus-intervals", pos: "n", ipa: "/ˈɪntɚvəl/",
+    senses: ["The distance between two pitches, named by its size (counting letter names: a third, a fifth) and its quality (major, minor, perfect, augmented, diminished)."],
+    origin: "Latin <i>intervallum</i> ‘space between ramparts’, from <i>inter</i> ‘between’ + <i>vallum</i> ‘rampart’", forms: ["intervals"] },
+  { w: "scale", field: "music-fundamentals", node: "mus-major-scales", pos: "n", ipa: "/skeɪl/",
+    senses: ["A set of pitches in order within an octave, defined by its pattern of whole (W) and half (H) steps. The major scale is W–W–H–W–W–W–H."],
+    origin: "Latin <i>scala</i> ‘ladder, staircase’", forms: ["scales"] },
+  { w: "key", field: "music-fundamentals", node: "mus-key-sigs", pos: "n", ipa: "/ki/",
+    senses: ["The tonal center of a passage and the scale built on it: music in G major uses the G major scale, whose key signature has one sharp (F♯)."], forms: ["keys"] },
+  { w: "phrase", field: "music-fundamentals", node: "mus-melody", pos: "n", ipa: "/freɪz/",
+    senses: ["A complete musical thought that ends with a cadence, often four measures long; roughly the musical counterpart of a sentence."], forms: ["phrases"] },
+  { w: "voice", field: "diatonic-harmony", pos: "n", ipa: "/vɔɪs/",
+    senses: ["One melodic line in a texture, as in four-part writing (soprano, alto, tenor, bass). <b>Voice leading</b> is the way the lines move from chord to chord."], forms: ["voices"] },
+  { w: "measure", field: "music-fundamentals", node: "mus-simple-meter", pos: "n", ipa: "/ˈmɛʒɚ/",
+    senses: ["One unit of the meter, marked off by bar lines; also called a bar."], forms: ["measures"] },
+  { w: "beat", field: "music-fundamentals", node: "mus-simple-meter", pos: "n", ipa: "/bit/",
+    senses: ["The basic pulse of a piece, the unit a listener taps along to; the meter groups beats into measures."], forms: ["beats"] },
+  { w: "frequency", field: "music-fundamentals", node: "mus-sound", pos: "n", ipa: "/ˈfrikwənsi/",
+    senses: ["The number of vibrations per second of a sound wave, heard as pitch: the A above middle C (A4) is tuned to 440 Hz."], forms: ["frequencies"] },
+  { w: "register", field: "music-fundamentals", node: "mus-pitch", pos: "n", ipa: "/ˈrɛdʒɪstɚ/",
+    senses: ["A part of the pitch range of a voice or instrument (high, middle, low), or the range a passage lies in."], forms: ["registers"] }
+]);

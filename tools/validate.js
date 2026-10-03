@@ -224,9 +224,52 @@ for (const id of Object.keys(node)) {
 }
 for (const [id, f] of Object.entries(labs)) if (!node[id]) err(f, `lab "${id}" is not in any tree`);
 
+// ---- glossary (web/glossary/<subject>.js, spec web/GLOSSARY-SPEC.md) ----
+{
+  const G = DB.glossary || [], subjOf = f => (DB.fields[f] && DB.fields[f].subject) || 'mathematics';
+  const planned = {}; for (const [f, tr] of Object.entries(DB.trees)) for (const n of tr.planned || []) planned[n.id] = f;
+  const ipaOk = new Set([...(DB.ipaKey || '').replace(/\s/g, ''), '/', 'ˈ', 'ˌ', '.', ' ']);
+  const GOK = new Set(['i', 'b', 'sub', 'sup', 'code']);
+  const gHtml = (W, key, s) => { if (typeof s !== 'string' || !s.trim()) { err(W, `${key}: must be non-empty`); return; } checkHtml(W, key, s);
+    for (const m of s.matchAll(/<\/?([a-zA-Z0-9]+)/g)) if (!GOK.has(m[1].toLowerCase())) err(W, `${key}: <${m[1]}> not allowed (only i, b, sub, sup, code)`);
+    const j = s.match(JUNK); if (j) err(W, `${key}: placeholder text "${j[0]}"`); };
+  const words = new Set(G.map(e => e.w)), seen = {};
+  const KEYS = new Set(['subject','w','field','node','pos','ipa','syl','senses','ex','quote','parts','origin','register','conno','syn','ant','confused','forms','see']);
+  G.forEach((e, i) => {
+    const W = `glossary ${e.subject}: "${e.w}"`;
+    for (const k of Object.keys(e)) if (!KEYS.has(k)) err(W, `unknown key "${k}"`);
+    if (!DB.subjects.some(s => s.id === e.subject)) err(W, `subject "${e.subject}" is not in DB.subjects`);
+    if (typeof e.w !== 'string' || !/^[A-Za-z][A-Za-z' -]*$/.test(e.w)) err(W, 'w must be a plain word or phrase');
+    const dup = `${e.subject}|${e.w}|${e.pos}`; if (seen[dup]) err(W, `listed twice for ${e.subject} with pos "${e.pos}"`); seen[dup] = 1;
+    if (!DB.posTags[e.pos]) err(W, `pos "${e.pos}" is not a DB.posTags key`);
+    if (e.field !== undefined) { if (!DB.fields[e.field]) err(W, `field "${e.field}" does not exist`); else if (subjOf(e.field) !== e.subject) err(W, `field "${e.field}" belongs to ${subjOf(e.field)}, not ${e.subject}`); }
+    if (e.node !== undefined) { const f = node[e.node] ? node[e.node].field : planned[e.node];
+      if (!f) err(W, `node "${e.node}" is not a written or planned node`); else if (e.field !== f) err(W, `node "${e.node}" is in field "${f}", so field must be "${f}"`); }
+    if (typeof e.ipa !== 'string' || !/^\/[^/]+\/$/.test(e.ipa)) err(W, 'ipa must be /…/');
+    else { const bad = [...e.ipa].filter(c => !ipaOk.has(c)); if (bad.length) err(W, `ipa has symbols outside DB.ipaKey: ${[...new Set(bad)].join(' ')}`); }
+    if (e.syl !== undefined && (typeof e.syl !== 'string' || e.syl.replace(/·/g, '').toLowerCase() !== e.w.toLowerCase())) err(W, `syl "${e.syl}" must spell the headword with · between syllables`);
+    if (!Array.isArray(e.senses) || !e.senses.length || e.senses.length > 4) err(W, 'senses must have 1–4 items'); else e.senses.forEach((s, k) => gHtml(W, `senses[${k}]`, s));
+    if (e.ex !== undefined) gHtml(W, 'ex', e.ex);
+    if (e.origin !== undefined) gHtml(W, 'origin', e.origin);
+    if (e.register !== undefined && !(DB.glossaryRegister || {})[e.register]) err(W, `register "${e.register}" must be one of ${Object.keys(DB.glossaryRegister || {}).join(', ')}`);
+    if (e.conno !== undefined && !['positive','neutral','negative'].includes(e.conno)) err(W, 'conno must be positive, neutral or negative');
+    for (const k of ['parts', 'syn', 'confused']) if (e[k] !== undefined) { if (!Array.isArray(e[k]) || !e[k].every(p => Array.isArray(p) && p.length === 2)) err(W, `${k} must be [[word, gloss], …]`); else e[k].forEach((p, j) => { checkText(W, `${k}[${j}][0]`, p[0]); gHtml(W, `${k}[${j}][1]`, p[1]); }); }
+    if (e.parts && Array.isArray(e.parts)) { const joined = e.parts.map(p => p[0]).join('').toLowerCase(); if (!/^[a-z]+$/.test(joined)) err(W, 'parts must be letters'); }
+    for (const k of ['ant', 'forms', 'see']) if (e[k] !== undefined) { if (!Array.isArray(e[k])) err(W, `${k} must be an array`); else e[k].forEach((s, j) => checkText(W, `${k}[${j}]`, s)); }
+    for (const s of e.see || []) if (!words.has(s)) err(W, `see "${s}" is not a glossary headword`);
+    if (e.quote !== undefined) { const q = e.quote, t = q && T[q.topic];
+      if (!t || !Array.isArray(t.stories)) err(W, `quote.topic "${q && q.topic}" is not a topic with stories`);
+      else if (!t.stories.some(st => DB.storyText(st.tokens).includes(q.text))) err(W, `quote "${q.text}" is not in any story on ${q.topic}`);
+      else if (!new RegExp('\\b' + e.w + '\\b', 'i').test(q.text) && !(e.forms || []).some(f => new RegExp('\\b' + f + '\\b', 'i').test(q.text))) err(W, 'quote does not contain the headword'); }
+  });
+  for (const g of DB.subjectGroups || []) if (!(DB.glossaryGroupColour || {})[g.id]) err('glossary', `subject group "${g.id}" has no colour in DB.glossaryGroupColour`);
+  for (const f of files.filter(f => f.startsWith('web/glossary/'))) { const m = f.match(/^web\/glossary\/([a-z0-9-]+)\.js$/), src = fs.readFileSync(path.join(R, f), 'utf8');
+    const subs = [...src.matchAll(/DB\.addGlossary\(\s*"([a-z0-9-]+)"/g)].map(x => x[1]); if (!m || subs.length !== 1 || subs[0] !== m[1]) err(f, `should call DB.addGlossary("${m ? m[1] : '?'}", …) once`); }
+}
+
 // ---- report ----
 const fields = Object.keys(DB.trees).map(k => `${k} ${DB.trees[k].nodes.length}`).join(', ');
 if (process.argv.includes('--warnings') || process.env.CI) warnings.forEach(w => console.log('warn  ' + w));
 errors.forEach(e => console.log('ERROR ' + e));
-console.log(`\n${Object.keys(node).length} topics (${fields}), ${Object.keys(labs).length} labs: ${errors.length} error(s), ${warnings.length} warning(s)` + (warnings.length && !process.argv.includes('--warnings') ? ' (--warnings to list)' : ''));
+console.log(`\n${Object.keys(node).length} topics (${fields}), ${Object.keys(labs).length} labs, ${(DB.glossary || []).length} glossary entries: ${errors.length} error(s), ${warnings.length} warning(s)` + (warnings.length && !process.argv.includes('--warnings') ? ' (--warnings to list)' : ''));
 process.exit(errors.length ? 1 : 0);
