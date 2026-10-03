@@ -71,7 +71,7 @@ ARITH["mech-momentum-cons"] = {
   },
   mathWhy: {
     "a1-sys-sub": `Problems with two unknown velocities, such as a person walking on a raft at a given speed relative to it, give two linear equations (momentum and the relative-speed condition) solved by substituting one into the other.`,
-    "trigonometry:Vectors in the plane": `In two dimensions the momentum equation is a vector equation. Each momentum is resolved into <span class="m"><i>x</i></span> and <span class="m"><i>y</i></span> components, each component is conserved separately, and the unknown vector is rebuilt from its components with magnitude and angle.`
+    "trig-vectors": `In two dimensions the momentum equation is a vector equation. Each momentum is resolved into <span class="m"><i>x</i></span> and <span class="m"><i>y</i></span> components, each component is conserved separately, and the unknown vector is rebuilt from its components with magnitude and angle.`
   },
   beyond: [
     { field: "Aerospace Engineering", why: "The Tsiolkovsky rocket equation is momentum conservation applied to a vehicle continuously expelling mass." },

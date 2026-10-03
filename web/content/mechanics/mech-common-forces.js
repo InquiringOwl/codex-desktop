@@ -76,7 +76,7 @@ ARITH["mech-common-forces"] = {
   mathWhy: {
     "pa-proportional": `Hooke's law <span class="m">|<i>F</i>| = <i>k</i>|<i>x</i>|</span> is a proportional relationship with constant <span class="m"><i>k</i></span>: double the stretch, double the force.`,
     "a1-slope-forms": `The spring constant is the slope of the force–extension graph; reading <span class="m"><i>k</i> = Δ<i>F</i>/Δ<i>x</i></span> from measured points is a slope calculation.`,
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `Resolving a tension at angle θ into <span class="m"><i>T</i> cos θ</span> and <span class="m"><i>T</i> sin θ</span>, and getting <span class="m"><i>N</i> = <i>mg</i> cos θ</span> on an incline, both use the right-triangle ratios.`
+    "g-trig-ratios": `Resolving a tension at angle θ into <span class="m"><i>T</i> cos θ</span> and <span class="m"><i>T</i> sin θ</span>, and getting <span class="m"><i>N</i> = <i>mg</i> cos θ</span> on an incline, both use the right-triangle ratios.`
   },
   beyond: [
     { field: "Waves & Fluids", why: "The simple harmonic oscillator is a mass on a Hooke's-law spring, and wave speed on a string depends on its tension." },

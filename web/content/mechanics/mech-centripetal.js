@@ -74,7 +74,7 @@ ARITH["mech-centripetal"] = {
     "mech-gravitation": "Setting the gravitational force GMm/r² equal to mv²/r gives orbital speeds and periods, and leads to Kepler's third law."
   },
   mathWhy: {
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `On a banked curve the normal force splits into <span class="m"><i>N</i> sin θ</span> (inward) and <span class="m"><i>N</i> cos θ</span> (up); dividing the two equations gives <span class="m">tan θ = <i>v</i><sup>2</sup>/(<i>rg</i>)</span>.`,
+    "g-trig-ratios": `On a banked curve the normal force splits into <span class="m"><i>N</i> sin θ</span> (inward) and <span class="m"><i>N</i> cos θ</span> (up); dividing the two equations gives <span class="m">tan θ = <i>v</i><sup>2</sup>/(<i>rg</i>)</span>.`,
     "a1-radicals": `Speeds come out as square roots, such as <span class="m"><i>v</i><sub>max</sub> = √(<i>μ</i><sub>s</sub><i>gr</i>)</span> and <span class="m"><i>v</i><sub>min</sub> = √(<i>gr</i>)</span> at the top of a loop, and simplifying and estimating them is a radical skill.`
   },
   beyond: [

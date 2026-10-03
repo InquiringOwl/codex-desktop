@@ -69,7 +69,8 @@ ARITH["g-area-polygons"] = {
   },
   unlocksWhy: {
     "g-solids": "The faces of prisms and pyramids are rectangles, triangles and other polygons, so a net's total area is a sum of these formulas.",
-    "g-circle-measure": "A regular polygon is a ring of congruent triangles with area ½aP, and letting the number of sides grow gives the area of a circle."
+    "g-circle-measure": "A regular polygon is a ring of congruent triangles with area ½aP, and letting the number of sides grow gives the area of a circle.",
+    "trig-triangle-area": "Area as half base times height, and splitting a polygon into triangles, start the formulas <span class=\"m\">½<i>ab</i> sin <i>C</i></span> and Heron's formula."
   },
   beyond: [
     { field: "Calculus I", why: "Definite integrals are limits of sums of rectangle areas, and the Trapezoidal Rule uses ½(b₁ + b₂)h directly." },

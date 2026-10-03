@@ -75,7 +75,7 @@ ARITH["mus-sound"] = {
   mathWhy: {
     "ratios": "Intervals are frequency ratios: 2 : 1 is an octave, 3 : 2 a fifth, 5 : 4 a major third, and the ratio of neighbouring harmonics n + 1 : n gives each interval of the series.",
     "exponents": "Equal temperament multiplies frequency by 2 to the power 1/12 per half step, so a pitch m half steps from A4 has frequency 440 times 2 to the power (m − 69)/12.",
-    "trigonometry:Graphs of sine, cosine and tangent": "A pure tone is the graph of A sin(2πft): the amplitude A is the height of the curve and the period 1/f is the length of one cycle.",
+    "trig-sin-cos-graphs": "A pure tone is the graph of A sin(2πft): the amplitude A is the height of the curve and the period 1/f is the length of one cycle.",
     "waves:Simple harmonic motion": "A vibrating string or air column at a single frequency moves in simple harmonic motion, which is why a pure tone is a sine wave.",
     "waves:Superposition, interference and standing waves": "The modes of a string are standing waves with n half-wavelengths, and a musical tone is the superposition of those modes.",
     "waves:Sound: intensity, decibels and the Doppler effect": "Amplitude relates to intensity, and intensity level in decibels, 10 log10(I/I0), is the physical measure behind the loudness of a tone."

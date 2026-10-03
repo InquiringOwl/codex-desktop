@@ -77,9 +77,9 @@ ARITH["mech-components"] = {
   },
   mathWhy: {
     "pa-pythagorean": `The magnitude from components is a hypotenuse: <span class="m"><i>A</i> = √<span style="text-decoration:overline"><i>A</i><sub>x</sub><sup>2</sup> + <i>A</i><sub>y</sub><sup>2</sup></span></span>, extended to three components in space.`,
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `Resolving a vector uses the adjacent and opposite sides of its right triangle: <span class="m"><i>A</i><sub>x</sub> = <i>A</i> cos <i>θ</i></span>, <span class="m"><i>A</i><sub>y</sub> = <i>A</i> sin <i>θ</i></span>.`,
-    "trigonometry:Inverse trigonometric functions": `The direction comes from <span class="m">tan<sup>−1</sup>(<i>A</i><sub>y</sub>/<i>A</i><sub>x</sub>)</span>, and you must know its range (−90°, 90°) to add 180° when <span class="m"><i>A</i><sub>x</sub> &lt; 0</span>.`,
-    "trigonometry:Vectors in the plane": `This topic is the physics version of vectors in the plane: component form, magnitude, direction angle, unit vectors and componentwise addition.`
+    "g-trig-ratios": `Resolving a vector uses the adjacent and opposite sides of its right triangle: <span class="m"><i>A</i><sub>x</sub> = <i>A</i> cos <i>θ</i></span>, <span class="m"><i>A</i><sub>y</sub> = <i>A</i> sin <i>θ</i></span>.`,
+    "trig-inverse": `The direction comes from <span class="m">tan<sup>−1</sup>(<i>A</i><sub>y</sub>/<i>A</i><sub>x</sub>)</span>, and you must know its range (−90°, 90°) to add 180° when <span class="m"><i>A</i><sub>x</sub> &lt; 0</span>.`,
+    "trig-vectors": `This topic is the physics version of vectors in the plane: component form, magnitude, direction angle, unit vectors and componentwise addition.`
   },
   beyond: [
     { field: "Electricity & Magnetism", why: "Fields from several charges are added by components, and flux and circulation integrals use unit-vector notation throughout." },

@@ -72,7 +72,7 @@ ARITH["mech-vector-products"] = {
     "mech-torque": "Torque is the cross product τ = r × F, with its direction given by the right-hand rule."
   },
   mathWhy: {
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `The geometric forms use <span class="m">cos <i>φ</i></span> for the projection in <span class="m"><i>AB</i> cos <i>φ</i></span> and <span class="m">sin <i>φ</i></span> for the perpendicular part in <span class="m"><i>AB</i> sin <i>φ</i></span>.`,
+    "g-trig-ratios": `The geometric forms use <span class="m">cos <i>φ</i></span> for the projection in <span class="m"><i>AB</i> cos <i>φ</i></span> and <span class="m">sin <i>φ</i></span> for the perpendicular part in <span class="m"><i>AB</i> sin <i>φ</i></span>.`,
     "precalculus:Matrices and determinants": `The cross product is remembered and computed as a 3 × 3 determinant with <span class="m">î, ĵ, k̂</span> in the first row, expanded by 2 × 2 minors.`,
     "calculus-3:Vectors, dot and cross products": `This is the same mathematics taught in multivariable calculus. Physics introduces it first, so the calculus course is not required; it later adds the geometry of lines and planes and the triple products.`
   },

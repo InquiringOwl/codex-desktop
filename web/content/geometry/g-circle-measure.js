@@ -70,7 +70,8 @@ ARITH["g-circle-measure"] = {
   },
   unlocksWhy: {
     "g-surface-area": "A cylinder's lateral surface unrolls into a rectangle 2πr wide, and a cone's into a sector of a circle, giving 2πrh and πrℓ.",
-    "g-volume": "Cylinders and cones have circular bases of area πr², which multiply into V = πr²h and V = ⅓πr²h."
+    "g-volume": "Cylinders and cones have circular bases of area πr², which multiply into V = πr²h and V = ⅓πr²h.",
+    "trig-radians": "Circumference <span class=\"m\">2π<i>r</i></span> and the arc length ratio give <span class=\"m\">2π</span> radians in a full turn and the sector area <span class=\"m\">½<i>r</i>²θ</span>."
   },
   beyond: [
     { field: "Trigonometry", why: "Radian measure, s/r, is the angle unit for the unit circle and for graphs of sine and cosine." },

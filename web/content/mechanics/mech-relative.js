@@ -69,7 +69,7 @@ ARITH["mech-relative"] = {
   unlocksWhy: {},
   mathWhy: {
     "pa-pythagorean": `When the vectors are perpendicular, such as a boat heading straight across a current, the ground speed is <span class="m">√(<i>v</i><sub>BW</sub><sup>2</sup> + <i>v</i><sub>WG</sub><sup>2</sup>)</span>.`,
-    "trigonometry:Law of Sines and Law of Cosines": `A general wind or current triangle has no right angle; the Law of Cosines gives the ground speed and the Law of Sines gives the drift or correction angle.`
+    "trig-law-cosines": `A general wind or current triangle has no right angle; the Law of Cosines gives the ground speed and the Law of Sines gives the drift or correction angle.`
   },
   beyond: [
     { field: "Modern Physics", why: "Special relativity replaces the Galilean velocity addition v = u + v′ with a rule that keeps the speed of light the same in every inertial frame." },

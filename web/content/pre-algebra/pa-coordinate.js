@@ -66,7 +66,8 @@ ARITH["pa-coordinate"] = {
   unlocksWhy: {
     "pa-relations": "A relation is a set of ordered pairs, and its graph is those points plotted in the coordinate plane.",
     "g-basics": "Points, lines and planes are modelled with coordinates, which is how lines are drawn and points are tested for collinearity.",
-    "g-transformations": "Translations, reflections and rotations are written as coordinate rules such as (x, y) ↦ (−y, x)."
+    "g-transformations": "Translations, reflections and rotations are written as coordinate rules such as (x, y) ↦ (−y, x).",
+    "trig-angles": "Angles in standard position live on the coordinate plane, with the vertex at the origin, the initial side on the positive <span class=\"m\"><i>x</i></span>-axis and the four quadrants."
   },
   beyond: [
     { field: "Algebra I", why: "Graphing lines, systems of equations and quadratics all take place in the coordinate plane." },

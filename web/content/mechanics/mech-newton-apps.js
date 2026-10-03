@@ -72,7 +72,7 @@ ARITH["mech-newton-apps"] = {
   unlocksWhy: {},
   mathWhy: {
     "a1-sys-elim": `Each body gives one equation in the shared unknowns <span class="m"><i>a</i></span> and <span class="m"><i>T</i></span>; adding <span class="m"><i>m</i><sub>2</sub><i>g</i> − <i>T</i> = <i>m</i><sub>2</sub><i>a</i></span> and <span class="m"><i>T</i> − <i>m</i><sub>1</sub><i>g</i> = <i>m</i><sub>1</sub><i>a</i></span> eliminates <span class="m"><i>T</i></span>.`,
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `The weight on a ramp resolves into <span class="m"><i>mg</i> sin θ</span> along the slope and <span class="m"><i>mg</i> cos θ</span> into it; the angle between the weight and the perpendicular to the ramp equals the ramp angle θ.`
+    "g-trig-ratios": `The weight on a ramp resolves into <span class="m"><i>mg</i> sin θ</span> along the slope and <span class="m"><i>mg</i> cos θ</span> into it; the angle between the weight and the perpendicular to the ramp equals the ramp angle θ.`
   },
   beyond: [
     { field: "Dynamics", why: "Multi-body systems with ropes, pulleys and constraints generalise these equations to machines and mechanisms." },

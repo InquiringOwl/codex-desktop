@@ -75,7 +75,8 @@ ARITH["a2-rational-func"] = {
   },
   unlocksWhy: {
     "a2-variation": "Inverse variation y = k/x and inverse-square laws y = k/x² are reciprocal functions with a vertical asymptote at x = 0.",
-    "a2-rational-asym": "Horizontal and slant asymptotes complete the picture: with holes and vertical asymptotes they give the full graph of a rational function."
+    "a2-rational-asym": "Horizontal and slant asymptotes complete the picture: with holes and vertical asymptotes they give the full graph of a rational function.",
+    "trig-other-graphs": "Tangent, secant and cotangent have vertical asymptotes where a denominator is zero and the numerator is not, as in a rational function."
   },
   beyond: [
     { field: "Calculus I", why: "Limits make arrow notation precise: one-sided limits describe vertical asymptotes, and a hole is a removable discontinuity that a limit can fill." },

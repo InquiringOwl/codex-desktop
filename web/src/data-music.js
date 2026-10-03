@@ -86,7 +86,7 @@ DB.trees["music-fundamentals"] = {
   nodes: [
     { id: "mus-pitch", col: 0, row: 2, icon: "C♯", chips: ["C–B","♯ ♭","½ step"], pre: [], math: ["modular"] },
     { id: "mus-durations", col: 0, row: 6, icon: "♩", chips: ["𝅗𝅥","♩","♪"], pre: [], math: ["fractions","fraction-ops"] },
-    { id: "mus-sound", col: 1, row: 0, icon: "Hz", chips: ["440","2:1","f, 2f, 3f"], pre: ["mus-pitch"], math: ["ratios","exponents","trigonometry:Graphs of sine, cosine and tangent"],
+    { id: "mus-sound", col: 1, row: 0, icon: "Hz", chips: ["440","2:1","f, 2f, 3f"], pre: ["mus-pitch"], math: ["ratios","exponents","trig-sin-cos-graphs"],
       physics: ["waves:Simple harmonic motion","waves:Superposition, interference and standing waves","waves:Sound: intensity, decibels and the Doppler effect"] },
     { id: "mus-staff", col: 1, row: 3, icon: "𝄞", chips: ["treble","bass","C clef"], pre: ["mus-pitch"] },
     { id: "mus-simple-meter", col: 1, row: 6, icon: "4/4", chips: ["2/4","3/4","4/4"], pre: ["mus-durations"], math: ["fraction-ops"] }

@@ -72,7 +72,7 @@ ARITH["mech-work"] = {
     "mech-power": "Power is the rate at which work is done, P = dW/dt, which for a constant force becomes P = F · v."
   },
   mathWhy: {
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `The component of the force along the displacement is <span class="m"><i>F</i> cos θ</span>, and a rope at an angle lifts with <span class="m"><i>F</i> sin θ</span>, which changes the normal force and the friction.`,
+    "g-trig-ratios": `The component of the force along the displacement is <span class="m"><i>F</i> cos θ</span>, and a rope at an angle lifts with <span class="m"><i>F</i> sin θ</span>, which changes the normal force and the friction.`,
     "calculus-1:Antiderivatives and the definite integral": `For a force that varies with position, <span class="m"><i>W</i> = ∫<sub><i>x</i><sub>1</sub></sub><sup><i>x</i><sub>2</sub></sup> <i>F</i>(<i>x</i>) d<i>x</i></span>, for example <span class="m">∫ <i>kx</i> d<i>x</i> = ½<i>kx</i><sup>2</sup></span> for a spring. Co-requisite: constant forces need only algebra, and graphs can be handled by areas first.`,
     "calculus-2:Area, volume, arc length, work": `Calculus II develops work as a definite integral (springs, pumping liquid, lifting a cable) and the area interpretation used for force–displacement graphs. Co-requisite: it deepens the same integral used here.`
   },

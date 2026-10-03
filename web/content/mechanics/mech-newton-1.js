@@ -74,7 +74,7 @@ ARITH["mech-newton-1"] = {
     "mech-newton-3": "Equilibrium analysis needs the forces between bodies, and the third law says those come in equal and opposite pairs acting on different bodies."
   },
   mathWhy: {
-    "trigonometry:Vectors in the plane": `Equilibrium means the force vectors add to zero; each force is resolved as <span class="m"><i>T</i> cos θ î + <i>T</i> sin θ ĵ</span> and the <span class="m"><i>x</i></span> and <span class="m"><i>y</i></span> sums are set to zero separately.`
+    "trig-vectors": `Equilibrium means the force vectors add to zero; each force is resolved as <span class="m"><i>T</i> cos θ î + <i>T</i> sin θ ĵ</span> and the <span class="m"><i>x</i></span> and <span class="m"><i>y</i></span> sums are set to zero separately.`
   },
   beyond: [
     { field: "Statics", why: "All of statics applies the first law's condition ΣF = 0, together with zero net torque, to structures and machines." },

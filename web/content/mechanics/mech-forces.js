@@ -72,7 +72,7 @@ ARITH["mech-forces"] = {
     "mech-newton-1": "Newton's first law is a statement about a zero net force, found by summing the forces on a free-body diagram."
   },
   mathWhy: {
-    "trigonometry:Vectors in the plane": `Each force is a vector given by magnitude and direction; writing it as <span class="m"><i>F</i> cos θ î + <i>F</i> sin θ ĵ</span> and adding components gives the net force.`,
+    "trig-vectors": `Each force is a vector given by magnitude and direction; writing it as <span class="m"><i>F</i> cos θ î + <i>F</i> sin θ ĵ</span> and adding components gives the net force.`,
     "pa-pythagorean": `The net force's magnitude is <span class="m">√((Σ<i>F<sub>x</sub></i>)<sup>2</sup> + (Σ<i>F<sub>y</sub></i>)<sup>2</sup>)</span>, as for two forces at right angles, <span class="m">√(100<sup>2</sup> + 100<sup>2</sup>) = 141</span> N.`
   },
   beyond: [

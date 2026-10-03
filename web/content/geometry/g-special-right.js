@@ -72,7 +72,9 @@ ARITH["g-special-right"] = {
   },
   unlocksWhy: {
     "g-circle-measure": "The apothem of a regular hexagon, square or equilateral triangle comes from a special right triangle, which gives exact polygon areas ½aP.",
-    "g-trig-ratios": "The exact values sin 30° = 1/2, cos 45° = √2/2 and tan 60° = √3 are side ratios of these two triangles."
+    "g-trig-ratios": "The exact values sin 30° = 1/2, cos 45° = √2/2 and tan 60° = √3 are side ratios of these two triangles.",
+    "trig-six-ratios": "The side patterns of the 30°-60°-90° and 45°-45°-90° triangles give the exact values of all six ratios at 30°, 45° and 60°.",
+    "trig-unit-circle": "These two triangles with hypotenuse 1 give the coordinates of the unit-circle points at <span class=\"m\">π/6</span>, <span class=\"m\">π/4</span> and <span class=\"m\">π/3</span>."
   },
   beyond: [
     { field: "Trigonometry", why: "The reference triangles on the unit circle are these two triangles, which give every exact value at multiples of 30° and 45°." },

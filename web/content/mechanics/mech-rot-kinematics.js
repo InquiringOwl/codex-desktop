@@ -72,7 +72,7 @@ ARITH["mech-rot-kinematics"] = {
     "mech-torque": "Torque is what changes a body's angular velocity, so its effect is measured by the angular acceleration α defined here."
   },
   mathWhy: {
-    "trigonometry:Radian and degree measure": `Every rotational formula assumes radians: <span class="m"><i>s</i> = <i>r</i>θ</span> and <span class="m"><i>v</i> = <i>r</i>ω</span> hold only because a radian is arc length over radius. Converting rpm and degrees with <span class="m">2π rad = 360° = 1 rev</span> comes up in almost every problem.`,
+    "trig-radians": `Every rotational formula assumes radians: <span class="m"><i>s</i> = <i>r</i>θ</span> and <span class="m"><i>v</i> = <i>r</i>ω</span> hold only because a radian is arc length over radius. Converting rpm and degrees with <span class="m">2π rad = 360° = 1 rev</span> comes up in almost every problem.`,
     "calculus-1:Definition of the derivative": `<span class="m">ω = dθ/d<i>t</i></span> and <span class="m">α = dω/d<i>t</i></span> are derivatives, used directly when θ(t) is given as a formula. Co-requisite: the constant-α equations work with algebra alone, and the derivative covers the general case.`
   },
   beyond: [

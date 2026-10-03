@@ -72,7 +72,7 @@ ARITH["mech-torque"] = {
     "mech-equilibrium": "A body in static equilibrium needs zero net torque about every axis as well as zero net force."
   },
   mathWhy: {
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `The lever arm <span class="m"><i>r</i><sub>⊥</sub> = <i>r</i> sin θ</span> and the perpendicular component <span class="m"><i>F</i><sub>⊥</sub> = <i>F</i> sin θ</span> are the opposite sides of right triangles, as in the wrench pulled at 70.0°.`,
+    "g-trig-ratios": `The lever arm <span class="m"><i>r</i><sub>⊥</sub> = <i>r</i> sin θ</span> and the perpendicular component <span class="m"><i>F</i><sub>⊥</sub> = <i>F</i> sin θ</span> are the opposite sides of right triangles, as in the wrench pulled at 70.0°.`,
     "calculus-3:Vectors, dot and cross products": `Torque is <span class="m"><b>τ</b> = <b>r</b> × <b>F</b></span>; the determinant gives <span class="m">τ<sub>z</sub> = <i>xF</i><sub>y</sub> − <i>yF</i><sub>x</sub></span> and the right-hand rule gives its direction. Co-requisite: planar problems need only <span class="m"><i>rF</i> sin θ</span> and a sign convention.`
   },
   beyond: [

@@ -73,7 +73,8 @@ ARITH["g-circle-equations"] = {
     "a1-quad-sqrt": "Completing the square in x and in y turns general form into standard form, and the square root property gives r from r²."
   },
   unlocksWhy: {
-    "a2-conic-sections": "The circle <span class=\"m\">(<i>x</i> − <i>h</i>)<sup>2</sup> + (<i>y</i> − <i>k</i>)<sup>2</sup> = <i>r</i><sup>2</sup></span> is the first conic, and expanding it gives the general form with equal <span class=\"m\"><i>x</i><sup>2</sup></span> and <span class=\"m\"><i>y</i><sup>2</sup></span> coefficients."
+    "a2-conic-sections": "The circle <span class=\"m\">(<i>x</i> − <i>h</i>)<sup>2</sup> + (<i>y</i> − <i>k</i>)<sup>2</sup> = <i>r</i><sup>2</sup></span> is the first conic, and expanding it gives the general form with equal <span class=\"m\"><i>x</i><sup>2</sup></span> and <span class=\"m\"><i>y</i><sup>2</sup></span> coefficients.",
+    "trig-unit-circle": "The unit circle is the circle <span class=\"m\"><i>x</i>² + <i>y</i>² = 1</span>, and its equation becomes <span class=\"m\">sin² <i>t</i> + cos² <i>t</i> = 1</span>."
   },
   beyond: [
     { field: "Algebra II", why: "Circles are the first conic section; parabolas, ellipses and hyperbolas are brought to standard form by the same completing of the square." },

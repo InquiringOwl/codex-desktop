@@ -69,7 +69,8 @@ ARITH["g-pythagorean"] = {
   unlocksWhy: {
     "g-chords-tangents": "The distance from the centre to a chord, the half-chord and the radius form a right triangle, and a tangent segment from an external point is a leg of another.",
     "g-special-right": "The side ratios 1 : 1 : √2 and 1 : √3 : 2 of the 45°-45°-90° and 30°-60°-90° triangles are found with the Pythagorean Theorem.",
-    "g-surface-area": "The slant height of a regular pyramid or a cone is the hypotenuse of a right triangle formed with the height and an apothem or radius."
+    "g-surface-area": "The slant height of a regular pyramid or a cone is the hypotenuse of a right triangle formed with the height and an apothem or radius.",
+    "trig-law-cosines": "The Law of Cosines is the Pythagorean Theorem plus a correction term, and it reduces to <span class=\"m\"><i>a</i>² + <i>b</i>² = <i>c</i>²</span> when the angle is 90°."
   },
   beyond: [
     { field: "Trigonometry", why: "The identity sin²θ + cos²θ = 1 and the Law of Cosines are the Pythagorean Theorem in other forms." },

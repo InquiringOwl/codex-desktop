@@ -74,7 +74,7 @@ ARITH["mech-collisions"] = {
   mathWhy: {
     "a1-sys-elim": `An elastic collision gives two equations in the two final velocities; using momentum with the linear relative-velocity condition <span class="m"><i>v</i><sub>A</sub> − <i>v</i><sub>B</sub> = <i>v</i>′<sub>B</sub> − <i>v</i>′<sub>A</sub></span>, adding or subtracting eliminates one unknown.`,
     "a1-quad-formula": `Substituting the momentum equation into kinetic-energy conservation gives a quadratic in <span class="m"><i>v</i>′<sub>A</sub></span>. Its two roots are the initial velocity (no collision) and the real outcome, and seeing why is a check on the algebra.`,
-    "trigonometry:Vectors in the plane": `Glancing collisions need momentum in <span class="m"><i>x</i></span> and <span class="m"><i>y</i></span> components, then the final velocity's magnitude <span class="m">√(<i>v</i><sub>x</sub><sup>2</sup> + <i>v</i><sub>y</sub><sup>2</sup>)</span> and direction <span class="m">tan<sup>−1</sup>(<i>v</i><sub>y</sub>/<i>v</i><sub>x</sub>)</span>.`
+    "trig-vectors": `Glancing collisions need momentum in <span class="m"><i>x</i></span> and <span class="m"><i>y</i></span> components, then the final velocity's magnitude <span class="m">√(<i>v</i><sub>x</sub><sup>2</sup> + <i>v</i><sub>y</sub><sup>2</sup>)</span> and direction <span class="m">tan<sup>−1</sup>(<i>v</i><sub>y</sub>/<i>v</i><sub>x</sub>)</span>.`
   },
   beyond: [
     { field: "Nuclear & Particle Physics", why: "Scattering and decay kinematics, including relativistic collisions in accelerators, are built on momentum and energy conservation." },

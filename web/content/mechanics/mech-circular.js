@@ -72,8 +72,8 @@ ARITH["mech-circular"] = {
     "mech-rot-kinematics": "The relations v = rω and T = 2π/ω carry over to describing the spin of a rigid body with angle, angular velocity and angular acceleration."
   },
   mathWhy: {
-    "trigonometry:Radian and degree measure": `Angular frequency <span class="m">ω</span> is in rad/s, and <span class="m"><i>v</i> = <i>r</i>ω</span> and <span class="m"><i>s</i> = <i>r</i>θ</span> hold only when angles are in radians; converting rpm uses <span class="m">1 rev = 2π rad</span>.`,
-    "trigonometry:The unit circle": `The position on the circle is <span class="m">(<i>r</i> cos ω<i>t</i>, <i>r</i> sin ω<i>t</i>)</span>, a scaled unit-circle point that sweeps around at rate <span class="m">ω</span>.`,
+    "trig-radians": `Angular frequency <span class="m">ω</span> is in rad/s, and <span class="m"><i>v</i> = <i>r</i>ω</span> and <span class="m"><i>s</i> = <i>r</i>θ</span> hold only when angles are in radians; converting rpm uses <span class="m">1 rev = 2π rad</span>.`,
+    "trig-unit-circle": `The position on the circle is <span class="m">(<i>r</i> cos ω<i>t</i>, <i>r</i> sin ω<i>t</i>)</span>, a scaled unit-circle point that sweeps around at rate <span class="m">ω</span>.`,
     "calculus-1:Derivatives of trig, exponential and log functions": `Differentiating <span class="m"><i>r</i> cos ω<i>t</i></span> and <span class="m"><i>r</i> sin ω<i>t</i></span> twice gives <span class="m"><b>a</b> = −ω<sup>2</sup><b>r</b></span>, the derivation of <span class="m"><i>v</i><sup>2</sup>/<i>r</i></span>. Co-requisite: the result can be used with algebra alone, and the derivative shows where it comes from.`
   },
   beyond: [

@@ -72,8 +72,8 @@ ARITH["mech-projectile"] = {
   },
   unlocksWhy: {},
   mathWhy: {
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `The launch velocity is resolved into <span class="m"><i>v</i><sub>0</sub>cos θ<sub>0</sub></span> and <span class="m"><i>v</i><sub>0</sub>sin θ<sub>0</sub></span>, and the impact angle is <span class="m">tan<sup>−1</sup>(|<i>v<sub>y</sub></i>|/<i>v<sub>x</sub></i>)</span>.`,
-    "trigonometry:Trigonometric identities": `The range formula uses <span class="m">2 sin θ cos θ = sin 2θ</span>, and <span class="m">sin 2θ = sin(180° − 2θ)</span> explains why complementary angles give equal ranges.`,
+    "g-trig-ratios": `The launch velocity is resolved into <span class="m"><i>v</i><sub>0</sub>cos θ<sub>0</sub></span> and <span class="m"><i>v</i><sub>0</sub>sin θ<sub>0</sub></span>, and the impact angle is <span class="m">tan<sup>−1</sup>(|<i>v<sub>y</sub></i>|/<i>v<sub>x</sub></i>)</span>.`,
+    "trig-double-half": `The range formula uses <span class="m">2 sin θ cos θ = sin 2θ</span>, and <span class="m">sin 2θ = sin(180° − 2θ)</span> explains why complementary angles give equal ranges.`,
     "a1-quad-graphs": `Height is a quadratic in <span class="m"><i>t</i></span> and the path is a parabola <span class="m"><i>y</i>(<i>x</i>)</span>; the vertex gives the maximum height and the positive root the landing time.`
   },
   beyond: [

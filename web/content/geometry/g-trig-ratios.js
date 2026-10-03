@@ -69,7 +69,10 @@ ARITH["g-trig-ratios"] = {
     "g-special-right": "The 45°-45°-90° and 30°-60°-90° triangles give the exact sine, cosine and tangent of 30°, 45° and 60°.",
     "g-similar-triangles": "AA similarity proves that all right triangles with the same acute angle have the same side ratios, which is what makes sin θ, cos θ and tan θ well defined."
   },
-  unlocksWhy: {},
+  unlocksWhy: {
+    "trig-six-ratios": "The six ratios add the reciprocals cosecant, secant and cotangent to the sine, cosine and tangent defined here.",
+    "trig-unit-circle": "For a first-quadrant point the unit-circle definitions reduce to the SOH-CAH-TOA ratios defined here in a triangle with hypotenuse 1."
+  },
   beyond: [
     { field: "Trigonometry", why: "Sine and cosine are extended from acute angles to every angle on the unit circle, with radians, graphs and identities." },
     { field: "Precalculus", why: "Polar coordinates, vectors and the Laws of Sines and Cosines all start from right-triangle ratios." },

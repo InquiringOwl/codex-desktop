@@ -75,7 +75,8 @@ ARITH["g-triangle-angles"] = {
   },
   unlocksWhy: {
     "g-polygons": "Diagonals from one vertex split a convex n-gon into n − 2 triangles, each contributing 180°, so the angles sum to (n − 2)·180°.",
-    "g-congruence": "The Third Angles Theorem turns ASA into AAS: if two pairs of angles match, the third pair matches too."
+    "g-congruence": "The Third Angles Theorem turns ASA into AAS: if two pairs of angles match, the third pair matches too.",
+    "trig-law-sines": "The angle sum of 180° gives the third angle in every Law of Sines problem, and the larger side lies opposite the larger angle."
   },
   beyond: [
     { field: "Trigonometry", why: "Solving triangles with the Law of Sines and Law of Cosines starts from finding the third angle as 180° minus the other two." },

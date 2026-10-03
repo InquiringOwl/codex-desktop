@@ -73,7 +73,7 @@ ARITH["mech-friction"] = {
   },
   mathWhy: {
     "a1-compound": `Static friction obeys the compound inequality <span class="m">0 ≤ <i>f</i><sub>s</sub> ≤ <i>μ</i><sub>s</sub><i>N</i></span>; deciding whether a push is in that interval tells you if the object slips.`,
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `An angled pull changes the normal force to <span class="m"><i>N</i> = <i>mg</i> − <i>F</i> sin θ</span>, and on a ramp <span class="m"><i>N</i> = <i>mg</i> cos θ</span>, giving the angle of repose <span class="m">tan θ = <i>μ</i><sub>s</sub></span>.`
+    "g-trig-ratios": `An angled pull changes the normal force to <span class="m"><i>N</i> = <i>mg</i> − <i>F</i> sin θ</span>, and on a ramp <span class="m"><i>N</i> = <i>mg</i> cos θ</span>, giving the angle of repose <span class="m">tan θ = <i>μ</i><sub>s</sub></span>.`
   },
   beyond: [
     { field: "Dynamics", why: "Sliding and rolling contact, braking and slip in machines are modelled with Coulomb friction in the equations of motion." },

@@ -71,7 +71,8 @@ ARITH["a2-complex-ops"] = {
     "a1-poly-mult": "Multiplying (a + bi)(c + di) is FOIL on two binomials, and (c + di)(c − di) is the sum-and-difference product."
   },
   unlocksWhy: {
-    "a2-quad-complex": "The solutions p ± qi of a quadratic with negative discriminant are a conjugate pair, and checking them by substitution needs complex multiplication."
+    "a2-quad-complex": "The solutions p ± qi of a quadratic with negative discriminant are a conjugate pair, and checking them by substitution needs complex multiplication.",
+    "trig-complex-polar": "Polar form is checked against the rectangular arithmetic here, using products, quotients, conjugates and <span class=\"m\"><i>i</i>² = −1</span>."
   },
   beyond: [
     { field: "Precalculus", why: "In polar form, multiplying multiplies the moduli and adds the angles, which explains the rotation seen here." },

@@ -66,7 +66,8 @@ ARITH["a1-rational-add"] = {
     "a1-rational-simplify": "Finding an LCD requires factoring denominators, and the final answer must be simplified by cancelling common factors, both learned there."
   },
   unlocksWhy: {
-    "a1-rational-eq": "Rational equations are solved by multiplying through by the LCD, the same common denominator built here."
+    "a1-rational-eq": "Rational equations are solved by multiplying through by the LCD, the same common denominator built here.",
+    "trig-verify-ids": "Verifying identities often means combining trigonometric fractions, which uses the same common denominator built here."
   },
   beyond: [
     { field: "Algebra II", why: "Complex rational expressions and rational functions are simplified by combining fractions over an LCD." },

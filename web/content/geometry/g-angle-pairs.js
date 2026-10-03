@@ -73,7 +73,8 @@ ARITH["g-angle-pairs"] = {
     "a1-multi-step": "Angle-pair problems become linear equations with variables on both sides, such as 3x + 10 = 5x − 30."
   },
   unlocksWhy: {
-    "g-parallel": "Angles formed by a transversal are sorted into pairs, and linear pairs and vertical angles connect the eight angles to each other."
+    "g-parallel": "Angles formed by a transversal are sorted into pairs, and linear pairs and vertical angles connect the eight angles to each other.",
+    "trig-angles": "Complementary and supplementary angles return in degrees-minutes-seconds work and in finding coterminal and reference angles."
   },
   beyond: [
     { field: "Trigonometry", why: "Cofunction identities such as sin(90° − θ) = cos θ are statements about complementary angles." },

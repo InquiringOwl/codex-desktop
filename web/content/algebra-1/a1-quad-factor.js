@@ -66,7 +66,8 @@ ARITH["a1-quad-factor"] = {
   unlocksWhy: {
     "a2-quad-form-eq": "After the substitution, the quadratic in <i>u</i> is usually solved by factoring a trinomial.",
     "a2-zeros-mult": "Reading the zeros and their multiplicities needs the polynomial in factored form, and factoring quadratics and common factors gets it there.",
-    "a1-quad-sqrt": "Many quadratics do not factor over the integers, and the square root property and completing the square solve those."
+    "a1-quad-sqrt": "Many quadratics do not factor over the integers, and the square root property and completing the square solve those.",
+    "trig-equations": "Trigonometric equations such as <span class=\"m\">2 sin²<i>x</i> − sin <i>x</i> − 1 = 0</span> are factored like quadratics in sin x, and each factor is set to zero."
   },
   beyond: [
     { field: "Algebra II", why: "Polynomial equations of degree three and higher are solved by factoring and applying the zero-product property to every factor." },

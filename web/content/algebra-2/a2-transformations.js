@@ -80,7 +80,8 @@ ARITH["a2-transformations"] = {
     "a2-poly-graphs": "Polynomial graphs start from the power functions xⁿ, and shifts and stretches of them explain their basic shapes.",
     "a2-rational-func": "Rational functions such as a/(x − h) + k are 1/x transformed, so the asymptotes move to x = h and y = k.",
     "a2-radical-func": "Graphs of a√(b(x − h)) + k and the cube-root family are √x and ∛x transformed, with the domain moving with the endpoint.",
-    "a2-exp-func": "Exponential functions a·bˣ⁻ʰ + k are transformations of bˣ, and the shift k moves the horizontal asymptote."
+    "a2-exp-func": "Exponential functions a·bˣ⁻ʰ + k are transformations of bˣ, and the shift k moves the horizontal asymptote.",
+    "trig-sinusoids": "The amplitude, period, phase shift and midline of a sinusoid are the stretch, compression and shifts of <span class=\"m\"><i>a</i> <i>f</i>(<i>b</i>(<i>x</i> − <i>h</i>)) + <i>k</i></span>."
   },
   beyond: [
     { field: "Precalculus", why: "Trigonometric graphs y = A·sin(B(x − C)) + D are read with exactly the same four parameters." },

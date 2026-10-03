@@ -71,7 +71,7 @@ ARITH["mech-equilibrium"] = {
   unlocksWhy: {},
   mathWhy: {
     "a1-sys-elim": `The force and torque equations form a linear system in the unknown support forces, such as <span class="m"><i>N</i><sub>A</sub> + <i>N</i><sub>B</sub> = 980</span> and <span class="m">4.00<i>N</i><sub>B</sub> = 2793</span>. A well-chosen pivot is elimination done in advance.`,
-    "trigonometry:Right-triangle ratios (SOH-CAH-TOA)": `Angled cables and struts are resolved into components, <span class="m"><i>T</i> cos θ</span> and <span class="m"><i>T</i> sin θ</span>, and their lever arms are <span class="m"><i>L</i> sin θ</span>, as for a beam held by a cable at 30.0°.`
+    "g-trig-ratios": `Angled cables and struts are resolved into components, <span class="m"><i>T</i> cos θ</span> and <span class="m"><i>T</i> sin θ</span>, and their lever arms are <span class="m"><i>L</i> sin θ</span>, as for a beam held by a cable at 30.0°.`
   },
   beyond: [
     { field: "Statics", why: "The whole engineering course applies ΣF = 0 and ΣM = 0 to trusses, frames, machines, friction and distributed loads." },

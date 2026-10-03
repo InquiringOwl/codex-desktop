@@ -74,7 +74,8 @@ ARITH["a2-inverses"] = {
   },
   unlocksWhy: {
     "a2-radical-func": "Square-root and cube-root functions are the inverses of x² on x ≥ 0 and of x³, so their graphs are reflections in y = x.",
-    "a2-logs": "The logarithm log_b x is defined as the inverse of the exponential function bˣ, so its domain and range swap with those of bˣ."
+    "a2-logs": "The logarithm log_b x is defined as the inverse of the exponential function bˣ, so its domain and range swap with those of bˣ.",
+    "trig-inverse": "Inverse trigonometric functions reuse one-to-one restriction, the horizontal line test and the swap of domain and range, with the reflection in <span class=\"m\"><i>y</i> = <i>x</i></span>."
   },
   beyond: [
     { field: "Precalculus", why: "Inverse trigonometric functions need restricted domains, exactly like x² restricted to x ≥ 0." },
